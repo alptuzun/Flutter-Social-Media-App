@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
-import 'package:cs310_group_28/visuals/app_dimensions.dart.';
+import 'package:cs310_group_28/visuals/app_dimensions.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
 class Welcome extends StatelessWidget {
@@ -18,9 +18,9 @@ class Welcome extends StatelessWidget {
           image: AssetImage('assets/images/Sabanci_Background.jpeg'),
           fit: BoxFit.cover,
           alignment: Alignment.center,
-          opacity: 0.40,
+          opacity: 0.30,
         ),
-        color: Color(0xD7FFFFFF),
+        color: Color(0xEBFFFFFF),
       ),
       child: SafeArea(
         maintainBottomViewPadding: false,
