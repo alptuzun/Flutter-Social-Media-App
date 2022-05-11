@@ -1,3 +1,4 @@
+import 'package:cs310_group_28/routes/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -307,7 +308,7 @@ class _LoginState extends State<Login> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
                                 }),
                         ],
                       ),

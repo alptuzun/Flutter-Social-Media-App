@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/register.dart';
-import 'package:cs310_group_28/visuals/colors.dart';
-import 'package:cs310_group_28/visuals/app_dimensions.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
 class Welcome extends StatelessWidget {
@@ -50,7 +48,7 @@ class Welcome extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Login()));
+                            MaterialPageRoute(builder: (context) => const Login()));
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Colors.transparent,
@@ -80,10 +78,7 @@ class Welcome extends StatelessWidget {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Register()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Colors.transparent,

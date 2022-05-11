@@ -1,10 +1,7 @@
-import 'package:email_validator/email_validator.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../visuals/colors.dart';
-import '../visuals/screen_size.dart';
-import '../visuals/text_style.dart';
+import 'package:cs310_group_28/visuals/text_style.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -25,6 +22,13 @@ class _RegisterState extends State<Register> {
       email = val ?? "";
     });
   }
+
+  void handlePasswordSave(String? val) {
+    setState(() {
+      password = val ?? "";
+    });
+  }
+
 
   Container formItem(
       TextInputType? inputType,
@@ -47,7 +51,7 @@ class _RegisterState extends State<Register> {
                     placeholder,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
-                      fontSize: 18,
+                      fontSize: 14,
                     ),
                   ),
                 ],
@@ -70,77 +74,131 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Register"),
-          centerTitle: true,
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/Sabanci_Background.jpeg'),
+          fit: BoxFit.cover,
+          alignment: Alignment.center,
+          opacity: 0.30,
         ),
-        body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/Sabanci_Background.jpeg'),
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-                opacity: 0.40,
-              ),
-            ),
-            child: SafeArea(
-                child: Center(
-              child: Column(
-                children: [
-                  formItem(TextInputType.emailAddress, Icons.email,
-                      "Email Address", null, handleEmailSave),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        label: SizedBox(
-                          width: 300,
-                          child: Row(
-                            children: [
-                              Icon(Icons.password),
-                              const SizedBox(width: 6),
-                              Text(
-                                'Password',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        fillColor: AppColors.textFieldFillColor,
-                        filled: true,
-                        labelStyle: appGreyText,
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: AppColors.mainTextColor,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
+        color: Color(0xEBFFFFFF),
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            reverse: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 200,
+                ),
+                formItem(TextInputType.emailAddress, Icons.email, "Email Address",
+                    null, handleEmailSave),
+                formItem(TextInputType.text, Icons.password, "Password", null, handlePasswordSave),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    enableSuggestions: true,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                      label: SizedBox(
+                        width: 300,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.account_box_sharp),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Full Name',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave password empty';
-                          }
-                          if (value.length < 6) {
-                            return 'Password too short';
-                          }
-                        }
-                      },
-                      onSaved: (value) {
-                        password = value ?? '';
-                      },
+                      fillColor: AppColors.textFieldFillColor,
+                      filled: true,
+                      labelStyle: appGreyText,
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: AppColors.mainTextColor,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value != null) {
+                        if (value.isEmpty) {
+                          return 'Cannot leave your name empty';
+                        }
+                        if (value.contains(' ')){
+                          return 'Please enter a proper full name';
+                        }
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      name = value ?? '';
+                    },
                   ),
-                ],
-              ),
-            ))));
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                      label: SizedBox(
+                        width: 300,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.perm_identity_rounded),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Username',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      fillColor: AppColors.textFieldFillColor,
+                      filled: true,
+                      labelStyle: appGreyText,
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: AppColors.mainTextColor,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value != null) {
+                        if (value.isEmpty) {
+                          return 'Cannot leave your username empty';
+                        }
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      username = value ?? '';
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
