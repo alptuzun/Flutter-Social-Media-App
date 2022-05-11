@@ -80,7 +80,10 @@ class Welcome extends StatelessWidget {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Register()));
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Colors.transparent,

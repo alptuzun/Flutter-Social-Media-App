@@ -30,7 +30,7 @@ class _RegisterState extends State<Register> {
       TextInputType? inputType,
       IconData icon,
       String placeholder,
-      String? Function(String?) _validator,
+      String? Function(String?)? _validator,
       void Function(String?)? _onSaved) {
     return Container(
       padding: const EdgeInsets.all(8),
