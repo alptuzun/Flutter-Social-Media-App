@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
-import 'package:cs310_group_28/visuals/app_dimensions.dart.';
+import 'package:cs310_group_28/visuals/app_dimensions.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'dart:io' show Platform;
 import 'package:email_validator/email_validator.dart';
@@ -119,7 +119,8 @@ class _LoginState extends State<Login> {
                               children: [
                                 Icon(Icons.email),
                                 const SizedBox(width: 6),
-                                Text('Login with username or email',
+                                Text(
+                                  'Login with username or email',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     fontSize: 18,
@@ -168,7 +169,8 @@ class _LoginState extends State<Login> {
                               children: [
                                 Icon(Icons.password),
                                 const SizedBox(width: 6),
-                                Text('Password',
+                                Text(
+                                  'Password',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     fontSize: 18,
