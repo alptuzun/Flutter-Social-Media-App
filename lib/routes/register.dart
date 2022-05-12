@@ -97,8 +97,7 @@ class _RegisterState extends State<Register> {
                 const SizedBox(
                   height: 200,
                 ),
-                formItem(TextInputType.emailAddress, Icons.email, "Email Address",
-                    null, handleEmailSave),
+                formItem(TextInputType.emailAddress, Icons.email, "Email Address", null, handleEmailSave),
                 formItem(TextInputType.text, Icons.password, "Password", null, handlePasswordSave),
                 Container(
                   padding: const EdgeInsets.all(8),

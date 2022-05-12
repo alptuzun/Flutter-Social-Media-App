@@ -240,7 +240,7 @@ class _LoginState extends State<Login> {
                               _formKey.currentState!.save();
 
                             } else {
-                              _showDialog('Form Error', 'Your form is invalid');
+                              _showDialog('Login Error', 'Your credentials are invalid');
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -314,7 +314,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     const SizedBox(
-                      height: 5,
+                      height: 10,
                     )
                   ],
                 ),
