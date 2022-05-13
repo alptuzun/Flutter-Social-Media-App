@@ -4,6 +4,7 @@ import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
+
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
 

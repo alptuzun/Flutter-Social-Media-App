@@ -2,11 +2,11 @@ import 'package:cs310_group_28/routes/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
-import 'dart:io' show Platform;
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/gestures.dart';
+
+import '../visuals/alerts.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,57 +18,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
-
-  Future<void> _showDialog(String title, String message) async {
-    bool isAndroid = Platform.isAndroid;
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          if (isAndroid) {
-            return AlertDialog(
-              title: Text(title),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: [
-                    Text(message),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          } else {
-            return CupertinoAlertDialog(
-              title: Text(title, style: appBarTitleTextStyle),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: [
-                    Text(message, style: appMainTextStyle),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          }
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,10 +100,10 @@ class _LoginState extends State<Login> {
                           validator: (value) {
                             if (value != null) {
                               if (value.isEmpty) {
-                                return 'Cannot leave e-mail empty';
+                                return 'Cannot leave email or username empty';
                               }
                               else if (!EmailValidator.validate(value)) {
-                                return 'Please enter a valid e-mail address';
+                                return 'Please enter a valid email address';
                               }
                             }
                             return null;
@@ -238,9 +191,9 @@ class _LoginState extends State<Login> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-
+                              //Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (r) => false);
                             } else {
-                              _showDialog('Login Error', 'Your credentials are invalid');
+                              Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
                             }
                           },
                           style: ElevatedButton.styleFrom(
