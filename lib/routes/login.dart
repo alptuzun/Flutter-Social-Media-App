@@ -1,3 +1,4 @@
+import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,7 +55,7 @@ class _LoginState extends State<Login> {
                     ),
                     Text(
                       "Welcome!",
-                      style: boldTitleTextStyle,
+                      style: Styles.boldTitleTextStyle,
                     ),
                     const SizedBox(
                       height: 190,
@@ -89,7 +90,7 @@ class _LoginState extends State<Login> {
                             ),
                             fillColor: Colors.white,
                             filled: true,
-                            labelStyle: appBarTitleTextStyle,
+                            labelStyle: Styles.appBarTitleTextStyle,
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 color: Colors.black,
@@ -146,7 +147,7 @@ class _LoginState extends State<Login> {
                             ),
                             fillColor: Colors.white,
                             filled: true,
-                            labelStyle: appBarTitleTextStyle,
+                            labelStyle: Styles.appBarTitleTextStyle,
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 color: Colors.black,
@@ -191,7 +192,7 @@ class _LoginState extends State<Login> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              //Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (r) => false);
+                              Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (r) => false);
                             } else {
                               Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
                             }
@@ -215,7 +216,7 @@ class _LoginState extends State<Login> {
                     ),
                     RichText(
                       text: TextSpan(
-                        style: appMainTextStyle,
+                        style: Styles.appMainTextStyle,
                         children: <TextSpan>[
                           TextSpan(
                               text: 'Forgot your password?',
@@ -243,7 +244,7 @@ class _LoginState extends State<Login> {
                     ),
                     RichText(
                       text: TextSpan(
-                        style: appMainTextStyle,
+                        style: Styles.appMainTextStyle,
                         children: <TextSpan>[
                           TextSpan(
                               text: "Don't have an account? ",

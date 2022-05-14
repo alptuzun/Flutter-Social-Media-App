@@ -33,7 +33,7 @@ class Welcome extends StatelessWidget {
               children: [
                 Text(
                   "Welcome!",
-                  style: boldTitleTextStyle,
+                  style: Styles.boldTitleTextStyle,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Container(

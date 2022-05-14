@@ -32,11 +32,11 @@ class Alerts {
             );
           } else {
             return CupertinoAlertDialog(
-              title: Text(title, style: appBarTitleTextStyle),
+              title: Text(title, style: Styles.appBarTitleTextStyle),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: [
-                    Text(message, style: appMainTextStyle),
+                    Text(message, style: Styles.appMainTextStyle),
                   ],
                 ),
               ),

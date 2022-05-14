@@ -70,7 +70,7 @@ class _RegisterState extends State<Register> {
             ),
             fillColor: AppColors.textFieldFillColor,
             filled: true,
-            labelStyle: appGreyText,
+            labelStyle: Styles.appGreyText,
             border: OutlineInputBorder(
               borderSide: const BorderSide(
                 color: Colors.white,
@@ -137,7 +137,7 @@ class _RegisterState extends State<Register> {
                         ),
                         fillColor: AppColors.textFieldFillColor,
                         filled: true,
-                        labelStyle: appGreyText,
+                        labelStyle: Styles.appGreyText,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
                             color: AppColors.mainTextColor,
@@ -185,7 +185,7 @@ class _RegisterState extends State<Register> {
                         ),
                         fillColor: AppColors.textFieldFillColor,
                         filled: true,
-                        labelStyle: appGreyText,
+                        labelStyle: Styles.appGreyText,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
                             color: AppColors.mainTextColor,
