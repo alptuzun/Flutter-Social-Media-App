@@ -1,4 +1,4 @@
-import 'package:cs310_group_28/routes/home_view.dart';
+import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,6 +69,24 @@ class _LoginState extends State<Login> {
                         shadowColor: Colors.black45,
                         borderRadius: BorderRadius.circular(30),
                         child: TextFormField(
+                          onFieldSubmitted: (value) {
+                            if (value == "") {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                              } else {
+                                Alerts.showAlert(context, 'Login Error', 'Please enter your email');
+                              }
+                            }
+                            else {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                              } else {
+                                Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
+                              }
+                            }
+                          },
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             isDense: true,
@@ -124,6 +142,24 @@ class _LoginState extends State<Login> {
                         elevation: 8,
                         shadowColor: Colors.black45,
                         child: TextFormField(
+                          onFieldSubmitted: (value) {
+                            if (value == "") {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                              } else {
+                                Alerts.showAlert(context, 'Login Error', 'Please enter your password');
+                              }
+                            }
+                            else {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                              } else {
+                                Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
+                              }
+                            }
+                          },
                           keyboardType: TextInputType.text,
                           obscureText: true,
                           enableSuggestions: false,
@@ -192,7 +228,7 @@ class _LoginState extends State<Login> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (r) => false);
+                              Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
                             } else {
                               Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
                             }

@@ -12,7 +12,7 @@ class Styles {
 
   static final appMainTextStyle = GoogleFonts.poppins(
     color: AppColors.mainTextColor,
-    fontSize: 20.0,
+    fontSize: 14.0,
     letterSpacing: -0.7,
   );
 
