@@ -1,5 +1,4 @@
 import 'package:cs310_group_28/visuals/colors.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -42,11 +41,12 @@ class _RegisterState extends State<Register> {
   }
 
   Container formItem(
+
       TextInputType? inputType,
       IconData icon,
       String placeholder,
-      String? Function(String?)? _validator,
-      void Function(String?)? _onSaved) {
+      String? Function(String?)? validator,
+      void Function(String?)? onSaved) {
     return Container(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
@@ -78,8 +78,8 @@ class _RegisterState extends State<Register> {
               borderRadius: BorderRadius.circular(30),
             ),
           ),
-          validator: _validator,
-          onSaved: _onSaved),
+          validator: validator,
+          onSaved: onSaved),
     );
   }
 

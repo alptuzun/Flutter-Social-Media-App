@@ -1,3 +1,4 @@
+import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -29,11 +30,11 @@ class PostCard extends StatelessWidget {
                   textAlign: TextAlign.start,
                   textScaleFactor: 0.75,
                 ),
-                const SizedBox(
-                  width: 10,
+                SizedBox(
+                  width: screenWidth(context, dividedBy: 100),
                 ),
                 Text(
-                  "@" + post.user.username,
+                  "@${post.user.username}",
                   style: GoogleFonts.poppins(
                     color: Colors.black45,
                   ),
@@ -66,40 +67,45 @@ class PostCard extends StatelessWidget {
                 style: Styles.appMainTextStyle,
               ),
             if (post.caption != null)
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: screenHeight(context, dividedBy: 100),
               ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Spacer(
+                  flex: 12,
+                ),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
                   icon: const Icon(Icons.thumb_up),
                   onPressed: likes,
-                  iconSize: 14.0,
+                  iconSize: screenWidth(context, dividedBy: 20),
                   splashRadius: 14,
                   color: Colors.green,
                 ),
-                const SizedBox(width: 8),
+                const Spacer(),
                 Text(post.likes.toString(),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                    )),
-                const SizedBox(width: 100),
+                    style: Styles.appMainTextStyle),
+                const Spacer(
+                  flex: 12,
+                ),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
                   icon: const Icon(Icons.comment),
                   onPressed: comment,
-                  iconSize: 14.0,
+                  iconSize: screenWidth(context, dividedBy: 20),
                   splashRadius: 14,
                   color: Colors.blue,
                 ),
-                const SizedBox(width: 8),
+                const Spacer(),
                 Text(post.comments.toString(),
                     style: Styles.appMainTextStyle
+                ),
+                const Spacer(
+                  flex: 12,
                 ),
               ],
             )

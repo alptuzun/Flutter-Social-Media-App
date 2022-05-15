@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:cs310_group_28/visuals/screen_size.dart';
 
 
 class Welcome extends StatelessWidget {
@@ -36,9 +37,10 @@ class Welcome extends StatelessWidget {
                   style: Styles.boldTitleTextStyle,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  const Spacer(),
                   Container(
-                    width: 170,
-                    height: 48.0,
+                    width: (screenWidth(context) / 100) * 40,
+                    height: (screenHeight(context) / 100) * 6,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                           begin: Alignment(0, -1),
@@ -64,12 +66,10 @@ class Welcome extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 30,
-                  ),
+                  const Spacer(),
                   Container(
-                    width: 170,
-                    height: 48.0,
+                    width: (screenWidth(context) / 100) * 40,
+                    height: (screenHeight(context) / 100) * 6,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                           begin: Alignment(0, -1),
@@ -94,6 +94,7 @@ class Welcome extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const Spacer(),
                 ]),
               ],
             ),

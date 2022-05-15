@@ -6,14 +6,13 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/gestures.dart';
-
-import '../visuals/alerts.dart';
+import 'package:cs310_group_28/visuals/alerts.dart' ;
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  State<Login> createState() => _LoginState();
 
   static const String routeName = "/login";
 }
@@ -50,19 +49,19 @@ class _LoginState extends State<Login> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 180,
+                    SizedBox(
+                      height: (screenHeight(context) / 100) * 21.8,
                     ),
                     Text(
                       "Welcome!",
                       style: Styles.boldTitleTextStyle,
                     ),
-                    const SizedBox(
-                      height: 190,
+                    SizedBox(
+                      height: (screenHeight(context) / 100) * 27,
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      width: screenWidth(context, dividedBy: 1.2),
+                      width: screenWidth(context, dividedBy: 1.1),
                       child: Material(
                         color: Colors.transparent,
                         elevation: 8,
@@ -91,11 +90,13 @@ class _LoginState extends State<Login> {
                           decoration: InputDecoration(
                             isDense: true,
                             label: SizedBox(
-                              width: 250,
+                              width: screenWidth(context, dividedBy: 1.2),
                               child: Row(
                                 children: [
                                   const Icon(Icons.email),
-                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: screenWidth(context, dividedBy: 50),
+                                  ),
                                   Text(
                                     'Login with username or email',
                                     textAlign: TextAlign.center,
@@ -135,7 +136,7 @@ class _LoginState extends State<Login> {
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      width: screenWidth(context, dividedBy: 1.2),
+                      width: screenWidth(context, dividedBy: 1.1),
                       child: Material(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(30),
@@ -168,16 +169,18 @@ class _LoginState extends State<Login> {
                           decoration: InputDecoration(
                             isDense: true,
                             label: SizedBox(
-                              width: 300,
+                              width: screenWidth(context, dividedBy: 1.2),
                               child: Row(
                                 children: [
                                   const Icon(Icons.password),
-                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: screenWidth(context, dividedBy: 50),
+                                  ),
                                   Text(
                                     'Password',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(fontSize: 13),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -208,12 +211,12 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: (screenHeight(context) / 100) * 1,
                     ),
                     Container(
-                      width: 190,
-                      height: 45.0,
+                      width: (screenWidth(context) / 100) * 48,
+                      height: (screenHeight(context) / 100) * 5.5,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                             begin: Alignment(0, -1),
@@ -247,8 +250,8 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: (screenHeight(context) / 100) * 1.5,
                     ),
                     RichText(
                       text: TextSpan(
@@ -269,14 +272,14 @@ class _LoginState extends State<Login> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
+                    SizedBox(
+                      height: (screenHeight(context) / 100) * 4,
                     ),
-                    const Divider(
+                    Divider(
                       color: Colors.black,
                       thickness: 1.5,
-                      indent: 90,
-                      endIndent: 90,
+                      indent: (screenWidth(context) / 100) * 15,
+                      endIndent: (screenWidth(context) / 100) * 15,
                     ),
                     RichText(
                       text: TextSpan(
@@ -303,9 +306,9 @@ class _LoginState extends State<Login> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    )
+                    SizedBox(
+                      height: (screenHeight(context) / 100) * 2,
+                    ),
                   ],
                 ),
               ),
