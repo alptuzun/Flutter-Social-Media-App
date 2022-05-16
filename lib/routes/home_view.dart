@@ -44,19 +44,17 @@ List<Post> samplePosts = [
   ),
   Post(
     user: User(
-      username: "Yasin",
+      username: "yasinalbayrak",
       email: "yasinalbayrak@sabanciuniv.edu",
       fullName: "Yasin Albayrak",
     ),
-    caption:"Live Like A Champion",
+    caption: "Live Like A Champion",
     date: "16 May 2021",
     likes: 247,
     comments: 12,
-    imageName: "assets/images/muhammed_ali.jpg",
-
+    imageName: "assets/images/muhammed_ali.jpeg",
   )
 ];
-
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -77,6 +75,12 @@ class _HomeViewState extends State<HomeView> {
   void addLikes(Post post) {
     setState(() {
       post.likes++;
+    });
+  }
+
+  void addDislikes(Post post) {
+    setState(() {
+      post.likes--;
     });
   }
 
@@ -127,6 +131,9 @@ class _HomeViewState extends State<HomeView> {
                       },
                       likes: () {
                         addLikes(post);
+                      },
+                      dislikes: () {
+                        addDislikes(post);
                       },
                       post: post,
                     ))

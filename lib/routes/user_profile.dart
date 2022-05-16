@@ -49,7 +49,7 @@ class _UserProfileState extends State<UserProfile> {
         backgroundColor: const Color(0xCBFFFFFF),
         body: SingleChildScrollView(
           child: Row(
-            children: [],
+            children: const [],
           ),
         ),
       ),

@@ -9,8 +9,9 @@ class PostCard extends StatelessWidget {
 
   final VoidCallback comment;
   final VoidCallback likes;
+  final VoidCallback dislikes;
 
-  const PostCard({Key? key, required this.post, required this.comment, required this.likes})
+  const PostCard({Key? key, required this.post, required this.comment, required this.likes, required this.dislikes})
       : super(key: key);
 
   @override
@@ -73,39 +74,50 @@ class PostCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(
-                  flex: 12,
-                ),
+                const Spacer(),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
-                  icon: const Icon(Icons.thumb_up),
+                  icon: const Icon(Icons.arrow_upward_rounded),
                   onPressed: likes,
                   iconSize: screenWidth(context, dividedBy: 20),
                   splashRadius: 14,
                   color: Colors.green,
                 ),
                 const Spacer(),
+                IconButton(
+                  constraints: const BoxConstraints(),
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(Icons.arrow_downward_rounded),
+                  onPressed: dislikes,
+                  iconSize: screenWidth(context, dividedBy: 20),
+                  splashRadius: 14,
+                  color: Colors.red,
+                ),
+                const Spacer(
+                  flex: 2,
+                ),
                 Text(post.likes.toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
-                  flex: 12,
+                  flex: 50,
                 ),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
-                  icon: const Icon(Icons.comment),
+                  icon: const Icon(Icons.mode_comment_outlined),
                   onPressed: comment,
                   iconSize: screenWidth(context, dividedBy: 20),
                   splashRadius: 14,
                   color: Colors.blue,
                 ),
-                const Spacer(),
+                const Spacer(
+                  flex: 2,
+                ),
                 Text(post.comments.toString(),
                     style: Styles.appMainTextStyle
                 ),
                 const Spacer(
-                  flex: 12,
                 ),
               ],
             )
