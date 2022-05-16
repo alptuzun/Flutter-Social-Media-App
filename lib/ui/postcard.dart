@@ -100,7 +100,7 @@ class PostCard extends StatelessWidget {
                 Text(post.likes.toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
-                  flex: 50,
+                  flex: 52,
                 ),
                 IconButton(
                   constraints: const BoxConstraints(),
