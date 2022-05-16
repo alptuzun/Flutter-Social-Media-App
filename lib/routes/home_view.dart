@@ -52,7 +52,7 @@ List<Post> samplePosts = [
     date: "16 May 2021",
     likes: 247,
     comments: 12,
-    imageName: "assets/images/muhammed_ali.jpeg",
+    imageName: "assets/images/muhammed_ali.jpg",
   )
 ];
 
