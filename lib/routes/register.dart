@@ -98,6 +98,15 @@ class _RegisterState extends State<Register> {
       ),
       child: SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'REGISTER',
+              style: Styles.appBarTitleTextStyle,
+            ),
+            backgroundColor: Colors.blue,
+            centerTitle: true,
+            elevation: 0.0,
+          ),
           backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),

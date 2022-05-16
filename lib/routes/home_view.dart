@@ -42,6 +42,20 @@ List<Post> samplePosts = [
     location: "Tesla Inc. HQ",
     imageName: 'assets/images/eloncar.jpg',
   ),
+  Post(
+    user: User(
+      username: "Yasin",
+      email: "yasinalbayrak@sabanciuniv.edu",
+      fullName: "Yasin Albayrak",
+    ),
+    caption:"Live Like A Champion",
+    date: "16 May 2021",
+    likes: 247,
+    comments: 12,
+    location: "Madame Toussaint Museum · Beyoglu/Istanbul",
+    imageName: "",
+
+  )
 ];
 
 
