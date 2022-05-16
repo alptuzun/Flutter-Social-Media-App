@@ -52,8 +52,7 @@ List<Post> samplePosts = [
     date: "16 May 2021",
     likes: 247,
     comments: 12,
-    location: "Madame Toussaint Museum · Beyoglu/Istanbul",
-    imageName: "",
+    imageName: "assets/images/muhammed_ali.jpg",
 
   )
 ];
