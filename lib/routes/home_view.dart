@@ -1,5 +1,6 @@
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/routes/message_box.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -38,6 +39,7 @@ List<Post> samplePosts = [
     caption: "With my new Whip",
     date: "27 May 2021",
     likes: 1070897,
+
     comments: 7787,
     location: "Tesla Inc. HQ",
     imageName: 'assets/images/eloncar.jpg',
@@ -51,6 +53,7 @@ List<Post> samplePosts = [
     caption: "Live Like A Champion",
     date: "16 May 2021",
     likes: 247,
+
     comments: 12,
     imageName: "assets/images/muhammed_ali.jpg",
   )
@@ -114,7 +117,7 @@ class _HomeViewState extends State<HomeView> {
               color: Colors.grey,
               iconSize: 40,
               onPressed: () {
-                null;
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const Message_box()));
               },
             ),
           ],
