@@ -1,3 +1,4 @@
+import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,6 +73,8 @@ class _RegisterState extends State<Register> {
   void handleButtonPress() {
     print(
         "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
+    Navigator.pushNamedAndRemoveUntil(
+        context, PageNavigator.routeName, (r) => false);
   }
 
   @override
