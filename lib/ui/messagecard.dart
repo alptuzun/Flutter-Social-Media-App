@@ -1,3 +1,5 @@
+
+
 import 'package:cs310_group_28/models/message.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,7 @@ class Messagecard extends StatelessWidget {
 
 
                 Text(
+
                   message.message +'·' + message.time_ago,
                   style: const TextStyle(
                     fontSize: 13,
@@ -59,9 +62,18 @@ class Messagecard extends StatelessWidget {
 
 
             const Spacer(),
-            const Icon(Icons.circle, size: 8,color: Colors.blue,),
-            const SizedBox(width: 12,),
-            const Icon(Icons.storefront,size: 26,),
+            if (message.IsRead != true )
+              const Icon(Icons.circle, size: 8,color: Colors.blue,),
+            if (message.IsRead != true)
+              const SizedBox(width: 12,),
+
+
+            if(message.message_type != "Private")
+              const Icon(Icons.storefront,size: 26,),
+
+            if(message.message_type == "Private")
+              const Icon(Icons.send_sharp,size: 26,),
+
 
             const SizedBox(width: 25,),
 

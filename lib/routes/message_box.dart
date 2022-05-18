@@ -10,33 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 List<Message> sampleMessages = [
-  Message(message: "Wanna go out tonight buddy?", time_ago: "2h ago",
-      user: User(username: 'smlcmn',
-                fullName: 'Ismail Cimen',
-                email: 'smlcmn@sabanciuniv.edu',),
-      message_type: "Private",),
 
-  Message(message: "200\$ is ok for you?", time_ago: "1h ago",
-    user: User(
-      username: "alptuzun",
-      email: "alptuzun@sabanciuniv.edu",
-      fullName: "Alp Tüzün",
-    ),
-    message_type: "Market Place",),
 
-  Message(message: "Ok it is done.", time_ago: "12m ago",
-    user: User(username: 'Sila',
-      fullName: 'Sila Ozinan',
-      email: 'silaozinan@sabanciuniv.edu',),
-    message_type: "Market Place",),
 
-  Message(message: "Hii", time_ago: "3h ago",
-    user: User(
-      username: "isiktantanis",
-      email: "isiktantanis@sabanciuniv.edu",
-      fullName: "Işıktan Tanış",
-    ),
-    message_type: "Market Place",),
+
 
   Message(message: "I will think about it.", time_ago: "10m ago",
     user: User(username: 'klcilkr',
@@ -44,34 +21,14 @@ List<Message> sampleMessages = [
       email: 'klclkr@sabanciuniv.edu',),
     message_type: "Market Place",
     IsRead: true,
+    incoming: true,
 
   ),
-
-  Message(message: "OK", time_ago: "1d ago",
-    user: User(username: 'eylül.simsek',
-      fullName: 'Eylül Şimşek',
-      email: 'eylülsimsek@sabanciuniv.edu',),
-    message_type: "Private",
-    IsRead: true),
-
-  Message(message: "See u", time_ago: "1h ago",
-    user: User(username: 'sermetozgu',
-      fullName: 'Sermet Özgü',
-      email: 'sermetozgu@sabanciuniv.edu',),
-    message_type: "Private",),
-  Message(message: "This Wednesday is ok.", time_ago: "2h ago",
-    user: User(username: 'ozgun12',
-      fullName: 'Ali Özgün Akyüz',
-      email: 'akyuz@sabanciuniv.edu',),
-    message_type: "Private",),
-  Message(message: "I'll handle it", time_ago: "3h ago",
-    user: User(username: 'emre26',
-      fullName: 'Emre Güneş',
-      email: 'emregunes@sabanciuniv.edu',
-    ),
-    message_type: "Private",
-    IsRead: true,),
-
+  Message(message: "Ok it is done.", time_ago: "12m ago",
+    user: User(username: 'Sila',
+      fullName: 'Sıla Özinan',
+      email: 'silaozinan@sabanciuniv.edu',),
+    message_type: "Market Place",),
   Message(
     message: "Deal!",
     time_ago: "35m ago",
@@ -81,8 +38,60 @@ List<Message> sampleMessages = [
     ),
     message_type: "Market Place",
     IsRead: true,
+    incoming: true,
   ),
-  
+  Message(message: "See u", time_ago: "1h ago",
+    user: User(username: 'sermetozgu',
+      fullName: 'Sermet Özgü',
+      email: 'sermetozgu@sabanciuniv.edu',),
+    message_type: "Private",),
+  Message(message: "200\$ is ok for you?", time_ago: "1h ago",
+    user: User(
+      username: "alptuzun",
+      email: "alptuzun@sabanciuniv.edu",
+      fullName: "Alp Tüzün",
+    ),
+    message_type: "Market Place",
+    incoming: true,),
+  Message(message: "Wanna go out tonight buddy?", time_ago: "2h ago",
+    user: User(username: 'smlcmn',
+      fullName: 'Ismail Cimen',
+      email: 'smlcmn@sabanciuniv.edu',),
+    message_type: "Private",
+  incoming: true,),
+
+
+  Message(message: "This Wednesday is ok.", time_ago: "2h ago",
+    user: User(username: 'ozgun12',
+      fullName: 'Ali Özgün Akyüz',
+      email: 'akyuz@sabanciuniv.edu',),
+    message_type: "Private",
+  incoming:true, ),
+
+
+  Message(message: "I'll handle it", time_ago: "3h ago",
+    user: User(username: 'emre26',
+      fullName: 'Emre Güneş',
+      email: 'emregunes@sabanciuniv.edu',
+    ),
+    message_type: "Private",
+    IsRead: true,
+  incoming: true,),
+  Message(message: "Hii", time_ago: "4h ago",
+    user: User(
+      username: "isiktantanis",
+      email: "isiktantanis@sabanciuniv.edu",
+      fullName: "Işıktan Tanış",
+    ),
+    message_type: "Market Place",
+  incoming: true),
+  Message(message: "OK", time_ago: "1d ago",
+      user: User(username: 'eylül.simsek',
+        fullName: 'Eylül Şimşek',
+        email: 'eylülsimsek@sabanciuniv.edu',),
+      message_type: "Private",
+      IsRead: true,
+      incoming: true),
 ];
 
 
@@ -147,7 +156,8 @@ class _Message_boxState extends State<Message_box> {
                               child: Row(
                                 //mainAxisAlignment: MainAxisAlignment.end,
                                 children:   [
-                                  SizedBox(width: 10,),
+
+                                  const SizedBox(width: 10,),
                                   Text(
                                     'Search',
                                     textAlign: TextAlign.center,

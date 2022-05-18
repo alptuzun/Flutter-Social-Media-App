@@ -1,11 +1,12 @@
 import 'package:cs310_group_28/models/user.dart';
-import 'package:flutter/material.dart';
+
 class Message{
   String message;
   String time_ago;
   User user;
   String message_type;
   bool? IsRead = false;
+  bool? incoming = false;
 
 
   Message({
@@ -14,6 +15,7 @@ class Message{
   required this.user,
   required this.message_type,
   this.IsRead,
+  this.incoming,
   });
 
 
