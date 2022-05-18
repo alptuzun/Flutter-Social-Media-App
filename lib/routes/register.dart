@@ -1,9 +1,6 @@
-import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cs310_group_28/visuals/text_style.dart';
-
 import '../ui/StyledButton.dart';
 import '../ui/StyledPasswordField.dart';
 import '../ui/StyledTextField.dart';
