@@ -2,9 +2,9 @@ import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../ui/StyledButton.dart';
-import '../ui/StyledPasswordField.dart';
-import '../ui/StyledTextField.dart';
+import '../ui/styled_button.dart';
+import '../ui/styled_password_field.dart';
+import '../ui/styled_text_field.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);

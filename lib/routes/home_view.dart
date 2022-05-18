@@ -117,7 +117,7 @@ class _HomeViewState extends State<HomeView> {
               color: Colors.grey,
               iconSize: 40,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Message_box()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageBox()));
               },
             ),
           ],
