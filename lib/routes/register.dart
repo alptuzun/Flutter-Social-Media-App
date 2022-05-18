@@ -1,7 +1,12 @@
 import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+
+import '../ui/StyledButton.dart';
+import '../ui/StyledPasswordField.dart';
+import '../ui/StyledTextField.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -31,196 +36,110 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  bool usernameValidator(String username) {
-    if ((username.length >= 4 && username.length <= 14) && validCharacters.hasMatch(username)) {
-      return true;
+  String usernameValidator(String? username) {
+    if (username == null) {
+      return "Username cannot be blank.";
     }
-    else {
-      return false;
+    if ((username.length >= 4 && username.length <= 14) &&
+        validCharacters.hasMatch(username)) {
+      return "";
+    } else {
+      return "Enter a valid username";
     }
   }
 
-  Container formItem(
+  String nameValidator(String? value) {
+    if (value != null) {
+      if (value.isEmpty) {
+        return 'Cannot leave your name empty';
+      }
+      if (!value.contains(' ')) {
+        return 'Please enter a proper full name';
+      }
+    }
+    return "";
+  }
 
-      TextInputType? inputType,
-      IconData icon,
-      String placeholder,
-      String? Function(String?)? validator,
-      void Function(String?)? onSaved) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: TextFormField(
-          keyboardType: inputType ?? TextInputType.text,
-          decoration: InputDecoration(
-            label: SizedBox(
-              width: 300,
-              child: Row(
-                children: [
-                  Icon(icon),
-                  const SizedBox(width: 6),
-                  Text(
-                    placeholder,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            fillColor: AppColors.textFieldFillColor,
-            filled: true,
-            labelStyle: Styles.appGreyText,
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.white,
-              ),
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-          validator: validator,
-          onSaved: onSaved),
-    );
+  void handleNameSave(String? val) {
+    setState(() {
+      name = val ?? '';
+    });
+  }
+
+  void handleUsernameSave(String? val) {
+    setState(() {
+      username = val ?? "";
+    });
+  }
+
+  void handleButtonPress() {
+    print(
+        "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/Sabanci_Background.jpeg'),
-          fit: BoxFit.cover,
-          alignment: Alignment.center,
-          opacity: 0.30,
-        ),
-        color: Color(0xEBFFFFFF),
-      ),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'REGISTER',
-              style: Styles.appBarTitleTextStyle,
-            ),
-            backgroundColor: Colors.blue,
-            centerTitle: true,
-            elevation: 0.0,
-          ),
-          backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            reverse: true,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(
-                    height: 200,
-                  ),
-                  formItem(TextInputType.emailAddress, Icons.email, "Email Address", null, handleEmailSave),
-                  formItem(TextInputType.text, Icons.password, "Password", null, handlePasswordSave),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      enableSuggestions: true,
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        label: SizedBox(
-                          width: 300,
-                          child: Row(
-                            children: [
-                              const Icon(Icons.account_box_sharp),
-                              const SizedBox(width: 6),
-                              Text(
-                                'Full Name',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        fillColor: AppColors.textFieldFillColor,
-                        filled: true,
-                        labelStyle: Styles.appGreyText,
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: AppColors.mainTextColor,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave your name empty';
-                          }
-                          if (!value.contains(' ')){
-                            return 'Please enter a proper full name';
-                          }
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        name = value ?? '';
-                      },
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        label: SizedBox(
-                          width: 300,
-                          child: Row(
-                            children: [
-                              const Icon(Icons.perm_identity_rounded),
-                              const SizedBox(width: 6),
-                              Text(
-                                'Username',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        fillColor: AppColors.textFieldFillColor,
-                        filled: true,
-                        labelStyle: Styles.appGreyText,
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: AppColors.mainTextColor,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave your username empty';
-                          }
-                          else if (!usernameValidator(value)){
-                            return 'Please enter a valid username';
-                          }
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        username = value ?? '';
-                      },
-                    ),
-                  ),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFFFAFA),
+        body: Center(
+          child: ListView(
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              Image(
+                image: const AssetImage("assets/images/logo.webp"),
+                height: screenHeight(context, dividedBy: 3),
               ),
-            ),
+              const SizedBox(
+                height: 20,
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    StyledTextField(
+                        icon: Icons.account_box_sharp,
+                        placeholder: 'Full Name',
+                        validator: nameValidator,
+                        onChanged: handleNameSave),
+                    StyledTextField(
+                        icon: Icons.perm_identity_rounded,
+                        placeholder: "Username",
+                        validator: usernameValidator,
+                        onChanged: handleUsernameSave),
+                    StyledTextField(
+                        inputType: TextInputType.emailAddress,
+                        icon: Icons.email,
+                        placeholder: "Email Address",
+                        onChanged: handleEmailSave),
+                    StyledPasswordField(onChanged: handlePasswordSave),
+                    StyledButton(
+                      label: "register",
+                      onPressed: handleButtonPress,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/login");
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Already have an account?",
+                        style: GoogleFonts.poppins(color: Colors.black)),
+                    Text("  Log in.",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700, color: Colors.black))
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),
