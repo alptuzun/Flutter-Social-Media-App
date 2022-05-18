@@ -33,28 +33,37 @@ class Messagecard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Text(
-                    message.user.fullName,
-                    style: Styles.userNameTextStyle,
-                    textAlign: TextAlign.start,
-                    textScaleFactor: 0.75,
+                  message.user.fullName,
+                  style: Styles.userNameTextStyle,
+                  textAlign: TextAlign.start,
+                  textScaleFactor: 0.75,
                 ),
+
+
                 const SizedBox(width: 5,),
                 //if (message.message.length > 29)
 
+                if (message.IsRead == true || message.incoming == false)
+                  Text(
 
-                Text(
+                    message.message +'·' + message.time_ago,
+                    style: const TextStyle(
+                      fontSize: 13,
 
-                  message.message +'·' + message.time_ago,
-                  style: const TextStyle(
-                    fontSize: 13,
-
+                    ),
                   ),
+                if(message.IsRead == false && message.incoming == true )
+                  Text(
 
-                  //textAlign: TextAlign.,
+                    message.message +'·' + message.time_ago,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
 
-
-                )
+                    ),
+                  ),
 
               ],
             ),
@@ -62,9 +71,9 @@ class Messagecard extends StatelessWidget {
 
 
             const Spacer(),
-            if (message.IsRead != true )
+            if (message.IsRead != true && message.incoming == true)
               const Icon(Icons.circle, size: 8,color: Colors.blue,),
-            if (message.IsRead != true)
+            if (message.IsRead != true && message.incoming == true)
               const SizedBox(width: 12,),
 
 

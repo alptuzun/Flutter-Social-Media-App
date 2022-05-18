@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
@@ -28,7 +28,9 @@ List<Message> sampleMessages = [
     user: User(username: 'Sila',
       fullName: 'Sıla Özinan',
       email: 'silaozinan@sabanciuniv.edu',),
-    message_type: "Market Place",),
+    message_type: "Market Place",
+  IsRead: false,
+  incoming: true,),
   Message(
     message: "Deal!",
     time_ago: "35m ago",
@@ -44,7 +46,9 @@ List<Message> sampleMessages = [
     user: User(username: 'sermetozgu',
       fullName: 'Sermet Özgü',
       email: 'sermetozgu@sabanciuniv.edu',),
-    message_type: "Private",),
+    message_type: "Private",
+    IsRead: true,
+    incoming: false,),
   Message(message: "200\$ is ok for you?", time_ago: "1h ago",
     user: User(
       username: "alptuzun",
@@ -52,13 +56,15 @@ List<Message> sampleMessages = [
       fullName: "Alp Tüzün",
     ),
     message_type: "Market Place",
-    incoming: true,),
+    incoming: true,
+  IsRead: true,),
   Message(message: "Wanna go out tonight buddy?", time_ago: "2h ago",
     user: User(username: 'smlcmn',
       fullName: 'Ismail Cimen',
       email: 'smlcmn@sabanciuniv.edu',),
     message_type: "Private",
-  incoming: true,),
+  incoming: true,
+  IsRead: false ),
 
 
   Message(message: "This Wednesday is ok.", time_ago: "2h ago",
@@ -66,7 +72,8 @@ List<Message> sampleMessages = [
       fullName: 'Ali Özgün Akyüz',
       email: 'akyuz@sabanciuniv.edu',),
     message_type: "Private",
-  incoming:true, ),
+  incoming:true,
+  IsRead: false),
 
 
   Message(message: "I'll handle it", time_ago: "3h ago",
@@ -84,14 +91,15 @@ List<Message> sampleMessages = [
       fullName: "Işıktan Tanış",
     ),
     message_type: "Market Place",
-  incoming: true),
+  incoming: true,
+  IsRead: false,),
   Message(message: "OK", time_ago: "1d ago",
       user: User(username: 'eylül.simsek',
         fullName: 'Eylül Şimşek',
         email: 'eylülsimsek@sabanciuniv.edu',),
       message_type: "Private",
       IsRead: true,
-      incoming: true),
+      incoming: false),
 ];
 
 

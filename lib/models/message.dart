@@ -5,7 +5,7 @@ class Message{
   String time_ago;
   User user;
   String message_type;
-  bool? IsRead = false;
+  bool? IsRead = true;
   bool? incoming = false;
 
 
