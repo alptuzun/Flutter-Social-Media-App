@@ -2,6 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/ui/notification_card.dart';
 import 'package:cs310_group_28/models/notification.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/visuals/text_style.dart';
+
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -15,7 +19,7 @@ class _NotificationsViewState extends State<Notifications> {
 
     MyNotification(
         text: 'Alp commented on your post.',
-        date: 'June 21'
+        date: 'May 10'
     ),
     MyNotification(
         text: 'Sermet followed you.',
@@ -53,50 +57,42 @@ class _NotificationsViewState extends State<Notifications> {
     }
     return Scaffold(
       appBar: AppBar(
-        actions: <Widget>[
-
-          IconButton(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.white,
+              color: AppColors.titleColor,
             ),
+            color: Colors.black,
             onPressed: () {
-              // do something
+              Navigator.pop(context);
             },
-          )
-        ],
-        title: const Text(
-          'Notifications',
-          style: TextStyle(
-            fontSize: 26.0,
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
           ),
+          title: Text(
+          'Notifications',
+          style: Styles.appBarTitleTextStyle,
+          )
         ),
-        centerTitle: false,
-        backgroundColor: Colors.lightGreen,
-        elevation: 0.0,
-      ),
+
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    SizedBox(width: 8,),
-                  ],
-                ),
-                Column(
-                  children: notifications.map((notifications) => NotificationCard(
-                    notification: notifications,
-                  )).toList(),
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  SizedBox(width: 8,),
+                ],
+              ),
+              Column(
+                children: notifications.map((notifications) => NotificationCard(
+                  notification: notifications,
+                )).toList(),
+              ),
+            ],
           ),
         ),
       ),
