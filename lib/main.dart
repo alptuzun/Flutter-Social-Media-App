@@ -19,6 +19,7 @@ void main() {
       MarketPlace.routeName: (context) => const MarketPlace(),
       Explore.routeName: (context) => const Explore(),
       UserProfile.routeName: (context) => const UserProfile(),
+
     },
   ));
 }

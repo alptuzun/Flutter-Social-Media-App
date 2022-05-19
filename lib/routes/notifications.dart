@@ -2,6 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/ui/notification_card.dart';
 import 'package:cs310_group_28/models/notification.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/visuals/text_style.dart';
+
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -15,7 +19,7 @@ class _NotificationsViewState extends State<Notifications> {
 
     MyNotification(
         text: 'Alp commented on your post.',
-        date: 'June 21'
+        date: 'May 10'
     ),
     MyNotification(
         text: 'Sermet followed you.',
@@ -58,25 +62,19 @@ class _NotificationsViewState extends State<Notifications> {
           IconButton(
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.white,
+              color: AppColors.buttonColor,
             ),
             onPressed: () {
               // do something
             },
           )
         ],
-        title: const Text(
+        title: Text(
           'Notifications',
-          style: TextStyle(
-            fontSize: 26.0,
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-          ),
+          style: Styles.appBarTitleTextStyle,
+          )
         ),
-        centerTitle: false,
-        backgroundColor: Colors.lightGreen,
-        elevation: 0.0,
-      ),
+        backgroundColor: const Color(0xCBFFFFFF),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
