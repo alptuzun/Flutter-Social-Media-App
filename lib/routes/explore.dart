@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
 import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/ui/searchcard.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'message_box.dart';
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -32,11 +36,12 @@ class _ExploreState extends State<Explore> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(5, 30, 5, 5),
+                padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   autocorrect: false,
                   decoration:  InputDecoration(
+
                     label: SizedBox(
                       width:double.infinity,
                       child: Row(
@@ -52,8 +57,14 @@ class _ExploreState extends State<Explore> {
                             ),
                           ),
                           const Spacer(),
-                          const Icon(Icons.search_rounded,
-                            size:30,
+                           IconButton(
+                            onPressed: () {
+                              showSearch(
+                                context: context,
+                                delegate: MySearchDelegate(),
+                              );},
+                            icon:Icon(Icons.search_rounded),
+                            iconSize:30,
                           ),
 
                           IconButton(

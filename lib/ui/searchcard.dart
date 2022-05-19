@@ -17,16 +17,51 @@ class SearchCard extends StatelessWidget {
 
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Card(
-              color: Colors.white38,
-              margin: const EdgeInsets.fromLTRB(20,5,10,5),
-              child: Padding(
+        InkWell(
+          onTap: (){null;},
+          splashColor: const Color(0xFFA1A1A1),
+          child: Card(
+                color: Colors.white38,
+                margin: const EdgeInsets.fromLTRB(20,5,10,5),
+                child: Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Column(
+                    children: [
+
+                      Container(
+
+                        padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
+                        child: Image(
+                          image: AssetImage(post.imageName.toString()),
+                          alignment: Alignment.center,
+                          isAntiAlias: true,
+                          fit: BoxFit.contain,
+                          height: 100,
+                          width: 150,
+
+
+                          filterQuality: FilterQuality.high,
+                        ),
+                      ),
+
+                        ],
+                      )
+                  ),
+              ),
+        ),
+
+        InkWell(
+          onTap: (){null;},
+          splashColor: const Color(0xFFA1A1A1),
+          child: Card(
+            color: Colors.white38,
+            margin: const EdgeInsets.all(10),
+            child: Padding(
                 padding: const EdgeInsets.all(0),
                 child: Column(
                   children: [
 
                     Container(
-                      
                       padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
                       child: Image(
                         image: AssetImage(post.imageName.toString()),
@@ -37,42 +72,15 @@ class SearchCard extends StatelessWidget {
                         width: 150,
 
 
+
                         filterQuality: FilterQuality.high,
                       ),
+
                     ),
 
-                      ],
-                    )
-                ),
+                  ],
+                )
             ),
-
-        Card(
-          color: Colors.white38,
-          margin: const EdgeInsets.all(10),
-          child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Column(
-                children: [
-
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
-                    child: Image(
-                      image: AssetImage(post.imageName.toString()),
-                      alignment: Alignment.center,
-                      isAntiAlias: true,
-                      fit: BoxFit.contain,
-                      height: 100,
-                      width: 150,
-
-
-
-                      filterQuality: FilterQuality.high,
-                    ),
-
-                  ),
-
-                ],
-              )
           ),
         ),
 
