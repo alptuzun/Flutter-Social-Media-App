@@ -37,7 +37,7 @@ class Styles {
 
   static final appGreyText = GoogleFonts.poppins(
     color: AppColors.paleButtonColor,
-    fontSize: 20.0,
+    fontSize: 14.0,
     letterSpacing: -0.7,
   );
 

@@ -144,22 +144,37 @@ class _MessageBoxState extends State<MessageBox> {
         child: Scaffold(
             appBar: AppBar(
               leading: IconButton(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                  splashRadius: 27,
                   icon: const Icon(
                     Icons.arrow_back_ios_rounded,
-                    size: 30,
+                    size: 34,
                   ),
                   color: AppColors.titleColor,
                   onPressed: () {
                     Navigator.pop(context); // pop the context
                   }),
-              elevation: 0,
               backgroundColor: Colors.white,
               title: Text(
                 "Messages",
-                textAlign: TextAlign.center,
                 style: Styles.appBarTitleTextStyle,
               ),
               centerTitle: true,
+              actions: [
+                IconButton(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                  splashRadius: 27,
+                  icon: const Icon(Icons.search_outlined),
+                  color: AppColors.titleColor,
+                  iconSize: 40,
+                  onPressed: () {
+                    showSearch(
+                      context: context,
+                      delegate: MySearchDelegate(),
+                    );
+                  },
+                ),
+              ],
             ),
             backgroundColor: const Color(0xCBFFFFFF),
             body: SingleChildScrollView(
@@ -221,5 +236,68 @@ class _MessageBoxState extends State<MessageBox> {
                 ],
               ),
             )));
+  }
+}
+
+class MySearchDelegate extends SearchDelegate {
+  final List<String> allChats =
+      sampleMessages.map((e) => e.user.fullName).toList();
+  final List<String> allChatSuggestions = sampleMessages
+      .map((e) => e.user.fullName)
+      .toList()
+      .sublist(0, sampleMessages.length ~/ 2);
+
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+      onPressed: () => close(context, null),
+      icon: const Icon(Icons.arrow_back_ios_rounded));
+
+  @override
+  List<Widget>? buildActions(BuildContext context) => [
+        IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            if (query.isEmpty) {
+              close(context, null);
+            } else {
+              query = "";
+            }
+          },
+        )
+      ];
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final allResults = allChats
+        .where((element) => element.toLowerCase().contains(
+              query.toLowerCase(),
+            ))
+        .toList();
+
+    return ListView.builder(
+      itemCount: allResults.length,
+      itemBuilder: (context, index) =>
+          ListTile(
+            title: Text(allResults.elementAt(index)),
+            onTap: () {
+              Center(child: const Text("alp"),);
+            }
+          ),
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final allSuggestions = allChatSuggestions
+        .where((element) => element.toLowerCase().contains(
+              query.toLowerCase(),
+            ))
+        .toList();
+
+    return ListView.builder(
+      itemCount: allSuggestions.length,
+      itemBuilder: (context, index) =>
+          ListTile(title: Text(allSuggestions.elementAt(index))),
+    );
   }
 }

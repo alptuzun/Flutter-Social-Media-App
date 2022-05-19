@@ -53,8 +53,6 @@ class _LoginState extends State<Login> {
                       height: screenHeight(context, dividedBy: 9),
                       child: Material(
                         color: Colors.transparent,
-                        elevation: 8,
-                        shadowColor: Colors.black45,
                         borderRadius: BorderRadius.circular(30),
                         child: TextFormField(
                           onFieldSubmitted: (value) {
@@ -132,7 +130,6 @@ class _LoginState extends State<Login> {
                       child: Material(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(30),
-                        elevation: 8,
                         shadowColor: Colors.black45,
                         child: TextFormField(
                           onFieldSubmitted: (value) {
