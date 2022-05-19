@@ -16,70 +16,68 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(0xCBFFFFFF),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
+    return  Scaffold(
+      backgroundColor: const Color(0xCBFFFFFF),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: TextFormField(
+                keyboardType: TextInputType.text,
 
-                  autocorrect: false,
-                  decoration:  InputDecoration(
-                    label: SizedBox(
-                      width:double.infinity,
-                      child: Row(
-                        children: [
+                autocorrect: false,
+                decoration:  InputDecoration(
+                  label: SizedBox(
+                    width:double.infinity,
+                    child: Row(
+                      children: [
 
-                          const SizedBox(width: 10),
-                          Text(
-                            "Search",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                              fontSize: 17.0,
-                              color: Colors.grey,
-                            ),
+                        const SizedBox(width: 10),
+                        Text(
+                          "Search",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontSize: 17.0,
+                            color: Colors.grey,
                           ),
-                          const Spacer(),
-                          const Icon(Icons.search_rounded,
-                            size:30,
-                          ),
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.search_rounded,
+                          size:30,
+                        ),
 
-                          IconButton(
-                            onPressed: () {
-                              null;},
-                            icon: const Icon(Icons.arrow_drop_down_outlined) ,
-                            iconSize: 50,
-                          ),
-                        ],
-                      ),
+                        IconButton(
+                          onPressed: () {
+                            null;},
+                          icon: const Icon(Icons.arrow_drop_down_outlined) ,
+                          iconSize: 50,
+                        ),
+                      ],
                     ),
-                    fillColor: Colors.white70,
-                    filled: true,
-                    labelStyle: Styles.appMainTextStyle,
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.white70,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
+                  ),
+                  fillColor: Colors.white70,
+                  filled: true,
+                  labelStyle: Styles.appMainTextStyle,
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Colors.white70,
                     ),
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
               ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: samplePosts
-                    .map((post) => SearchCard(
-                      post: post,
-                    ))
-                        .toList(),
-                  ),
-            ],
-          ),
+            ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: samplePosts
+                  .map((post) => SearchCard(
+                    post: post,
+                  ))
+                      .toList(),
+                ),
+          ],
         ),
       ),
     );
