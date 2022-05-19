@@ -1,22 +1,20 @@
 import 'package:cs310_group_28/models/user.dart';
 
-class Message{
+class Message {
   String message;
-  String time_ago;
+  String timeAgo;
   User user;
-  String message_type;
-  bool? IsRead = true;
+  String messageType;
+  bool? isRead = true;
   bool? incoming = false;
-
 
   Message({
   required this.message,
-  required this.time_ago,
+  required this.timeAgo,
   required this.user,
-  required this.message_type,
-  this.IsRead,
+  required this.messageType,
+  this.isRead,
   this.incoming,
   });
-
 
 }

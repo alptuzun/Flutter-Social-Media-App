@@ -1,10 +1,9 @@
-class Notifications {
+class MyNotification {
   String text;
   String date;
 
-  Notifications({
+  MyNotification({
     required this.text,
     required this.date,
-
   });
 }

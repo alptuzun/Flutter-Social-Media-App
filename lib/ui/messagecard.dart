@@ -40,35 +40,35 @@ class Messagecard extends StatelessWidget {
                       width: screenWidth(context, dividedBy: 45),
                     ),
                     //if (message.message.length > 29)
-                    if (message.IsRead == true || message.incoming == false)
+                    if (message.isRead == true || message.incoming == false)
                       Text(
-                        '${message.message}  ·  ${message.time_ago}',
+                        '${message.message}  ·  ${message.timeAgo}',
                         style: Styles.appGreyText
                       ),
-                    if (message.IsRead == false && message.incoming == true)
+                    if (message.isRead == false && message.incoming == true)
                       Text(
-                        '${message.message}  ·  ${message.time_ago}',
+                        '${message.message}  ·  ${message.timeAgo}',
                         style: Styles.appMainTextStyle,
                       ),
                   ],
                 ),
                 const Spacer(),
-                if (message.IsRead != true && message.incoming == true)
+                if (message.isRead != true && message.incoming == true)
                   const Icon(
                     Icons.circle,
                     size: 10,
                     color: Colors.blue,
                   ),
-                if (message.IsRead != true && message.incoming == true)
+                if (message.isRead != true && message.incoming == true)
                   SizedBox(
                       width: screenWidth(context, dividedBy: 45)
                   ),
-                if (message.message_type != "Private")
+                if (message.messageType != "Private")
                   const Icon(
                     Icons.storefront,
                     size: 26,
                   ),
-                if (message.message_type == "Private")
+                if (message.messageType == "Private")
                   const Icon(
                     Icons.send_sharp,
                     size: 26,
