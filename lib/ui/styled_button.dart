@@ -5,32 +5,41 @@ import 'package:google_fonts/google_fonts.dart';
 class StyledButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
+
   const StyledButton({Key? key, required this.label, required this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        width: screenWidth(context, dividedBy: 1.2),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(29),
-            child: ElevatedButton(
-              onPressed: onPressed,
-              style: ElevatedButton.styleFrom(
-                  primary: const Color(0xFF012169),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  textStyle: GoogleFonts.poppins(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500)),
-              child: Text(
-                label.toUpperCase(),
-                style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              ),
-            )));
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      width: (screenWidth(context) / 100) * 48,
+      height: (screenHeight(context) / 100) * 5.5,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+            begin: Alignment(0, -1),
+            end: Alignment(0, 0),
+            colors: [Colors.lightBlue, Colors.lightBlueAccent]),
+        borderRadius: BorderRadius.circular(35),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            primary: Colors.transparent,
+            shadowColor: Colors.transparent,
+          ),
+          child: Text(
+            label.toUpperCase(),
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

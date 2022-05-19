@@ -1,10 +1,14 @@
+import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
+import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../ui/styled_button.dart';
-import '../ui/styled_password_field.dart';
-import '../ui/styled_text_field.dart';
+import 'package:cs310_group_28/ui/styled_button.dart';
+import 'package:cs310_group_28/ui/styled_password_field.dart';
+import 'package:cs310_group_28/ui/styled_text_field.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -71,10 +75,12 @@ class _RegisterState extends State<Register> {
   }
 
   void handleButtonPress() {
-    print(
-        "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
+    if (kDebugMode) {
+      print(
+          "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
+    }
     Navigator.pushNamedAndRemoveUntil(
-        context, PageNavigator.routeName, (r) => false);
+          context, PageNavigator.routeName, (r) => false);
   }
 
   @override
@@ -82,17 +88,20 @@ class _RegisterState extends State<Register> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFFFFAFA),
-        body: Center(
-          child: ListView(
-            physics: const ClampingScrollPhysics(),
-            shrinkWrap: true,
+        body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          reverse: true,
+          child: Column(
             children: [
+              SizedBox(
+                height: (screenHeight(context) / 100) * 2.5,
+              ),
               Image(
                 image: const AssetImage("assets/images/logo.webp"),
-                height: screenHeight(context, dividedBy: 3),
+                height: screenHeight(context, dividedBy: 2.75),
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: (screenHeight(context) / 100) * 2,
               ),
               Form(
                 key: _formKey,
@@ -111,7 +120,7 @@ class _RegisterState extends State<Register> {
                     StyledTextField(
                         inputType: TextInputType.emailAddress,
                         icon: Icons.email,
-                        placeholder: "Email Address",
+                        placeholder: ("Email Address"),
                         onChanged: handleEmailSave),
                     StyledPasswordField(onChanged: handlePasswordSave),
                     StyledButton(
@@ -121,24 +130,41 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              Divider(
+                color: Colors.black,
+                thickness: 1.5,
+                indent: (screenWidth(context) / 100) * 15,
+                endIndent: (screenWidth(context) / 100) * 15,
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, "/login");
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Already have an account?",
-                        style: GoogleFonts.poppins(color: Colors.black)),
-                    Text("  Log in.",
+              RichText(
+                  text: TextSpan(
+                      style: Styles.appMainTextStyle,
+                      children: <TextSpan>[
+                    TextSpan(
+                      text: "Already have an account? ",
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        letterSpacing: -0.7,
+                      ),
+                    ),
+                    TextSpan(
+                        text: " Log In",
                         style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, color: Colors.black))
-                  ],
-                ),
-              )
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.7,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()));
+                          }),
+                  ])),
+              SizedBox(
+                height: (screenHeight(context) / 100) * 2,
+              ),
             ],
           ),
         ),

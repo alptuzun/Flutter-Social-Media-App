@@ -6,7 +6,7 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/gestures.dart';
-import 'package:cs310_group_28/visuals/alerts.dart' ;
+import 'package:cs310_group_28/visuals/alerts.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,47 +18,35 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/Sabanci_Background.jpeg'),
-          fit: BoxFit.cover,
-          alignment: Alignment.center,
-          opacity: 0.30,
-        ),
-        color: Color(0xEBFFFFFF),
-      ),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            reverse: true,
-            child: SizedBox(
-              width: double.infinity,
-              child: Form(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFFFAFA),
+        body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          reverse: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: (screenHeight(context) / 100) * 2.5,
+              ),
+              Image(
+                image: const AssetImage("assets/images/logo.webp"),
+                height: screenHeight(context, dividedBy: 2.75),
+              ),
+              SizedBox(
+                height: (screenHeight(context) / 100) * 20,
+              ),
+              Form(
                 key: _formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: (screenHeight(context) / 100) * 21.8,
-                    ),
-                    Text(
-                      "Welcome!",
-                      style: Styles.boldTitleTextStyle,
-                    ),
-                    SizedBox(
-                      height: (screenHeight(context) / 100) * 27,
-                    ),
                     Container(
                       padding: const EdgeInsets.all(8),
                       width: screenWidth(context, dividedBy: 1.1),
@@ -72,17 +60,20 @@ class _LoginState extends State<Login> {
                             if (value == "") {
                               if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
-                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, PageNavigator.routeName, (r) => false);
                               } else {
-                                Alerts.showAlert(context, 'Login Error', 'Please enter your email');
+                                Alerts.showAlert(context, 'Login Error',
+                                    'Please enter your email');
                               }
-                            }
-                            else {
+                            } else {
                               if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
-                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, PageNavigator.routeName, (r) => false);
                               } else {
-                                Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
+                                Alerts.showAlert(context, 'Login Error',
+                                    'Your credentials are invalid');
                               }
                             }
                           },
@@ -121,8 +112,7 @@ class _LoginState extends State<Login> {
                             if (value != null) {
                               if (value.isEmpty) {
                                 return 'Cannot leave email or username empty';
-                              }
-                              else if (!EmailValidator.validate(value)) {
+                              } else if (!EmailValidator.validate(value)) {
                                 return 'Please enter a valid email address';
                               }
                             }
@@ -147,17 +137,20 @@ class _LoginState extends State<Login> {
                             if (value == "") {
                               if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
-                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, PageNavigator.routeName, (r) => false);
                               } else {
-                                Alerts.showAlert(context, 'Login Error', 'Please enter your password');
+                                Alerts.showAlert(context, 'Login Error',
+                                    'Please enter your password');
                               }
-                            }
-                            else {
+                            } else {
                               if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
-                                Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, PageNavigator.routeName, (r) => false);
                               } else {
-                                Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
+                                Alerts.showAlert(context, 'Login Error',
+                                    'Your credentials are invalid');
                               }
                             }
                           },
@@ -212,7 +205,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     SizedBox(
-                      height: (screenHeight(context) / 100) * 1,
+                      height: (screenHeight(context) / 100) * 2,
                     ),
                     Container(
                       width: (screenWidth(context) / 100) * 48,
@@ -231,9 +224,11 @@ class _LoginState extends State<Login> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              Navigator.pushNamedAndRemoveUntil(context, PageNavigator.routeName, (r) => false);
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, PageNavigator.routeName, (r) => false);
                             } else {
-                              Alerts.showAlert(context, 'Login Error', 'Your credentials are invalid');
+                              Alerts.showAlert(context, 'Login Error',
+                                  'Your credentials are invalid');
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -250,69 +245,72 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: (screenHeight(context) / 100) * 1.5,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: Styles.appMainTextStyle,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Forgot your password?',
-                              style: GoogleFonts.poppins(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.underline,
-                                decorationThickness: 1.5,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  // forgot Your Password
-                                }),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: (screenHeight(context) / 100) * 4,
-                    ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 1.5,
-                      indent: (screenWidth(context) / 100) * 15,
-                      endIndent: (screenWidth(context) / 100) * 15,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: Styles.appMainTextStyle,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: "Don't have an account? ",
-                              style: GoogleFonts.poppins(
-                                fontSize: 13,
-                                letterSpacing: -0.7,
-                              ),
-                          ),
-                          TextSpan(
-                              text: " Register",
-                              style: GoogleFonts.poppins(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: -0.7,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
-                                }),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: (screenHeight(context) / 100) * 2,
-                    ),
                   ],
                 ),
               ),
-            ),
+              SizedBox(
+                height: (screenHeight(context) / 100) * 1.5,
+              ),
+              RichText(
+                text: TextSpan(
+                  style: Styles.appMainTextStyle,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Forgot your password?',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 1.5,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // forgot Your Password
+                          }),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: (screenHeight(context) / 100) * 4,
+              ),
+              Divider(
+                color: Colors.black,
+                thickness: 1.5,
+                indent: (screenWidth(context) / 100) * 15,
+                endIndent: (screenWidth(context) / 100) * 15,
+              ),
+              RichText(
+                text: TextSpan(
+                  style: Styles.appMainTextStyle,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "Don't have an account? ",
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        letterSpacing: -0.7,
+                      ),
+                    ),
+                    TextSpan(
+                        text: " Register",
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.7,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Register()));
+                          }),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: (screenHeight(context) / 100) * 2,
+              ),
+            ],
           ),
         ),
       ),
