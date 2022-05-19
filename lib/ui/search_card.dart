@@ -14,7 +14,6 @@ class SearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         InkWell(
@@ -27,9 +26,7 @@ class SearchCard extends StatelessWidget {
                   padding: const EdgeInsets.all(0),
                   child: Column(
                     children: [
-
                       Container(
-
                         padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
                         child: Image(
                           image: AssetImage(post.imageName.toString()),
@@ -38,18 +35,14 @@ class SearchCard extends StatelessWidget {
                           fit: BoxFit.contain,
                           height: 100,
                           width: 150,
-
-
                           filterQuality: FilterQuality.high,
                         ),
                       ),
-
                         ],
                       )
                   ),
               ),
         ),
-
         InkWell(
           onTap: (){null;},
           splashColor: const Color(0xFFA1A1A1),
@@ -83,8 +76,6 @@ class SearchCard extends StatelessWidget {
             ),
           ),
         ),
-
-
       ],
     );
 
