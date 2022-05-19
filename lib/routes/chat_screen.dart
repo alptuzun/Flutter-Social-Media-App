@@ -56,7 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
-                        height: 6,
+                        height: 7,
                       ),
                     ],
                   ),
