@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
-import 'package:cs310_group_28/visuals/screen_size.dart';
-
-import '../ui/styled_button.dart';
+import 'package:cs310_group_28/ui/styled_button.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);

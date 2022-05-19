@@ -91,60 +91,57 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-
-          backgroundColor: Colors.white,
-          leading: IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+          splashRadius: 27,
+          icon: const Icon(Icons.notifications_none_rounded),
+          color: AppColors.titleColor,
+          iconSize: 40,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const Notifications()));
+          },
+        ),
+        title: Text(
+          "Feed",
+          style: Styles.appBarTitleTextStyle,
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
             padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
             splashRadius: 27,
-            icon: const Icon(Icons.notifications_none_rounded),
+            icon: const Icon(Icons.forum_outlined),
             color: AppColors.titleColor,
             iconSize: 40,
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const Notifications()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageBox()));
             },
           ),
-          title: Text(
-            "Feed",
-            style: Styles.appBarTitleTextStyle,
-          ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-              splashRadius: 27,
-              icon: const Icon(Icons.forum_outlined),
-              color: AppColors.titleColor,
-              iconSize: 40,
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageBox()));
-              },
-            ),
 
-          ],
-        ),
-        backgroundColor: const Color(0xCBFFFFFF),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: samplePosts
-                .map((post) => PostCard(
-                      comment: () {
-                        addComment(post);
-                      },
-                      likes: () {
-                        addLikes(post);
-                      },
-                      dislikes: () {
-                        addDislikes(post);
-                      },
-                      post: post,
-                    ))
-                .toList(),
-          ),
+        ],
+      ),
+      backgroundColor: const Color(0xCBFFFFFF),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: samplePosts
+              .map((post) => PostCard(
+                    comment: () {
+                      addComment(post);
+                    },
+                    likes: () {
+                      addLikes(post);
+                    },
+                    dislikes: () {
+                      addDislikes(post);
+                    },
+                    post: post,
+                  ))
+              .toList(),
         ),
       ),
     );

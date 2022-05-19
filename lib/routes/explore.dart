@@ -3,7 +3,6 @@ import 'package:cs310_group_28/ui/searchcard.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cs310_group_28/visuals/colors.dart';
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -18,17 +17,24 @@ class _ExploreState extends State<Explore> {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(0xCBFFFFFF),
+    return  Scaffold(
+      backgroundColor: const Color(0xCBFFFFFF),
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          const SliverAppBar(
+            floating: true,
+            actions: [
+            ],
+          )
+        ],
         body: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.fromLTRB(5, 30, 5, 5),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
-
                   autocorrect: false,
                   decoration:  InputDecoration(
                     label: SizedBox(
@@ -53,7 +59,7 @@ class _ExploreState extends State<Explore> {
                           IconButton(
                             onPressed: () {
                               null;},
-                            icon: Icon(Icons.arrow_drop_down_outlined) ,
+                            icon: const Icon(Icons.arrow_drop_down_outlined) ,
                             iconSize: 50,
                           ),
                         ],

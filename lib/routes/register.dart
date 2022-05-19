@@ -119,91 +119,89 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(0xFFFFFAFA),
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          reverse: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: (screenHeight(context, dividedBy: 40)),
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFFAFA),
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        reverse: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: (screenHeight(context, dividedBy: 25)),
+            ),
+            Image(
+              image: const AssetImage("assets/images/logo.webp"),
+              height: screenHeight(context, dividedBy: 2.75),
+            ),
+            SizedBox(
+              height: screenHeight(context, dividedBy: 50),
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  StyledTextField(
+                      icon: Icons.account_box_sharp,
+                      placeholder: 'Full Name',
+                      validator: nameValidator,
+                      onChanged: handleNameSave),
+                  StyledTextField(
+                      icon: Icons.perm_identity_rounded,
+                      placeholder: "Username",
+                      validator: usernameValidator,
+                      onChanged: handleUsernameSave),
+                  StyledTextField(
+                    inputType: TextInputType.emailAddress,
+                    icon: Icons.email,
+                    placeholder: "Email Address",
+                    validator: emailValidator,
+                    onChanged: handleEmailSave,
+                  ),
+                  StyledPasswordField(
+                      onChanged: handlePasswordSave,
+                      validator: passwordValidator),
+                  StyledButton(
+                    label: "register",
+                    onPressed: handleButtonPress,
+                  )
+                ],
               ),
-              Image(
-                image: const AssetImage("assets/images/logo.webp"),
-                height: screenHeight(context, dividedBy: 2.75),
-              ),
-              SizedBox(
-                height: screenHeight(context, dividedBy: 50),
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    StyledTextField(
-                        icon: Icons.account_box_sharp,
-                        placeholder: 'Full Name',
-                        validator: nameValidator,
-                        onChanged: handleNameSave),
-                    StyledTextField(
-                        icon: Icons.perm_identity_rounded,
-                        placeholder: "Username",
-                        validator: usernameValidator,
-                        onChanged: handleUsernameSave),
-                    StyledTextField(
-                      inputType: TextInputType.emailAddress,
-                      icon: Icons.email,
-                      placeholder: "Email Address",
-                      validator: emailValidator,
-                      onChanged: handleEmailSave,
+            ),
+            Divider(
+              thickness: 2,
+              color: const Color(0xFF012169),
+              indent: screenWidth(context, dividedBy: 15),
+              endIndent: screenWidth(context, dividedBy: 15),
+            ),
+            RichText(
+                text: TextSpan(
+                    style: Styles.appMainTextStyle,
+                    children: <TextSpan>[
+                  TextSpan(
+                    text: "Already have an account? ",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
                     ),
-                    StyledPasswordField(
-                        onChanged: handlePasswordSave,
-                        validator: passwordValidator),
-                    StyledButton(
-                      label: "register",
-                      onPressed: handleButtonPress,
-                    )
-                  ],
-                ),
-              ),
-              Divider(
-                thickness: 2,
-                color: const Color(0xFF012169),
-                indent: screenWidth(context, dividedBy: 15),
-                endIndent: screenWidth(context, dividedBy: 15),
-              ),
-              RichText(
-                  text: TextSpan(
-                      style: Styles.appMainTextStyle,
-                      children: <TextSpan>[
-                    TextSpan(
-                      text: "Already have an account? ",
+                  ),
+                  TextSpan(
+                      text: " Log In",
                       style: GoogleFonts.poppins(
                         fontSize: 14,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    TextSpan(
-                        text: " Log In",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Login()));
-                          }),
-                  ])),
-              SizedBox(
-                height: (screenHeight(context) / 100) * 2,
-              ),
-            ],
-          ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Login()));
+                        }),
+                ])),
+            SizedBox(
+              height: (screenHeight(context) / 100) * 2,
+            ),
+          ],
         ),
       ),
     );
