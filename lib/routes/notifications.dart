@@ -57,44 +57,42 @@ class _NotificationsViewState extends State<Notifications> {
     }
     return Scaffold(
       appBar: AppBar(
-        actions: <Widget>[
-
-          IconButton(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
             icon: const Icon(
               Icons.arrow_back,
-              color: AppColors.buttonColor,
+              color: AppColors.titleColor,
             ),
+            color: Colors.black,
             onPressed: () {
-              // do something
+              Navigator.pop(context);
             },
-          )
-        ],
-        title: Text(
+          ),
+          title: Text(
           'Notifications',
           style: Styles.appBarTitleTextStyle,
           )
         ),
-        backgroundColor: const Color(0xCBFFFFFF),
+
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    SizedBox(width: 8,),
-                  ],
-                ),
-                Column(
-                  children: notifications.map((notifications) => NotificationCard(
-                    notification: notifications,
-                  )).toList(),
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  SizedBox(width: 8,),
+                ],
+              ),
+              Column(
+                children: notifications.map((notifications) => NotificationCard(
+                  notification: notifications,
+                )).toList(),
+              ),
+            ],
           ),
         ),
       ),
