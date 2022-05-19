@@ -15,8 +15,8 @@ List<Post> samplePosts = [
     ),
     caption: "Very Beautiful day in San Francisco",
     date: "21 June 2021",
-    likes: 505,
-    comments: 15,
+    // likes: 505,
+    // comments: 15,
     location: "Golden Gate Bridge",
     imageName: 'assets/images/goldengate.jpg',
   ),
@@ -27,8 +27,8 @@ List<Post> samplePosts = [
       fullName: "Işıktan Tanış",
     ),
     date: "8 November 2021",
-    likes: 488,
-    comments: 27,
+    // likes: 488,
+    // comments: 27,
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
@@ -39,9 +39,9 @@ List<Post> samplePosts = [
     ),
     caption: "With my new Whip",
     date: "27 May 2021",
-    likes: 1070897,
-
-    comments: 7787,
+    // likes: 1070897,
+    //
+    // comments: 7787,
     location: "Tesla Inc. HQ",
     imageName: 'assets/images/eloncar.jpg',
   ),
@@ -53,9 +53,9 @@ List<Post> samplePosts = [
     ),
     caption: "Live Like A Champion",
     date: "16 May 2021",
-    likes: 247,
-
-    comments: 12,
+    // likes: 247,
+    //
+    // comments: 12,
     imageName: "assets/images/muhammed_ali.jpg",
   )
 ];
@@ -72,19 +72,19 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   void addComment(Post post) {
     setState(() {
-      post.comments++;
+      // post.comments++;
     });
   }
 
   void addLikes(Post post) {
     setState(() {
-      post.likes++;
+      // post.likes++;
     });
   }
 
   void addDislikes(Post post) {
     setState(() {
-      post.likes--;
+      // post.likes--;
     });
   }
 
@@ -93,7 +93,6 @@ class _HomeViewState extends State<HomeView> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-
           backgroundColor: Colors.white,
           leading: IconButton(
             padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
@@ -118,7 +117,10 @@ class _HomeViewState extends State<HomeView> {
               color: AppColors.titleColor,
               iconSize: 40,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageBox()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MessageBox()));
               },
             ),
           ],
