@@ -1,4 +1,5 @@
 import 'package:cs310_group_28/models/message.dart';
+import 'package:cs310_group_28/routes/chat_screen.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -12,12 +13,16 @@ class Messagecard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      margin: const EdgeInsets.symmetric(vertical: 1.5, horizontal: 3),
+      margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
       child: InkWell(
-        onTap: () {null;},
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return const ChatScreen();
+          }));
+        },
         splashColor: const Color(0xFFA1A1A1),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 20, 5, 20),
+          padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               //crossAxisAlignment: CrossAxisAlignment.center,
