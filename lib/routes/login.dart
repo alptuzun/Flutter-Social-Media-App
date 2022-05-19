@@ -33,14 +33,14 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: (screenHeight(context) / 100) * 4,
+              height: (screenHeight(context) / 100) * 5,
             ),
             Image(
               image: const AssetImage("assets/images/logo.webp"),
               height: screenHeight(context, dividedBy: 2.75),
             ),
             SizedBox(
-              height: (screenHeight(context) / 100) * 10,
+              height: (screenHeight(context) / 100) * 16,
             ),
             Form(
               key: _formKey,
@@ -48,8 +48,9 @@ class _LoginState extends State<Login> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
+                    margin: EdgeInsets.zero,
                     width: screenWidth(context, dividedBy: 1.1),
-                    height: screenHeight(context, dividedBy: 9),
+                    height: screenHeight(context, dividedBy: 9.5),
                     child: Material(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(30),
@@ -79,7 +80,8 @@ class _LoginState extends State<Login> {
                         decoration: InputDecoration(
                           isDense: true,
                           label: SizedBox(
-                            width: screenWidth(context, dividedBy: 1.2),
+                            height: (screenHeight(context) / 100) * 4,
+                            width: screenWidth(context, dividedBy: 1.1),
                             child: Row(
                               children: [
                                 const Icon(Icons.email),
@@ -122,10 +124,12 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+
                   Container(
                     padding: const EdgeInsets.all(8),
+                    margin: EdgeInsets.zero,
                     width: screenWidth(context, dividedBy: 1.1),
-                    height: screenHeight(context, dividedBy: 9),
+                    height: screenHeight(context, dividedBy: 9.5),
                     child: Material(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(30),
@@ -160,7 +164,8 @@ class _LoginState extends State<Login> {
                         decoration: InputDecoration(
                           isDense: true,
                           label: SizedBox(
-                            width: screenWidth(context, dividedBy: 1.2),
+                            height: (screenHeight(context) / 100) * 4,
+                            width: screenWidth(context, dividedBy: 1.1),
                             child: Row(
                               children: [
                                 const Icon(Icons.password),
@@ -182,7 +187,7 @@ class _LoginState extends State<Login> {
                             borderSide: const BorderSide(
                               color: Colors.black,
                             ),
-                            borderRadius: BorderRadius.circular(35),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                         validator: (value) {
@@ -203,7 +208,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   SizedBox(
-                    height: (screenHeight(context) / 100) * 2,
+                    height: (screenHeight(context) / 110),
                   ),
                   Container(
                     width: (screenWidth(context) / 100) * 48,

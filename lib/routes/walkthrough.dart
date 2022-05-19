@@ -1,9 +1,10 @@
+import 'package:cs310_group_28/models/shared_preferences.dart';
 import 'package:cs310_group_28/routes/welcome.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 
 class WalkThrough extends StatefulWidget {
   const WalkThrough({Key? key}) : super(key: key);
@@ -13,24 +14,15 @@ class WalkThrough extends StatefulWidget {
 }
 
 class _WalkThroughState extends State<WalkThrough> {
-
-
   int currentIndex = 0;
   bool isLastPage = false;
 
   final controller = PageController(initialPage: 0);
 
-
   @override
-  void dispose(){
+  void dispose() {
     controller.dispose();
     super.dispose();
-  }
-
-  _storeWalkthroughInfo() async {
-    int isViewed =0;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("walkthrough", isViewed);
   }
 
   @override
@@ -45,28 +37,27 @@ class _WalkThroughState extends State<WalkThrough> {
           },
           children: [
             Container(
-              color: Colors.white70,
+              color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
+                children: [
                   Text(
                     "WELCOME",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 70,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: screenHeight(context, dividedBy: 40)),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: Text(
-                      "to walkthrough click next to start.",
+                      "To walkthrough click next to start",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           color: AppColors.mainTextColor,
                           fontSize: 30,
-                          fontWeight: FontWeight.normal
                       ),
                     ),
                   ),
@@ -76,66 +67,64 @@ class _WalkThroughState extends State<WalkThrough> {
             Container(
               color: Colors.white70,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
-                   Icon(
-                     Icons.home_outlined,
-                     color: Colors.blueAccent,
-                     size: 150,
-                   ),
-                    Text(
-                      "FEED",
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.home_outlined,
+                    color: Colors.blueAccent,
+                    size: 150,
+                  ),
+                  Text(
+                    "FEED",
+                    style: GoogleFonts.poppins(
+                      color: Colors.blueAccent,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 24),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Text(
-                        "You can view your friendss' posts, like and comment to these posts.",
-                          textAlign: TextAlign.center,
-                        style: TextStyle(
+                  ),
+                  SizedBox(height: screenHeight(context, dividedBy: 28)),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text(
+                      "You can view your friends' posts, like and comment to these posts.",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
                           color: AppColors.mainTextColor,
                           fontSize: 25,
-                          fontWeight: FontWeight.normal
-                        ),
-                      ),
+                          fontWeight: FontWeight.normal),
                     ),
-                  ],
+                  ),
+                ],
               ),
             ),
             Container(
               color: Colors.white70,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.account_circle_outlined,
                     color: Colors.blueAccent,
                     size: 150,
                   ),
                   Text(
                     "PROFILE",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: screenHeight(context, dividedBy: 28)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
                       "You can view and edit your profile.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           color: AppColors.mainTextColor,
                           fontSize: 25,
-                          fontWeight: FontWeight.normal
-                      ),
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -145,31 +134,30 @@ class _WalkThroughState extends State<WalkThrough> {
               color: Colors.white70,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.storefront_outlined,
                     color: Colors.blueAccent,
                     size: 150,
                   ),
                   Text(
                     "MARKET",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: screenHeight(context, dividedBy: 28)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
                       "You can buy and sell things in the market.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           color: AppColors.mainTextColor,
                           fontSize: 25,
-                          fontWeight: FontWeight.normal
-                      ),
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -179,31 +167,30 @@ class _WalkThroughState extends State<WalkThrough> {
               color: Colors.white70,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.search,
                     color: Colors.blueAccent,
                     size: 150,
                   ),
                   Text(
                     "SEARCH",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: screenHeight(context, dividedBy: 28)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
                       "You can search people, tags, items and locations.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           color: AppColors.mainTextColor,
                           fontSize: 25,
-                          fontWeight: FontWeight.normal
-                      ),
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -213,31 +200,30 @@ class _WalkThroughState extends State<WalkThrough> {
               color: Colors.white70,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.forum_outlined,
                     color: Colors.blueAccent,
                     size: 150,
                   ),
                   Text(
                     "MESSAGE BOX",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: screenHeight(context, dividedBy: 28)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
-                      "You can message to your friends.",
+                      "You can message to your friends, check for any information on the listed items.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           color: AppColors.mainTextColor,
                           fontSize: 25,
-                          fontWeight: FontWeight.normal
-                      ),
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -247,31 +233,31 @@ class _WalkThroughState extends State<WalkThrough> {
               color: Colors.white70,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.notifications_none_rounded,
                     color: Colors.blueAccent,
                     size: 150,
                   ),
                   Text(
                     "NOTIFICATION TAB",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: screenHeight(context, dividedBy: 28)),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
-                      "You can check your notifications in notification tab.",
+                      "You can check your notifications in notification tab via the upper-left corner button."
+                      " You can also update your notification preferences",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           color: AppColors.mainTextColor,
                           fontSize: 25,
-                          fontWeight: FontWeight.normal
-                      ),
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -280,64 +266,59 @@ class _WalkThroughState extends State<WalkThrough> {
           ],
         ),
       ),
-      bottomSheet: isLastPage ? TextButton(
-        style: TextButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0)
-          ),
-          primary: Colors.white,
-          backgroundColor: Colors.blueAccent,
-          minimumSize: const Size.fromHeight(80)
-        ),
-          onPressed: (){
-            _storeWalkthroughInfo();
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const Welcome()));
-          },
-          child: const Text('Get Started',
-          style: TextStyle(fontSize: 24),
-          )
-      )
-      : Container(
-        padding: const EdgeInsets.symmetric(horizontal: 35),
-        height: 80,
-        color: Colors.white70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextButton(
-                onPressed: () => controller.jumpToPage(2),
-                child: Text('SKIP')
-            ),
-            Center(
-              child: SmoothPageIndicator(
-                controller: controller,
-                count: 7,
-                effect: WormEffect(
-                  spacing: 16,
-                  dotColor: Colors.black26,
-                  activeDotColor: Colors.blueAccent,
-                ),
-                onDotClicked: (index) => controller.animateToPage(
-                    index,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeIn),
+      bottomSheet: isLastPage
+          ? TextButton(
+              style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0)),
+                  primary: Colors.white,
+                  backgroundColor: Colors.blueAccent,
+                  minimumSize: const Size.fromHeight(80)),
+              onPressed: () {
+                MySharedPreferences.instance.setBooleanValue("loggedIn", true);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Welcome()));
+              },
+              child: Text(
+                'Get Started',
+                style: GoogleFonts.poppins(fontSize: 24),
+              ))
+          : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+              height: 80,
+              color: Colors.white70,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () => controller.jumpToPage(6),
+                      child: Text('SKIP',
+                      style: GoogleFonts.poppins(),)),
+                  Center(
+                    child: SmoothPageIndicator(
+                      controller: controller,
+                      count: 7,
+                      effect: const WormEffect(
+                        spacing: 16,
+                        dotColor: Colors.black26,
+                        activeDotColor: Colors.blueAccent,
+                      ),
+                      onDotClicked: (index) => controller.animateToPage(index,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeIn),
+                    ),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    child: Text('NEXT',
+                    style: GoogleFonts.poppins(),),
+                    onPressed: () => controller.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut),
+                  ),
+                ],
               ),
             ),
-            Spacer(),
-            TextButton(
-            child: Text('NEXT'),
-              onPressed: () => controller.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut),
-            ),
-          ],
-        ),
-      ),
-
-
     );
   }
 }
-
-

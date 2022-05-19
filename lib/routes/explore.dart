@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 import 'package:cs310_group_28/routes/home_view.dart';
-import 'package:cs310_group_28/ui/searchcard.dart';
+import 'package:cs310_group_28/routes/messages_screen.dart';
+import 'package:cs310_group_28/ui/search_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'message_box.dart';
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -63,7 +61,7 @@ class _ExploreState extends State<Explore> {
                                 context: context,
                                 delegate: MySearchDelegate(),
                               );},
-                            icon:Icon(Icons.search_rounded),
+                            icon:const Icon(Icons.search_rounded),
                             iconSize:30,
                           ),
 
