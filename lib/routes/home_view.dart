@@ -2,6 +2,7 @@ import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/message_box.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
@@ -92,13 +93,13 @@ class _HomeViewState extends State<HomeView> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0,
+
           backgroundColor: Colors.white,
           leading: IconButton(
             padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
             splashRadius: 27,
             icon: const Icon(Icons.notifications_none_rounded),
-            color: Colors.grey,
+            color: AppColors.titleColor,
             iconSize: 40,
             onPressed: () {
               null;
@@ -114,7 +115,7 @@ class _HomeViewState extends State<HomeView> {
               padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
               splashRadius: 27,
               icon: const Icon(Icons.forum_outlined),
-              color: Colors.grey,
+              color: AppColors.titleColor,
               iconSize: 40,
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageBox()));
