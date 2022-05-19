@@ -10,6 +10,7 @@ class Notifications extends StatefulWidget {
   State<Notifications> createState() => _NotificationViewState();
 }
 
+
 class _NotificationViewState extends State<Notifications> {
   List<Notification> Notifications = [
 
