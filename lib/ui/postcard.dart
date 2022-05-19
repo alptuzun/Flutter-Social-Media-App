@@ -11,7 +11,12 @@ class PostCard extends StatelessWidget {
   final VoidCallback likes;
   final VoidCallback dislikes;
 
-  const PostCard({Key? key, required this.post, required this.comment, required this.likes, required this.dislikes})
+  const PostCard(
+      {Key? key,
+      required this.post,
+      required this.comment,
+      required this.likes,
+      required this.dislikes})
       : super(key: key);
 
   @override
@@ -40,7 +45,6 @@ class PostCard extends StatelessWidget {
                     color: Colors.black45,
                   ),
                   textAlign: TextAlign.start,
-
                 ),
                 const Spacer(),
                 Text(
@@ -97,7 +101,7 @@ class PostCard extends StatelessWidget {
                 const Spacer(
                   flex: 2,
                 ),
-                Text(post.likes.toString(),
+                Text(post.getNumLikes().toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
                   flex: 52,
@@ -114,11 +118,9 @@ class PostCard extends StatelessWidget {
                 const Spacer(
                   flex: 2,
                 ),
-                Text(post.comments.toString(),
-                    style: Styles.appMainTextStyle
-                ),
-                const Spacer(
-                ),
+                Text(post.getNumComments().toString(),
+                    style: Styles.appMainTextStyle),
+                const Spacer(),
               ],
             )
           ],
