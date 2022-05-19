@@ -1,10 +1,10 @@
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/message.dart';
 import 'package:cs310_group_28/ui/messagecard.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 List<Message> sampleMessages = [
   Message(
@@ -136,8 +136,6 @@ class MessageBox extends StatefulWidget {
 }
 
 class _MessageBoxState extends State<MessageBox> {
-  final _formKey2 = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,58 +177,24 @@ class _MessageBoxState extends State<MessageBox> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15, horizontal: 26),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: Form(
-                    key: _formKey2,
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        label: SizedBox(
-                          width: double.infinity,
-                          child: Row(
-                            //mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Search',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                    fontSize: 13,
-                                    fontStyle: FontStyle.italic),
-                              ),
-                              const Spacer(),
-                              const Icon(Icons.search),
-                            ],
-                          ),
-                        ),
-                        fillColor: Colors.white,
-                        filled: true,
-                        labelStyle: Styles.boldTitleTextStyle,
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: AppColors.buttonColor),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: sampleMessages
-                    .map((message) => Messagecard(
-                          message: message,
-                        ))
-                    .toList(),
+                children: [
+                  SizedBox(
+                    height: screenHeight(context, dividedBy: 60),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: sampleMessages
+                        .map((message) => Messagecard(
+                              message: message,
+                            ))
+                        .toList(),
+                  ),
+                  SizedBox(
+                    height: screenHeight(context, dividedBy: 60),
+                  ),
+                ],
               ),
             ],
           ),
@@ -275,13 +239,13 @@ class MySearchDelegate extends SearchDelegate {
 
     return ListView.builder(
       itemCount: allResults.length,
-      itemBuilder: (context, index) =>
-          ListTile(
-            title: Text(allResults.elementAt(index)),
-            onTap: () {
-              Center(child: const Text("alp"),);
-            }
-          ),
+      itemBuilder: (context, index) => ListTile(
+          title: Text(allResults.elementAt(index)),
+          onTap: () {
+            const Center(
+              child: Text("alp"),
+            );
+          }),
     );
   }
 

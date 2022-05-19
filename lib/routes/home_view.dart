@@ -1,6 +1,6 @@
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
-import 'package:cs310_group_28/routes/message_box.dart';
+import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
