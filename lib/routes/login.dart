@@ -34,14 +34,14 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: (screenHeight(context) / 100) * 2.5,
+                height: (screenHeight(context) / 100) * 4,
               ),
               Image(
                 image: const AssetImage("assets/images/logo.webp"),
                 height: screenHeight(context, dividedBy: 2.75),
               ),
               SizedBox(
-                height: (screenHeight(context) / 100) * 20,
+                height: (screenHeight(context) / 100) * 10,
               ),
               Form(
                 key: _formKey,
@@ -50,6 +50,7 @@ class _LoginState extends State<Login> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       width: screenWidth(context, dividedBy: 1.1),
+                      height: screenHeight(context, dividedBy: 9),
                       child: Material(
                         color: Colors.transparent,
                         elevation: 8,
@@ -127,6 +128,7 @@ class _LoginState extends State<Login> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       width: screenWidth(context, dividedBy: 1.1),
+                      height: screenHeight(context, dividedBy: 9),
                       child: Material(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(30),

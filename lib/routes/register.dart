@@ -2,6 +2,7 @@ import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/ui/styled_button.dart';
 import 'package:cs310_group_28/ui/styled_password_field.dart';
 import 'package:cs310_group_28/ui/styled_text_field.dart';
+import 'package:cs310_group_28/visuals/alerts.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -26,31 +28,19 @@ class _RegisterState extends State<Register> {
   final validCharacters = RegExp(r'^[a-zA-Z0-9_]+$');
   final _formKey = GlobalKey<FormState>();
 
-  void handleEmailSave(String? val) {
-    setState(() {
-      email = val ?? "";
-    });
-  }
-
-  void handlePasswordSave(String? val) {
-    setState(() {
-      password = val ?? "";
-    });
-  }
-
-  String usernameValidator(String? username) {
-    if (username == null) {
-      return "Username cannot be blank.";
+  String? usernameValidator(String? username) {
+    if(username != null) {
+      if(username.isEmpty) {
+        return "Cannot leave username empty";
+      }
+      else if ((username.length >= 4 && username.length <= 14) && validCharacters.hasMatch(username)) {
+        return "Please enter a proper username";
+      }
     }
-    if ((username.length >= 4 && username.length <= 14) &&
-        validCharacters.hasMatch(username)) {
-      return "";
-    } else {
-      return "Enter a valid username";
-    }
+    return null;
   }
 
-  String nameValidator(String? value) {
+  String? nameValidator(String? value) {
     if (value != null) {
       if (value.isEmpty) {
         return 'Cannot leave your name empty';
@@ -59,7 +49,31 @@ class _RegisterState extends State<Register> {
         return 'Please enter a proper full name';
       }
     }
-    return "";
+    return null;
+  }
+
+  String? passwordValidator(String? value) {
+    if (value != null) {
+      if (value.isEmpty) {
+        return 'Cannot leave your password empty';
+      }
+      if (value.length < 6) {
+        return 'Please enter a valid password';
+      }
+    }
+    return null;
+  }
+
+  String? emailValidator(String? value) {
+    if (value != null) {
+      if (value.isEmpty) {
+        return 'Cannot leave your email empty';
+      }
+      else if (!EmailValidator.validate(value)) {
+        return 'Please enter a valid email address';
+      }
+    }
+    return null;
   }
 
   void handleNameSave(String? val) {
@@ -74,13 +88,31 @@ class _RegisterState extends State<Register> {
     });
   }
 
+  void handleEmailSave(String? val) {
+    setState(() {
+      email = val ?? "";
+    });
+  }
+
+  void handlePasswordSave(String? val) {
+    setState(() {
+      password = val ?? "";
+    });
+  }
+
   void handleButtonPress() {
     if (kDebugMode) {
       print(
           "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
     }
-    Navigator.pushNamedAndRemoveUntil(
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (r) => false);
+    } else {
+      Alerts.showAlert(context, 'Login Error',
+          'Please enter your password');
+    }
   }
 
   @override
@@ -92,9 +124,10 @@ class _RegisterState extends State<Register> {
           physics: const NeverScrollableScrollPhysics(),
           reverse: true,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: (screenHeight(context) / 100) * 2.5,
+                height: (screenHeight(context) / 100) * 4,
               ),
               Image(
                 image: const AssetImage("assets/images/logo.webp"),
@@ -120,9 +153,12 @@ class _RegisterState extends State<Register> {
                     StyledTextField(
                         inputType: TextInputType.emailAddress,
                         icon: Icons.email,
-                        placeholder: ("Email Address"),
-                        onChanged: handleEmailSave),
-                    StyledPasswordField(onChanged: handlePasswordSave),
+                        placeholder: "Email Address",
+                        validator: emailValidator,
+                        onChanged: handleEmailSave,
+                    ),
+                    StyledPasswordField(onChanged: handlePasswordSave,
+                    validator: passwordValidator),
                     StyledButton(
                       label: "register",
                       onPressed: handleButtonPress,

@@ -1,4 +1,6 @@
 import 'package:cs310_group_28/ui/styled_text_field_container.dart';
+import 'package:cs310_group_28/visuals/app_dimensions.dart';
+import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,6 +20,7 @@ class StyledPasswordField extends StatefulWidget {
 
 class _StyledPasswordFieldState extends State<StyledPasswordField> {
   bool isVisible = false;
+
   void togglePasswordVisibility() {
     setState(() {
       isVisible = !isVisible;
@@ -27,25 +30,34 @@ class _StyledPasswordFieldState extends State<StyledPasswordField> {
   @override
   Widget build(BuildContext context) {
     return StyledTextFieldContainer(
-        child: TextFormField(
-      keyboardType: TextInputType.visiblePassword,
-      onChanged: widget.onChanged,
-      autocorrect: false,
-      decoration: InputDecoration(
-          hintText: "Password",
-          hintStyle: GoogleFonts.poppins(fontSize: 14),
-          icon: const Icon(
-            Icons.password,
-            color: Color(0xFF012169),
-          ),
-          border: InputBorder.none,
-          suffixIcon: IconButton(
-            icon: Icon(isVisible ? Icons.visibility_off : Icons.visibility,
-                color: const Color(0xFF012169)),
-            onPressed: togglePasswordVisibility,
-          )),
-      obscureText: !isVisible,
-      validator: widget.validator,
-    ));
+        child: Container(
+            padding: Dimensions.regularPadding,
+            width: screenWidth(context, dividedBy: 1.1),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(30),
+              child: TextFormField(
+                keyboardType: TextInputType.visiblePassword,
+                onChanged: widget.onChanged,
+                autocorrect: false,
+                decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle: GoogleFonts.poppins(fontSize: 14),
+                    icon: const Icon(
+                      Icons.password,
+                      color: Color(0xFF012169),
+                    ),
+                    border: InputBorder.none,
+                    suffixIcon: IconButton(
+                      iconSize: 30,
+                      icon: Icon(
+                          isVisible ? Icons.visibility_off : Icons.visibility,
+                          color: const Color(0xFF012169)),
+                      onPressed: togglePasswordVisibility,
+                    )),
+                obscureText: !isVisible,
+                validator: widget.validator,
+              ),
+            ),));
   }
 }
