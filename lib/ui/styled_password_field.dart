@@ -2,6 +2,9 @@ import 'package:cs310_group_28/ui/styled_text_field_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../visuals/app_dimensions.dart';
+import '../visuals/screen_size.dart';
+
 class StyledPasswordField extends StatefulWidget {
   final String? Function(String?)? validator;
   final ValueChanged<String> onChanged;
@@ -27,25 +30,35 @@ class _StyledPasswordFieldState extends State<StyledPasswordField> {
   @override
   Widget build(BuildContext context) {
     return StyledTextFieldContainer(
-        child: TextFormField(
-      keyboardType: TextInputType.visiblePassword,
-      onChanged: widget.onChanged,
-      autocorrect: false,
-      decoration: InputDecoration(
-          hintText: "Password",
-          hintStyle: GoogleFonts.poppins(fontSize: 14),
-          icon: const Icon(
-            Icons.password,
-            color: Color(0xFF012169),
-          ),
-          border: InputBorder.none,
-          suffixIcon: IconButton(
-            icon: Icon(isVisible ? Icons.visibility_off : Icons.visibility,
-                color: const Color(0xFF012169)),
-            onPressed: togglePasswordVisibility,
-          )),
-      obscureText: !isVisible,
-      validator: widget.validator,
-    ));
+        child: Container(
+            padding: Dimensions.regularPadding,
+            width: screenWidth(context, dividedBy: 1.1),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(30),
+              child: TextFormField(
+                validator: widget.validator,
+                keyboardType: TextInputType.visiblePassword,
+                onChanged: widget.onChanged,
+                autocorrect: false,
+                obscureText: !isVisible,
+                decoration: InputDecoration(
+                    isDense: true,
+                    hintText: "Password",
+                    hintStyle: GoogleFonts.poppins(fontSize: 14),
+                    icon: const Icon(
+                      Icons.password,
+                      color: Color(0xFF012169),
+                    ),
+                    border: InputBorder.none,
+                    suffixIcon: IconButton(
+                        icon: Icon(
+                            isVisible ? Icons.visibility_off : Icons.visibility,
+                            color: const Color(0xFF012169)),
+                        onPressed: togglePasswordVisibility,
+                        padding: const EdgeInsets.all(0)),
+                    suffixIconConstraints: const BoxConstraints(maxHeight: 24)),
+              ),
+            )));
   }
 }

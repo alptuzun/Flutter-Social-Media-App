@@ -80,7 +80,7 @@ class _RegisterState extends State<Register> {
           "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
     }
     Navigator.pushNamedAndRemoveUntil(
-          context, PageNavigator.routeName, (r) => false);
+        context, PageNavigator.routeName, (r) => false);
   }
 
   @override
@@ -94,14 +94,14 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: [
               SizedBox(
-                height: (screenHeight(context) / 100) * 2.5,
+                height: (screenHeight(context, dividedBy: 40)),
               ),
               Image(
                 image: const AssetImage("assets/images/logo.webp"),
                 height: screenHeight(context, dividedBy: 2.75),
               ),
               SizedBox(
-                height: (screenHeight(context) / 100) * 2,
+                height: screenHeight(context, dividedBy: 50),
               ),
               Form(
                 key: _formKey,
@@ -131,10 +131,10 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               Divider(
-                color: Colors.black,
-                thickness: 1.5,
-                indent: (screenWidth(context) / 100) * 15,
-                endIndent: (screenWidth(context) / 100) * 15,
+                thickness: 2,
+                color: const Color(0xFF012169),
+                indent: screenWidth(context, dividedBy: 15),
+                endIndent: screenWidth(context, dividedBy: 15),
               ),
               RichText(
                   text: TextSpan(
@@ -143,16 +143,14 @@ class _RegisterState extends State<Register> {
                     TextSpan(
                       text: "Already have an account? ",
                       style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        letterSpacing: -0.7,
+                        fontSize: 14,
                       ),
                     ),
                     TextSpan(
                         text: " Log In",
                         style: GoogleFonts.poppins(
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          letterSpacing: -0.7,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
