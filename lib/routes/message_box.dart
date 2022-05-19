@@ -220,6 +220,12 @@ class _MessageBoxState extends State<MessageBox> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
+                          onTap: () {
+                            showSearch(
+                              context: context,
+                              delegate: MySearchDelegate(),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -235,7 +241,9 @@ class _MessageBoxState extends State<MessageBox> {
                   ),
                 ],
               ),
-            )));
+            )
+        )
+    );
   }
 }
 

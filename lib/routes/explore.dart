@@ -15,6 +15,7 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
@@ -70,7 +71,9 @@ class _ExploreState extends State<Explore> {
                   ),
                 ),
               ),
-                  Column(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: samplePosts
@@ -78,7 +81,8 @@ class _ExploreState extends State<Explore> {
                       post: post,
                     ))
                         .toList(),
-                  ),
+                ),
+              ),
             ],
           ),
         ),
