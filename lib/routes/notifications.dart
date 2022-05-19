@@ -1,43 +1,41 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cs310_group_28/models/notifications.dart';
-import 'package:cs310_group_28/ui/notificationcard.dart';
-
+import 'package:cs310_group_28/ui/notification_card.dart';
+import 'package:cs310_group_28/models/notification.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
 
   @override
-  State<Notifications> createState() => _NotificationViewState();
+  State<Notifications> createState() => _NotificationsViewState();
 }
 
+class _NotificationsViewState extends State<Notifications> {
+  List<MyNotification> notifications = [
 
-class _NotificationViewState extends State<Notifications> {
-  List<Notification> Notifications = [
-
-    Notifications(
+    MyNotification(
         text: 'Alp commented on your post.',
         date: 'June 21'
     ),
-    Notifications(
+    MyNotification(
         text: 'Sermet followed you.',
         date: 'May 4'
     ),
-    Notifications(
+    MyNotification(
         text: 'Your friend Işıktan joined the App',
         date: 'April 28'
     ),
-    Notifications(
+    MyNotification(
         text: 'Sıla wants to buy your item',
         date: 'April 20'
     ),
-
   ];
 
   int notificationCount = 0;
 
-  void deleteNotification(Notification notification) {
+  void deleteNotification(MyNotification notification) {
     setState(() {
-      Notifications.remove(notification);
+      notifications.remove(notification);
     });
   }
 
@@ -49,8 +47,10 @@ class _NotificationViewState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
 
+    if (kDebugMode) {
+      print('build');
+    }
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -86,13 +86,13 @@ class _NotificationViewState extends State<Notifications> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(width: 8,),
+                  children: const [
+                    SizedBox(width: 8,),
                   ],
                 ),
                 Column(
-                  children: Notifications.map((post) => NotificationCard(
-                    notification: Notifications,
+                  children: notifications.map((notifications) => NotificationCard(
+                    notification: notifications,
                   )).toList(),
                 ),
               ],
