@@ -128,7 +128,7 @@ class _RegisterState extends State<Register> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: (screenHeight(context, dividedBy: 40)),
+              height: (screenHeight(context, dividedBy: 25)),
             ),
             Image(
               image: const AssetImage("assets/images/logo.webp"),
