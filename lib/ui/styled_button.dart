@@ -13,7 +13,7 @@ class StyledButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      width: screenWidth(context, dividedBy: 100 / 48),
+      width: screenWidth(context, dividedBy: 2.4),
       height: screenHeight(context, dividedBy: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(35),

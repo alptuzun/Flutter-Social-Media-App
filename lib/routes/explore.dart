@@ -3,7 +3,6 @@ import 'package:cs310_group_28/ui/searchcard.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cs310_group_28/visuals/colors.dart';
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -52,7 +51,7 @@ class _ExploreState extends State<Explore> {
                           IconButton(
                             onPressed: () {
                               null;},
-                            icon: Icon(Icons.arrow_drop_down_outlined) ,
+                            icon: const Icon(Icons.arrow_drop_down_outlined) ,
                             iconSize: 50,
                           ),
                         ],
