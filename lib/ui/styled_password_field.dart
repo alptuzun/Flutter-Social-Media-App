@@ -4,6 +4,9 @@ import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../visuals/app_dimensions.dart';
+import '../visuals/screen_size.dart';
+
 class StyledPasswordField extends StatefulWidget {
   final String? Function(String?)? validator;
   final ValueChanged<String> onChanged;
@@ -37,10 +40,13 @@ class _StyledPasswordFieldState extends State<StyledPasswordField> {
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(30),
               child: TextFormField(
+                validator: widget.validator,
                 keyboardType: TextInputType.visiblePassword,
                 onChanged: widget.onChanged,
                 autocorrect: false,
+                obscureText: !isVisible,
                 decoration: InputDecoration(
+                    isDense: true,
                     hintText: "Password",
                     hintStyle: GoogleFonts.poppins(fontSize: 14),
                     icon: const Icon(
@@ -49,15 +55,13 @@ class _StyledPasswordFieldState extends State<StyledPasswordField> {
                     ),
                     border: InputBorder.none,
                     suffixIcon: IconButton(
-                      iconSize: 30,
-                      icon: Icon(
-                          isVisible ? Icons.visibility_off : Icons.visibility,
-                          color: const Color(0xFF012169)),
-                      onPressed: togglePasswordVisibility,
-                    )),
-                obscureText: !isVisible,
-                validator: widget.validator,
+                        icon: Icon(
+                            isVisible ? Icons.visibility_off : Icons.visibility,
+                            color: const Color(0xFF012169)),
+                        onPressed: togglePasswordVisibility,
+                        padding: const EdgeInsets.all(0)),
+                    suffixIconConstraints: const BoxConstraints(maxHeight: 24)),
               ),
-            ),));
+            )));
   }
 }

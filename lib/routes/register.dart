@@ -29,11 +29,11 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
   String? usernameValidator(String? username) {
-    if(username != null) {
-      if(username.isEmpty) {
+    if (username != null) {
+      if (username.isEmpty) {
         return "Cannot leave username empty";
-      }
-      else if ((username.length >= 4 && username.length <= 14) && validCharacters.hasMatch(username)) {
+      } else if ((username.length >= 4 && username.length <= 14) &&
+          validCharacters.hasMatch(username)) {
         return "Please enter a proper username";
       }
     }
@@ -68,8 +68,7 @@ class _RegisterState extends State<Register> {
     if (value != null) {
       if (value.isEmpty) {
         return 'Cannot leave your email empty';
-      }
-      else if (!EmailValidator.validate(value)) {
+      } else if (!EmailValidator.validate(value)) {
         return 'Please enter a valid email address';
       }
     }
@@ -105,13 +104,16 @@ class _RegisterState extends State<Register> {
       print(
           "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
     }
+
+    Navigator.pushNamedAndRemoveUntil(
+        context, PageNavigator.routeName, (r) => false);
+
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (r) => false);
     } else {
-      Alerts.showAlert(context, 'Login Error',
-          'Please enter your password');
+      Alerts.showAlert(context, 'Login Error', 'Please enter your password');
     }
   }
 
@@ -127,14 +129,14 @@ class _RegisterState extends State<Register> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: (screenHeight(context) / 100) * 4,
+                height: (screenHeight(context, dividedBy: 40)),
               ),
               Image(
                 image: const AssetImage("assets/images/logo.webp"),
                 height: screenHeight(context, dividedBy: 2.75),
               ),
               SizedBox(
-                height: (screenHeight(context) / 100) * 2,
+                height: screenHeight(context, dividedBy: 50),
               ),
               Form(
                 key: _formKey,
@@ -151,14 +153,15 @@ class _RegisterState extends State<Register> {
                         validator: usernameValidator,
                         onChanged: handleUsernameSave),
                     StyledTextField(
-                        inputType: TextInputType.emailAddress,
-                        icon: Icons.email,
-                        placeholder: "Email Address",
-                        validator: emailValidator,
-                        onChanged: handleEmailSave,
+                      inputType: TextInputType.emailAddress,
+                      icon: Icons.email,
+                      placeholder: "Email Address",
+                      validator: emailValidator,
+                      onChanged: handleEmailSave,
                     ),
-                    StyledPasswordField(onChanged: handlePasswordSave,
-                    validator: passwordValidator),
+                    StyledPasswordField(
+                        onChanged: handlePasswordSave,
+                        validator: passwordValidator),
                     StyledButton(
                       label: "register",
                       onPressed: handleButtonPress,
@@ -167,10 +170,10 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               Divider(
-                color: Colors.black,
-                thickness: 1.5,
-                indent: (screenWidth(context) / 100) * 15,
-                endIndent: (screenWidth(context) / 100) * 15,
+                thickness: 2,
+                color: const Color(0xFF012169),
+                indent: screenWidth(context, dividedBy: 15),
+                endIndent: screenWidth(context, dividedBy: 15),
               ),
               RichText(
                   text: TextSpan(
@@ -179,16 +182,14 @@ class _RegisterState extends State<Register> {
                     TextSpan(
                       text: "Already have an account? ",
                       style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        letterSpacing: -0.7,
+                        fontSize: 14,
                       ),
                     ),
                     TextSpan(
                         text: " Log In",
                         style: GoogleFonts.poppins(
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          letterSpacing: -0.7,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

@@ -15,7 +15,6 @@ class StyledTextFieldContainer extends StatelessWidget {
     return Container(
         padding: Dimensions.regularPadding,
         width: screenWidth(context, dividedBy: 1.1),
-        height: screenHeight(context, dividedBy: 12),
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(27),
