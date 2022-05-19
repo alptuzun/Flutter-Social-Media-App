@@ -8,7 +8,7 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -17,25 +17,17 @@ class NotificationCard extends StatelessWidget {
             Text(
               notification.text,
               style: const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w800,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                    notification.date,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    )
-                ),
-                const Spacer(),
-                const SizedBox(width: 8),
-                const SizedBox(width: 8),
-              ],
-            )
+            Text(
+                notification.date,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.normal,
+                )
+            ),
           ],
         ),
       ),

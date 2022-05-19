@@ -131,8 +131,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
@@ -145,10 +144,6 @@ class _UserProfileState extends State<UserProfile> {
             onPressed: () {
               null;
             },
-          ),
-          title: Text(
-            mockUser.username,
-            style: Styles.appBarTitleTextStyle,
           ),
           centerTitle: true,
           actions: [
@@ -163,6 +158,10 @@ class _UserProfileState extends State<UserProfile> {
               },
             ),
           ],
+          title: Text(
+            mockUser.username,
+            style: Styles.appBarTitleTextStyle,
+          ),
         ),
         backgroundColor: const Color(0xCBFFFFFF),
         body: SingleChildScrollView(
@@ -192,8 +191,6 @@ class _UserProfileState extends State<UserProfile> {
             ),
             content(),
           ],
-        )),
-      ),
-    );
+        )));
   }
 }

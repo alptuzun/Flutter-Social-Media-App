@@ -1,10 +1,10 @@
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/message.dart';
 import 'package:cs310_group_28/ui/messagecard.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 List<Message> sampleMessages = [
   Message(
@@ -136,93 +136,51 @@ class MessageBox extends StatefulWidget {
 }
 
 class _MessageBoxState extends State<MessageBox> {
-  final _formKey2 = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-                  splashRadius: 27,
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 34,
-                  ),
-                  color: AppColors.titleColor,
-                  onPressed: () {
-                    Navigator.pop(context); // pop the context
-                  }),
-              backgroundColor: Colors.white,
-              title: Text(
-                "Messages",
-                style: Styles.appBarTitleTextStyle,
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+              splashRadius: 27,
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                size: 34,
               ),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-                  splashRadius: 27,
-                  icon: const Icon(Icons.search_outlined),
-                  color: AppColors.titleColor,
-                  iconSize: 40,
-                  onPressed: () {
-                    showSearch(
-                      context: context,
-                      delegate: MySearchDelegate(),
-                    );
-                  },
-                ),
-              ],
+              color: AppColors.titleColor,
+              onPressed: () {
+                Navigator.pop(context); // pop the context
+              }),
+          backgroundColor: Colors.white,
+          title: Text(
+            "Messages",
+            style: Styles.appBarTitleTextStyle,
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+              splashRadius: 27,
+              icon: const Icon(Icons.search_outlined),
+              color: AppColors.titleColor,
+              iconSize: 40,
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: MySearchDelegate(),
+                );
+              },
             ),
-            backgroundColor: const Color(0xCBFFFFFF),
-            body: SingleChildScrollView(
-              child: Column(
+          ],
+        ),
+        backgroundColor: const Color(0xCBFFFFFF),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 26),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 40,
-                      child: Form(
-                        key: _formKey2,
-                        child: TextFormField(
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            label: SizedBox(
-                              width: double.infinity,
-                              child: Row(
-                                //mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'Search',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontStyle: FontStyle.italic),
-                                  ),
-                                  const Spacer(),
-                                  const Icon(Icons.search),
-                                ],
-                              ),
-                            ),
-                            fillColor: Colors.white,
-                            filled: true,
-                            labelStyle: Styles.boldTitleTextStyle,
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: AppColors.buttonColor),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    height: screenHeight(context, dividedBy: 60),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -233,9 +191,14 @@ class _MessageBoxState extends State<MessageBox> {
                             ))
                         .toList(),
                   ),
+                  SizedBox(
+                    height: screenHeight(context, dividedBy: 60),
+                  ),
                 ],
               ),
-            )));
+            ],
+          ),
+        ));
   }
 }
 
@@ -276,13 +239,13 @@ class MySearchDelegate extends SearchDelegate {
 
     return ListView.builder(
       itemCount: allResults.length,
-      itemBuilder: (context, index) =>
-          ListTile(
-            title: Text(allResults.elementAt(index)),
-            onTap: () {
-              Center(child: const Text("alp"),);
-            }
-          ),
+      itemBuilder: (context, index) => ListTile(
+          title: Text(allResults.elementAt(index)),
+          onTap: () {
+            const Center(
+              child: Text("alp"),
+            );
+          }),
     );
   }
 
