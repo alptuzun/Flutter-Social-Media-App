@@ -1,10 +1,8 @@
 import 'package:cs310_group_28/routes/home_view.dart';
-import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/ui/search_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -16,7 +14,6 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -24,55 +21,41 @@ class _ExploreState extends State<Explore> {
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          const SliverAppBar(
-            floating: true,
-            actions: [
-            ],
-          )
         ],
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
-                child: TextFormField(
+               Padding(
+                padding: const EdgeInsets.fromLTRB(5, 30, 5, 5),
+                child: TextField(
                   keyboardType: TextInputType.text,
                   autocorrect: false,
-                  decoration:  InputDecoration(
-
+                  decoration: InputDecoration(
                     label: SizedBox(
-                      width:double.infinity,
+                      width: double.infinity,
                       child: Row(
-                        children: [
-
+                        children:  [
                           const SizedBox(width: 10),
                           Text(
                             "Search",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
-                              fontSize: 17.0,
                               color: Colors.grey,
+                              fontSize: 17.0,
                             ),
                           ),
                           const Spacer(),
-                           IconButton(
-                            onPressed: () {
-                              showSearch(
-                                context: context,
-                                delegate: MySearchDelegate(),
-                              );},
-                            icon:const Icon(Icons.search_rounded),
-                            iconSize:30,
-                          ),
-
+                          const Icon(Icons.search_rounded, size: 30),
                           IconButton(
-                            onPressed: () {
-                              null;},
-                            icon: const Icon(Icons.arrow_drop_down_outlined) ,
+                            onPressed: () {null;},
+                            icon: const Icon(Icons.arrow_drop_down_outlined),
                             iconSize: 50,
                           ),
+
+
                         ],
                       ),
+
                     ),
                     fillColor: Colors.white70,
                     filled: true,
@@ -81,14 +64,12 @@ class _ExploreState extends State<Explore> {
                       borderSide: const BorderSide(
                         color: Colors.white70,
                       ),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                ),
+                )
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: samplePosts
@@ -96,8 +77,7 @@ class _ExploreState extends State<Explore> {
                       post: post,
                     ))
                         .toList(),
-                ),
-              ),
+                  ),
             ],
           ),
         ),
