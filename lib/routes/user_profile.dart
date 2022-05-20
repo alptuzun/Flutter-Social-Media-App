@@ -1,5 +1,6 @@
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/ui/profile_banner.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
@@ -142,7 +143,10 @@ class _UserProfileState extends State<UserProfile> {
             color: Colors.grey,
             iconSize: 40,
             onPressed: () {
-              null;
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Notifications()));
             },
           ),
           centerTitle: true,

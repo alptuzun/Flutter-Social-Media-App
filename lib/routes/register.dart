@@ -105,15 +105,13 @@ class _RegisterState extends State<Register> {
           "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
     }
 
-    Navigator.pushNamedAndRemoveUntil(
-        context, PageNavigator.routeName, (r) => false);
-
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (r) => false);
     } else {
-      Alerts.showAlert(context, 'Login Error', 'Please enter your password');
+      Alerts.showAlert(
+          context, 'Signup Error', 'Please fill out the form correctly!');
     }
   }
 
