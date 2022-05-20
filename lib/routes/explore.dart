@@ -14,6 +14,7 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+  bool click= true;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -27,7 +28,7 @@ class _ExploreState extends State<Explore> {
             children: [
                Padding(
                 padding: const EdgeInsets.fromLTRB(5, 30, 5, 5),
-                child: TextField(
+                child: TextFormField(
                   keyboardType: TextInputType.text,
                   autocorrect: false,
                   decoration: InputDecoration(
@@ -45,14 +46,6 @@ class _ExploreState extends State<Explore> {
                             ),
                           ),
                           const Spacer(),
-                          const Icon(Icons.search_rounded, size: 30),
-                          IconButton(
-                            onPressed: () {null;},
-                            icon: const Icon(Icons.arrow_drop_down_outlined),
-                            iconSize: 50,
-                          ),
-
-
                         ],
                       ),
 
@@ -66,7 +59,38 @@ class _ExploreState extends State<Explore> {
                       ),
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    suffixIcon:  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0,0,0,20),
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  click = !click;
+                                });
+                              },
+                              icon: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                                child: Icon((click==false)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
+                                  size:50,
+                                  color: Colors.black ),
+                              )
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.search_rounded, size: 30, color: Colors.black),
+                          onPressed: () {null;},
+                        )
+
+                      ],
+                      //child: Icon(Icons.search_rounded, size: 30, color: Colors.black),
+                    ),
+
                   ),
+
+                   //Icon(Icons.search_rounded, size: 30),
                 )
               ),
                   Column(
