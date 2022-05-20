@@ -1,6 +1,10 @@
 import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/routes/marketplace.dart';
+import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../routes/messages_screen.dart';
 
 Column infoColumn(int number, String text) {
   return Column(
@@ -72,7 +76,12 @@ class ProfileBanner extends StatelessWidget {
                       color: Colors.white.withOpacity(0.5),
                       shape: BoxShape.circle),
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MessageBox()));
+                      },
                       icon: const Icon(Icons.forum),
                       splashRadius: 31,
                       iconSize: 35,
@@ -87,7 +96,12 @@ class ProfileBanner extends StatelessWidget {
                     color: Colors.white.withOpacity(0.5),
                   ),
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MarketPlace()));
+                      },
                       icon: const Icon(Icons.storefront),
                       splashRadius: 31,
                       iconSize: 35,

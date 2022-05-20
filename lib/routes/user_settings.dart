@@ -1,3 +1,4 @@
+import 'package:cs310_group_28/routes/welcome.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -238,25 +239,34 @@ class _UserSettingsState extends State<UserSettings> {
                           fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
-                  Container(
-                    color: Colors.white,
-                    child: Row(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(mockUser.profilePicture),
-                              minRadius: 17.5,
-                            )),
-                        Text(
-                          "Log out of ${mockUser.username}",
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xff012169)),
-                        )
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Welcome()),
+                          (r) => false);
+                    },
+                    child: Container(
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    AssetImage(mockUser.profilePicture),
+                                minRadius: 17.5,
+                              )),
+                          Text(
+                            "Log out of ${mockUser.username}",
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xff012169)),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
