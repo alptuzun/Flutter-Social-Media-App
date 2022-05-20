@@ -11,13 +11,15 @@ class User {
   List<User> following = [];
   List<User> followers = [];
   String profilePicture;
+  bool private;
 
   User(
       {required this.username,
       required this.fullName,
       required this.email,
       this.phone,
-      this.profilePicture = "assets/images/default_profile_picture.webp"});
+      this.profilePicture = "assets/images/default_profile_picture.webp",
+      this.private = false});
 
   int getNumPosts() {
     return posts.length;
@@ -33,5 +35,9 @@ class User {
 
   void addPost(Post p) {
     posts.add(p);
+  }
+
+  void setPrivate(bool val) {
+    private = val;
   }
 }

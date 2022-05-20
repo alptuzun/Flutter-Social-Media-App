@@ -154,7 +154,7 @@ class _UserProfileState extends State<UserProfile> {
               color: Colors.grey,
               iconSize: 40,
               onPressed: () {
-                null;
+                Navigator.pushNamed(context, "user_settings");
               },
             ),
           ],
