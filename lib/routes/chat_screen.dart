@@ -1,8 +1,8 @@
+import 'package:cs310_group_28/visuals/app_dimensions.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/ui/chat_message.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -13,6 +13,43 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  chatBubble(Chat myChat) {
+    return Column(
+      children: [
+        Column(
+          children: [
+            Container(
+              padding: Dimensions.regularPadding,
+              alignment: myChat.type == "sender"
+                  ? Alignment.topLeft
+                  : Alignment.topRight,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.75,
+                ),
+                padding: Dimensions.regularPadding,
+                margin: const EdgeInsets.symmetric(vertical: 0.5),
+                decoration: BoxDecoration(
+                    color: myChat.type == "sender" ? Colors.white : Colors.blue,
+                    borderRadius: BorderRadius.circular(9),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          spreadRadius: 2,
+                          blurRadius: 5)
+                    ]),
+                child: Text(
+                  myChat.message,
+                  style: Styles.appMainTextStyle,
+                ),
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   width: 2,
                 ),
                 const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/MJ.jpg'),
                   maxRadius: 20,
                 ),
                 const SizedBox(
@@ -75,76 +113,50 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemCount: messageList.length,
-            padding: const EdgeInsets.only(top: 10,bottom: 10),
-            itemBuilder: (context, index){
-              return Container(
-                padding: const EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 10),
-                child: Align(
-                  alignment: (messageList[index].type == "receiver" ? Alignment.topLeft : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messageList[index].type  == "receiver" ? Colors.grey.shade200 : Colors.blue[200]),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    child: Text(messageList[index].message,
-                    style: Styles.appMainTextStyle,),
-                  ),
-                ),
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.lightBlue,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Icon(Icons.add,
-                            color: Colors.white, size: 20)),
-                  ),
-                  SizedBox(width: screenWidth(context, dividedBy: 25)),
-                  Expanded(
-                    child: TextField(
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: "Message...",
-                          hintStyle: GoogleFonts.poppins(color: Colors.black54),
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  SizedBox(width: screenWidth(context, dividedBy: 60)),
-                  FloatingActionButton(
-                    onPressed: () {},
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ),
-                ],
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              reverse: true,
+              shrinkWrap: true,
+              itemCount: messageList.length,
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              itemBuilder: (context, index) {
+                return chatBubble(messageList[index]);
+              },
             ),
           ),
+          Container(
+            padding: Dimensions.regularPadding,
+            height: screenHeight(context, dividedBy: 100) * 7,
+            color: Colors.white,
+            child: Row(
+              children: [
+                const IconButton(
+                    onPressed: null,
+                    icon: Icon(Icons.attach_file),
+                  iconSize: 25,
+                  color: Colors.blueAccent,
+                ),
+                Expanded(
+                  child: TextField(
+                    keyboardType: TextInputType.text,
+                    style: Styles.appMainTextStyle,
+                    autocorrect: true,
+                    decoration: const InputDecoration.collapsed(
+                      hintText: "Message..."
+                    ),
+                  ),
+                ),
+                const IconButton(
+                  onPressed: null,
+                  icon: Icon(Icons.send_rounded),
+                  iconSize: 25,
+                  color: Colors.blueAccent,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
