@@ -85,10 +85,11 @@ class MarketCard extends StatelessWidget {
                     //padding: EdgeInsets.zero,
                   ),
                 ),
-
-
-
-
+                const Spacer(
+                  flex:2,
+                ),
+                Text(post.getNumComments().toString(),
+                    style: Styles.appMainTextStyle),
                 const Spacer(
                   flex: 52,
                 ),
@@ -101,11 +102,6 @@ class MarketCard extends StatelessWidget {
                   splashRadius: 14,
                   color: Colors.blue,
                 ),
-                const Spacer(
-                  flex: 2,
-                ),
-                Text(post.getNumComments().toString(),
-                    style: Styles.appMainTextStyle),
                 const Spacer(),
               ],
             )
