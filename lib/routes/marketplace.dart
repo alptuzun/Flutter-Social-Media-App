@@ -4,6 +4,8 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 
 import '../models/post.dart';
 import '../models/user.dart';
+import 'messages_screen.dart';
+import 'notifications.dart';
 List<Post> sampleMarkets = [
   Post(
     user: User(
@@ -88,7 +90,8 @@ class _MarketPlaceState extends State<MarketPlace> {
           color: Colors.grey,
           iconSize: 40,
           onPressed: () {
-            null;
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Notifications()));
           },
         ),
         title: Text(
@@ -104,7 +107,8 @@ class _MarketPlaceState extends State<MarketPlace> {
             color: Colors.grey,
             iconSize: 40,
             onPressed: () {
-              null;
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const MessageBox()));
             },
           ),
         ],
