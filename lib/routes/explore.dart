@@ -19,6 +19,7 @@ class _ExploreState extends State<Explore> {
   void showPopupMenu(){
     showMenu<String>(
       context: context,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))) ,
       position: const RelativeRect.fromLTRB(25.0, 100.0, 0, 0.0),  //position where you want to show the menu on screen
       items: [
         const PopupMenuItem<String>(
