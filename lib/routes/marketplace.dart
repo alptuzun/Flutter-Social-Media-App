@@ -1,6 +1,65 @@
+import 'package:cs310_group_28/ui/marketcard.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
+import '../models/post.dart';
+import '../models/user.dart';
+List<Post> sampleMarkets = [
+  Post(
+    user: User(
+      username: "silaozinan",
+      email: "silaozinan@sabanciuniv.edu",
+      fullName: "Sıla Özinan",
+    ),
+    caption: "fridge for sale",
+    date: "21 September 2021",
+    location: "Sabancı University",
+    imageName: 'assets/images/fridge.jpg',
+    price: "2000 TL"
+  ),
+  Post(
+    user: User(
+      username: "aliozgunakyuz",
+      email: "akyuz@sabanciuniv.edu",
+      fullName: "Ali Özgün Akyüz",
+    ),
+    caption: "couch (only used for one semester)",
+    date: "17 November 2021",
+    // likes: 488,
+    // comments: 27,
+    imageName: 'assets/images/couch.jpg',
+    price:"1000 TL"
+  ),
+  Post(
+    user: User(
+      username: "sermetozgu",
+      email: "sermetozgu@sabanciuniv.edu",
+      fullName: "Sermet Özgü",
+    ),
+    caption: "I'm selling TLL101 books",
+    date: "27 May 2021",
+    // likes: 1070897,
+    //
+    // comments: 7787,
+    location: "Sabancı University",
+    imageName: 'assets/images/books.jpg',
+    price: "150 TL"
+  ),
+  Post(
+    user: User(
+      username: "yasinalbayrak",
+      email: "yasinalbayrak@sabanciuniv.edu",
+      fullName: "Yasin Albayrak",
+    ),
+    caption: "Anyone want to buy a bike?",
+    date: "16 May 2021",
+    // likes: 247,
+    //
+    // comments: 12,
+    imageName: "assets/images/bike.jpg",
+    price: "90 euro"
+  )
+];
 class MarketPlace extends StatefulWidget {
   const MarketPlace({Key? key}) : super(key: key);
 
@@ -11,6 +70,11 @@ class MarketPlace extends StatefulWidget {
 }
 
 class _MarketPlaceState extends State<MarketPlace> {
+  void addtobasket(Post post) {
+    setState(() {
+      // inform user
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +111,18 @@ class _MarketPlaceState extends State<MarketPlace> {
       ),
       backgroundColor: const Color(0xCBFFFFFF),
       body: SingleChildScrollView(
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: sampleMarkets
+              .map((post) => MarketCard(
+            addtobasket: () {
+              addtobasket(post);
+            },
+            post: post,
+          ))
+              .toList(),
+
         ),
       ),
     );
