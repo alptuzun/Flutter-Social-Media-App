@@ -12,13 +12,15 @@ class Post {
   List<Comment> comments = [];
   String? location;
   String imageName;
+  String? price;
 
   Post(
       {required this.user,
       this.caption,
       required this.date,
       this.location,
-      required this.imageName});
+      required this.imageName,
+      this.price});
 
   int getNumLikes() {
     return likes.length;
@@ -27,4 +29,5 @@ class Post {
   int getNumComments() {
     return comments.length;
   }
+
 }

@@ -57,7 +57,7 @@ List<Post> sampleMarkets = [
     //
     // comments: 12,
     imageName: "assets/images/bike.jpg",
-    price: "90 euro"
+    price: "90 €"
   )
 ];
 class MarketPlace extends StatefulWidget {
