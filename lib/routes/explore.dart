@@ -131,6 +131,11 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   bool click= true;
   bool _isopen = false;
+  void closed() {
+    setState(() {
+      _isopen = false;
+    });
+  }
   void showPopupMenu()  {
     _isopen = true;
 
@@ -195,8 +200,7 @@ class _ExploreState extends State<Explore> {
       ],
       elevation: 8.0,
     ).then((_) {
-      _isopen = false;
-
+      closed();
     } );
 
   }
@@ -205,11 +209,8 @@ class _ExploreState extends State<Explore> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: const Color(0xCBFFFFFF),
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        ],
-        body: SingleChildScrollView(
+      body:
+        SingleChildScrollView(
           child: Column(
             children: [
                Padding(
@@ -329,7 +330,7 @@ class _ExploreState extends State<Explore> {
             ],
           ),
         ),
-      ),
+
     );
   }
 }
