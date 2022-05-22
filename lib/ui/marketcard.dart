@@ -88,8 +88,10 @@ class MarketCard extends StatelessWidget {
                 const Spacer(
                   flex:2,
                 ),
-                Text(post.getNumComments().toString(),
-                    style: Styles.appMainTextStyle),
+                if (post.price!= null)
+                  Text(post.price ?? "",
+                    style: Styles.appMainTextStyle,),
+
                 const Spacer(
                   flex: 52,
                 ),

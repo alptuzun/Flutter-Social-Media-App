@@ -15,6 +15,7 @@ List<Post> sampleMarkets = [
     date: "21 September 2021",
     location: "Sabancı University",
     imageName: 'assets/images/fridge.jpg',
+    price: "2000 TL"
   ),
   Post(
     user: User(
@@ -27,6 +28,7 @@ List<Post> sampleMarkets = [
     // likes: 488,
     // comments: 27,
     imageName: 'assets/images/couch.jpg',
+    price:"1000 TL"
   ),
   Post(
     user: User(
@@ -41,6 +43,7 @@ List<Post> sampleMarkets = [
     // comments: 7787,
     location: "Sabancı University",
     imageName: 'assets/images/books.jpg',
+    price: "150 TL"
   ),
   Post(
     user: User(
@@ -54,6 +57,7 @@ List<Post> sampleMarkets = [
     //
     // comments: 12,
     imageName: "assets/images/bike.jpg",
+    price: "90 euro"
   )
 ];
 class MarketPlace extends StatefulWidget {
