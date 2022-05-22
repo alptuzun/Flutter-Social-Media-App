@@ -20,7 +20,7 @@ class SearchCard extends StatelessWidget {
           onTap: (){null;},
           splashColor: const Color(0xFFA1A1A1),
           child: Card(
-                color: Colors.white38,
+                color: Colors.white70,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))
                 ),
@@ -54,7 +54,7 @@ class SearchCard extends StatelessWidget {
           onTap: (){null;},
           splashColor: const Color(0xFFA1A1A1),
           child: Card(
-            color: Colors.white38,
+            color: Colors.white70,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15))
             ),
