@@ -9,6 +9,7 @@ import '../visuals/text_style.dart';
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
   static const String routeName = "user_settings";
+
   @override
   State<UserSettings> createState() => _UserSettingsState();
 }
@@ -146,7 +147,7 @@ class _UserSettingsState extends State<UserSettings> {
                 ],
               ),
               SizedBox(
-                height: 25,
+                height: screenHeight(context, dividedBy: 40),
               ),
               Expanded(
                 child: Column(
@@ -252,7 +253,7 @@ class _UserSettingsState extends State<UserSettings> {
                       child: Row(
                         children: [
                           Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: CircleAvatar(
                                 backgroundImage:
                                     AssetImage(mockUser.profilePicture),

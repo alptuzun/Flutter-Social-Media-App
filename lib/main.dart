@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         Explore.routeName: (context) => const Explore(),
         UserProfile.routeName: (context) => const UserProfile(),
         UserSettings.routeName: (context) => const UserSettings(),
-      },
+      }
     );
   }
 }

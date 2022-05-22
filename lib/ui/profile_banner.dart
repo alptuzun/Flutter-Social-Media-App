@@ -1,10 +1,8 @@
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/marketplace.dart';
-import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../routes/messages_screen.dart';
+import 'package:cs310_group_28/routes/messages_screen.dart';
 
 Column infoColumn(int number, String text) {
   return Column(
@@ -18,8 +16,9 @@ Column infoColumn(int number, String text) {
 }
 
 class ProfileBanner extends StatelessWidget {
-  User user;
-  ProfileBanner({Key? key, required this.user}) : super(key: key);
+  final User user;
+
+  const ProfileBanner({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

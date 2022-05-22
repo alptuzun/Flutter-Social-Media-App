@@ -7,13 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 class MarketCard extends StatelessWidget {
   final Post post;
 
-  final VoidCallback addtobasket;
-
+  final VoidCallback addToBasket;
 
   const MarketCard(
       {Key? key,
         required this.post,
-        required this.addtobasket,
+        required this.addToBasket,
         })
       : super(key: key);
 
@@ -77,13 +76,11 @@ class MarketCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(),
-                Container(
-                  child: Icon(Icons.money,
-                    color: Colors.green,
-                    size: screenWidth(context, dividedBy: 16,)
-                    //constraints: const BoxConstraints(),
-                    //padding: EdgeInsets.zero,
-                  ),
+                Icon(Icons.money,
+                  color: Colors.green,
+                  size: screenWidth(context, dividedBy: 16,)
+                  //constraints: const BoxConstraints(),
+                  //padding: EdgeInsets.zero,
                 ),
                 const Spacer(
                   flex:2,
@@ -99,7 +96,7 @@ class MarketCard extends StatelessWidget {
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
                   icon: const Icon(Icons.shopping_cart_rounded),
-                  onPressed: addtobasket,
+                  onPressed: addToBasket,
                   iconSize: screenWidth(context, dividedBy: 20),
                   splashRadius: 14,
                   color: Colors.blue,

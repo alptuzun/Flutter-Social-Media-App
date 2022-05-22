@@ -1,18 +1,12 @@
 import 'dart:ffi';
-
-import 'dart:ui';
-
-
-import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/ui/search_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cs310_group_28/models/post.dart';
+import 'package:cs310_group_28/models/user.dart';
 
-import '../models/post.dart';
-import '../models/user.dart';
-import 'messages_screen.dart';
-List<Post> samplesearchPosts = [
+List<Post> sampleSearchPosts = [
   Post(
     user: User(
       username: "alptuzun",
@@ -130,22 +124,21 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   bool click= true;
-  bool _isopen = false;
+  bool _isOpen = false;
+
   void closed() {
     setState(() {
-      _isopen = false;
+      _isOpen = false;
     });
   }
   void showPopupMenu()  {
-    _isopen = true;
-
+    _isOpen = true;
 
     showMenu(
       semanticLabel: "popupmenu",
       constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 150),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20)
-
       ),
       context: context,
       //shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))) ,
@@ -153,7 +146,6 @@ class _ExploreState extends State<Explore> {
 
       items: [
         PopupMenuItem(
-
             height: 2,
             padding: const EdgeInsets.all(0),
             value: 1,
@@ -163,11 +155,7 @@ class _ExploreState extends State<Explore> {
 
                   onPressed: () {nullptr;}, icon: const Icon(Icons.account_circle_outlined, color: Colors.black,size: 20,),constraints: const BoxConstraints(maxHeight: 30),
                 ),
-
                 const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
-
-
-
               ],
             ) ),
         PopupMenuItem(
@@ -177,12 +165,9 @@ class _ExploreState extends State<Explore> {
             child: Column(
               children: [
                 IconButton(
-
-
                   onPressed: () {nullptr;}, icon: const Icon(Icons.location_on_outlined,color: Colors.black,size: 20, ),
                   constraints: const BoxConstraints(maxHeight: 30),),
                 const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
-
               ],
             ) ),
         PopupMenuItem(
@@ -193,7 +178,6 @@ class _ExploreState extends State<Explore> {
               children: [
                 IconButton(onPressed: () {nullptr;}, icon: const Icon(Icons.tag,color: Colors.black,size: 20, ),constraints: const BoxConstraints(maxHeight: 30),),
                 const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
-
               ],
             )
         ),
@@ -202,7 +186,6 @@ class _ExploreState extends State<Explore> {
     ).then((_) {
       closed();
     } );
-
   }
 
   @override
@@ -235,7 +218,6 @@ class _ExploreState extends State<Explore> {
                           const Spacer(),
                         ],
                       ),
-
                     ),
                     fillColor: Colors.white70,
                     filled: true,
@@ -257,28 +239,21 @@ class _ExploreState extends State<Explore> {
                                 setState(()  {
                                   click = !click;
                                   showPopupMenu();
-
-
-
                                 });
                                 //if(click==false){ }
                               },
                               icon: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
                                 child:
-                                Icon(( _isopen == true)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
+                                Icon(( _isOpen == true)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
                                     size:50,
                                     color: Colors.black ),
                               )
                           ),
                         ),
                         //Padding(
-
                            //padding: const EdgeInsets.fromLTRB(0,0,0,20),
-
                            //child:
-
-
                             /* onSelected:  (int a) {click = false;},
                              onCanceled: () {click = true;},
                              icon: Padding(
@@ -290,38 +265,25 @@ class _ExploreState extends State<Explore> {
                              ),
                              shape:RoundedRectangleBorder(
                                  borderRadius: BorderRadius.circular(20)
-
                              ) ,
                              position: PopupMenuPosition.under,
                              constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 500),*/
-
-
-
-
-
-
                         //),
                         IconButton(
-
                           icon: const Icon(Icons.search_rounded, size: 30, color: Colors.black),
                           onPressed: () {null;},
                         )
-
                       ],
                       //child: Icon(Icons.search_rounded, size: 30, color: Colors.black)
                     ),
-
-
                   ),
-
-
                    //Icon(Icons.search_rounded, size: 30),
                 )
               ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: samplesearchPosts
+                    children: sampleSearchPosts
                     .map((post) => SearchCard(
                       post: post,
                     ))
@@ -330,7 +292,6 @@ class _ExploreState extends State<Explore> {
             ],
           ),
         ),
-
     );
   }
 }

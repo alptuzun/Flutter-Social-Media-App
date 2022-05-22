@@ -120,7 +120,7 @@ class _MarketPlaceState extends State<MarketPlace> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: sampleMarkets
               .map((post) => MarketCard(
-            addtobasket: () {
+            addToBasket: () {
               addtobasket(post);
             },
             post: post,

@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/ui/notification_card.dart';
 import 'package:cs310_group_28/models/notification.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
