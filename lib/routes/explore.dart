@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'dart:ui';
+
 
 import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/ui/search_card.dart';
@@ -128,11 +130,13 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   bool click= true;
-
-  void showPopupMenu() {
+  bool _isopen = false;
+  void showPopupMenu()  {
+    _isopen = true;
 
 
     showMenu(
+      semanticLabel: "popupmenu",
       constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 150),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20)
@@ -143,44 +147,57 @@ class _ExploreState extends State<Explore> {
       position: const RelativeRect.fromLTRB(25.0, 100, 20, 0.0),  //position where you// want to show the menu on screen
 
       items: [
-         PopupMenuItem(
+        PopupMenuItem(
 
-           height: 2,
-           padding: const EdgeInsets.all(0),
-           value: 1,
+            height: 2,
+            padding: const EdgeInsets.all(0),
+            value: 1,
             child: Column(
               children: [
                 IconButton(
 
-                    onPressed: () {nullptr;}, icon: const Icon(Icons.account_circle_outlined, color: Colors.black,size: 20, )),
+                  onPressed: () {nullptr;}, icon: const Icon(Icons.account_circle_outlined, color: Colors.black,size: 20,),constraints: const BoxConstraints(maxHeight: 30),
+                ),
 
-                const Divider(height: 1,color: Colors.deepPurpleAccent,thickness: 2.5,),
+                const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
+
+
+
               ],
             ) ),
-
-         PopupMenuItem(
-             height: 2,
-             padding: const EdgeInsets.all(0),
-           value: 2,
+        PopupMenuItem(
+            height: 2,
+            padding: const EdgeInsets.all(0),
+            value: 2,
             child: Column(
               children: [
-                IconButton(onPressed: () {nullptr;}, icon: const Icon(Icons.location_on_outlined,color: Colors.black,size: 20, )),
-                Divider(height: 1,color: Colors.deepPurpleAccent,thickness: 2.5,),
+                IconButton(
+
+
+                  onPressed: () {nullptr;}, icon: const Icon(Icons.location_on_outlined,color: Colors.black,size: 20, ),
+                  constraints: const BoxConstraints(maxHeight: 30),),
+                const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
+
               ],
             ) ),
-         PopupMenuItem(
-             height: 2,
-             padding: const EdgeInsets.all(0),
-           value: 3,
+        PopupMenuItem(
+            height: 2,
+            padding: const EdgeInsets.all(0),
+            value: 3,
             child: Column(
               children: [
-                IconButton(onPressed: () {nullptr;}, icon: const Icon(Icons.tag,color: Colors.black,size: 20, )),
-                const Divider(height: 1,color: Colors.deepPurpleAccent,thickness: 2.5,indent:15 ,),
+                IconButton(onPressed: () {nullptr;}, icon: const Icon(Icons.tag,color: Colors.black,size: 20, ),constraints: const BoxConstraints(maxHeight: 30),),
+                const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
+
               ],
-            ) ),
+            )
+        ),
       ],
       elevation: 8.0,
-    );
+    ).then((_) {
+      _isopen = false;
+
+    } );
 
   }
 
@@ -232,13 +249,14 @@ class _ExploreState extends State<Explore> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        /*Padding(
+                        Padding(
                           padding: const EdgeInsets.fromLTRB(0,0,0,20),
                           child: IconButton(
                               onPressed: () {
-                                setState(() {
+                                setState(()  {
                                   click = !click;
                                   showPopupMenu();
+
 
 
                                 });
@@ -247,20 +265,20 @@ class _ExploreState extends State<Explore> {
                               icon: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
                                 child:
-                                Icon((click==false)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
+                                Icon(( _isopen == true)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
                                     size:50,
                                     color: Colors.black ),
                               )
                           ),
-                        ),*/
-                        Padding(
+                        ),
+                        //Padding(
 
-                           padding: const EdgeInsets.fromLTRB(0,0,0,20),
+                           //padding: const EdgeInsets.fromLTRB(0,0,0,20),
 
-                           child:
-                           PopupMenuButton(
+                           //child:
 
-                             onSelected:  (int a) {click = false;},
+
+                            /* onSelected:  (int a) {click = false;},
                              onCanceled: () {click = true;},
                              icon: Padding(
                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
@@ -274,59 +292,14 @@ class _ExploreState extends State<Explore> {
 
                              ) ,
                              position: PopupMenuPosition.under,
-                             constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 500),
-                             itemBuilder: (BuildContext context) =>[
-                               PopupMenuItem(
-
-                                   height: 2,
-                                   padding: const EdgeInsets.all(0),
-                                   value: 1,
-                                   child: Column(
-                                     children: [
-                                       IconButton(
-
-                                           onPressed: () {nullptr;}, icon: const Icon(Icons.account_circle_outlined, color: Colors.black,size: 20,),constraints: const BoxConstraints(maxHeight: 30),
-                                       ),
-
-                                       const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
+                             constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 500),*/
 
 
 
-                                     ],
-                                   ) ),
-                               PopupMenuItem(
-                                   height: 2,
-                                   padding: const EdgeInsets.all(0),
-                                   value: 2,
-                                   child: Column(
-                                     children: [
-                                       IconButton(
-
-
-                                         onPressed: () {nullptr;}, icon: const Icon(Icons.location_on_outlined,color: Colors.black,size: 20, ),
-                                         constraints: const BoxConstraints(maxHeight: 30),),
-                                       const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
-
-                                     ],
-                                   ) ),
-                               PopupMenuItem(
-                                   height: 2,
-                                   padding: const EdgeInsets.all(0),
-                                   value: 3,
-                                   child: Column(
-                                     children: [
-                                       IconButton(onPressed: () {nullptr;}, icon: const Icon(Icons.tag,color: Colors.black,size: 20, ),constraints: const BoxConstraints(maxHeight: 30),),
-                                       const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
-
-                                     ],
-                                   )
-                               ),
 
 
 
-                             ],
-                           ),
-                        ),
+                        //),
                         IconButton(
 
                           icon: const Icon(Icons.search_rounded, size: 30, color: Colors.black),
