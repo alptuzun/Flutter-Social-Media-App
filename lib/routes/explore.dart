@@ -15,6 +15,24 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   bool click= true;
+
+  void showPopupMenu(){
+    showMenu<String>(
+      context: context,
+      position: const RelativeRect.fromLTRB(25.0, 100.0, 0, 0.0),  //position where you want to show the menu on screen
+      items: [
+        const PopupMenuItem<String>(
+            child: Text('user'), value: '1'),
+        const PopupMenuItem<String>(
+            child: Text('location'), value: '2'),
+        const PopupMenuItem<String>(
+            child: Text('tag'), value: '3'),
+      ],
+      elevation: 8.0,
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -70,25 +88,30 @@ class _ExploreState extends State<Explore> {
                                 setState(() {
                                   click = !click;
                                 });
+                                if(click==false){showPopupMenu(); }
                               },
                               icon: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                                child: Icon((click==false)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
+                                child:
+                                  Icon((click==false)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
                                   size:50,
                                   color: Colors.black ),
                               )
                           ),
                         ),
                         IconButton(
+
                           icon: const Icon(Icons.search_rounded, size: 30, color: Colors.black),
                           onPressed: () {null;},
                         )
 
                       ],
-                      //child: Icon(Icons.search_rounded, size: 30, color: Colors.black),
+                      //child: Icon(Icons.search_rounded, size: 30, color: Colors.black)
                     ),
 
+
                   ),
+
 
                    //Icon(Icons.search_rounded, size: 30),
                 )
