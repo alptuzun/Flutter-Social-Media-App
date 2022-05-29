@@ -1,6 +1,6 @@
 import 'package:cs310_group_28/models/post.dart';
 
-class User {
+class MyUser {
   String username;
   String fullName;
   String email;
@@ -8,12 +8,12 @@ class User {
   List<Post> posts = [];
   List<Post> favorites = [];
   List<Post> comments = [];
-  List<User> following = [];
-  List<User> followers = [];
+  List<MyUser> following = [];
+  List<MyUser> followers = [];
   String profilePicture;
   bool private;
 
-  User(
+  MyUser(
       {required this.username,
       required this.fullName,
       required this.email,

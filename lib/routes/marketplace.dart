@@ -8,7 +8,7 @@ import 'messages_screen.dart';
 import 'notifications.dart';
 List<Post> sampleMarkets = [
   Post(
-    user: User(
+    user: MyUser(
       username: "silaozinan",
       email: "silaozinan@sabanciuniv.edu",
       fullName: "Sıla Özinan",
@@ -20,7 +20,7 @@ List<Post> sampleMarkets = [
     price: "2000 TL"
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "aliozgunakyuz",
       email: "akyuz@sabanciuniv.edu",
       fullName: "Ali Özgün Akyüz",
@@ -33,7 +33,7 @@ List<Post> sampleMarkets = [
     price:"1000 TL"
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "sermetozgu",
       email: "sermetozgu@sabanciuniv.edu",
       fullName: "Sermet Özgü",
@@ -48,7 +48,7 @@ List<Post> sampleMarkets = [
     price: "150 TL"
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "yasinalbayrak",
       email: "yasinalbayrak@sabanciuniv.edu",
       fullName: "Yasin Albayrak",

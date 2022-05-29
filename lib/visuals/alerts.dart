@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
 class Alerts {
-
   static Future<void> showAlert(BuildContext context, String title, String message) async {
     bool isAndroid = Platform.isAndroid;
     return showDialog(
@@ -13,11 +12,13 @@ class Alerts {
         builder: (BuildContext context) {
           if (isAndroid) {
             return AlertDialog(
-              title: Text(title),
+              title: Text(title,
+              textAlign: TextAlign.center),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: [
-                    Text(message),
+                    Text(message,
+                    textAlign: TextAlign.center),
                   ],
                 ),
               ),
@@ -52,6 +53,5 @@ class Alerts {
           }
         });
   }
-
 }
 

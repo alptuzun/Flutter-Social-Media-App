@@ -8,7 +8,7 @@ import 'package:cs310_group_28/models/user.dart';
 
 List<Post> sampleSearchPosts = [
   Post(
-    user: User(
+    user: MyUser(
       username: "alptuzun",
       email: "alptuzun@sabanciuniv.edu",
       fullName: "Alp Tüzün",
@@ -21,7 +21,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/goldengate.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "isiktantanis",
       email: "isiktantanis@sabanciuniv.edu",
       fullName: "Işıktan Tanış",
@@ -32,7 +32,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "elonmusk",
       email: "elonmusk@sabanciuniv.edu",
       fullName: "Elon Musk",
@@ -46,7 +46,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/eloncar.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "yasinalbayrak",
       email: "yasinalbayrak@sabanciuniv.edu",
       fullName: "Yasin Albayrak",
@@ -59,7 +59,7 @@ List<Post> sampleSearchPosts = [
     imageName: "assets/images/muhammed_ali.jpg",
   ),
   Post(
-      user: User(
+      user: MyUser(
         username: "silaozinan",
         email: "silaozinan@sabanciuniv.edu",
         fullName: "Sıla Özinan",
@@ -71,7 +71,7 @@ List<Post> sampleSearchPosts = [
       price: "2000 TL"
   ),
   Post(
-      user: User(
+      user: MyUser(
         username: "aliozgunakyuz",
         email: "akyuz@sabanciuniv.edu",
         fullName: "Ali Özgün Akyüz",
@@ -84,7 +84,7 @@ List<Post> sampleSearchPosts = [
       price:"1000 TL"
   ),
   Post(
-      user: User(
+      user: MyUser(
         username: "sermetozgu",
         email: "sermetozgu@sabanciuniv.edu",
         fullName: "Sermet Özgü",
@@ -99,7 +99,7 @@ List<Post> sampleSearchPosts = [
       price: "150 TL"
   ),
   Post(
-      user: User(
+      user: MyUser(
         username: "yasinalbayrak",
         email: "yasinalbayrak@sabanciuniv.edu",
         fullName: "Yasin Albayrak",

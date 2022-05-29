@@ -1,10 +1,10 @@
 import 'package:cs310_group_28/routes/welcome.dart';
+import 'package:cs310_group_28/util/auth.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../models/user.dart';
-import '../visuals/text_style.dart';
+import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/visuals/text_style.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
-  late User mockUser;
+  late MyUser mockUser;
 
   void handlePrivateAccountToggle(bool val) {
     setState(() {
@@ -26,12 +26,14 @@ class _UserSettingsState extends State<UserSettings> {
   @override
   void initState() {
     super.initState();
-    mockUser = User(
+    mockUser = MyUser(
         username: "isiktantanis",
         fullName: "Işıktan Tanış",
         email: "isiktantanis@gmail.com",
         private: true);
   }
+
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +243,11 @@ class _UserSettingsState extends State<UserSettings> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      await _auth.signOut();
+                      if(!mounted) {
+                        return;
+                      }
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -251,6 +257,7 @@ class _UserSettingsState extends State<UserSettings> {
                     child: Container(
                       color: Colors.white,
                       child: Row(
+
                         children: [
                           Padding(
                               padding: const EdgeInsets.all(8.0),

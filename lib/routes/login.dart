@@ -1,5 +1,6 @@
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/register.dart';
+import 'package:cs310_group_28/visuals/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -7,6 +8,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/gestures.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
+import 'package:cs310_group_28/util/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -19,8 +22,45 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
   String email = "";
-  String password = "";
+  String pass = "";
+
+  Future loginUser() async {
+    ConnectionWaiter.loadingScreen(context);
+    dynamic result = await _auth.signInWithEmailPass(email, pass);
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(context).pop();
+    if (result is String) {
+      Alerts.showAlert(context, 'Login Error',
+          "Invalid email or password.\nPlease try again");
+    } else if (result is User) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, PageNavigator.routeName, (route) => false);
+    } else {
+      Alerts.showAlert(context, 'Login Error', result.toString());
+    }
+  }
+
+  Future loginAnon() async {
+    ConnectionWaiter.loadingScreen(context);
+    dynamic result = await _auth.signInAnon();
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(context).pop();
+    if (result is String) {
+      Alerts.showAlert(context, 'Login Error', result);
+    } else if (result is User) {
+      //User signed in
+      Navigator.pushNamedAndRemoveUntil(
+          context, PageNavigator.routeName, (route) => false);
+    } else {
+      Alerts.showAlert(context, 'Login Error', result.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +95,14 @@ class _LoginState extends State<Login> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(30),
                       child: TextFormField(
-                        onFieldSubmitted: (value) {
-                          if (value == "") {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, PageNavigator.routeName, (r) => false);
-                            } else {
+                        onFieldSubmitted: (value) async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            await loginUser();
+                          } else {
+                            if (value == "") {
                               Alerts.showAlert(context, 'Login Error',
                                   'Please enter your email');
-                            }
-                          } else {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, PageNavigator.routeName, (r) => false);
                             } else {
                               Alerts.showAlert(context, 'Login Error',
                                   'Your credentials are invalid');
@@ -124,7 +157,6 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-
                   Container(
                     padding: const EdgeInsets.all(8),
                     margin: EdgeInsets.zero,
@@ -135,21 +167,14 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.circular(30),
                       shadowColor: Colors.black45,
                       child: TextFormField(
-                        onFieldSubmitted: (value) {
-                          if (value == "") {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, PageNavigator.routeName, (r) => false);
-                            } else {
+                        onFieldSubmitted: (value) async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            await loginUser();
+                          } else {
+                            if (value == "") {
                               Alerts.showAlert(context, 'Login Error',
                                   'Please enter your password');
-                            }
-                          } else {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, PageNavigator.routeName, (r) => false);
                             } else {
                               Alerts.showAlert(context, 'Login Error',
                                   'Your credentials are invalid');
@@ -202,7 +227,7 @@ class _LoginState extends State<Login> {
                           return null;
                         },
                         onSaved: (value) {
-                          password = value ?? '';
+                          pass = value ?? '';
                         },
                       ),
                     ),
@@ -210,43 +235,84 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: (screenHeight(context) / 110),
                   ),
-                  Container(
-                    width: (screenWidth(context) / 100) * 48,
-                    height: (screenHeight(context) / 100) * 5.5,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                          begin: Alignment(0, -1),
-                          end: Alignment(0, 0),
-                          colors: [Colors.lightBlue, Colors.lightBlueAccent]),
-                      borderRadius: BorderRadius.circular(35),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(20),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, PageNavigator.routeName, (r) => false);
-                          } else {
-                            Alerts.showAlert(context, 'Login Error',
-                                'Your credentials are invalid');
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20))),
-                        child: Text(
-                          "Log In",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                              fontSize: 18, fontWeight: FontWeight.w600),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: (screenWidth(context) / 100) * 45,
+                        height: (screenHeight(context) / 100) * 5.5,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                              begin: Alignment(0, -1),
+                              end: Alignment(0, 0),
+                              colors: [
+                                Colors.lightBlue,
+                                Colors.lightBlueAccent
+                              ]),
+                          borderRadius: BorderRadius.circular(35),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                await loginUser();
+                              } else {
+                                Alerts.showAlert(context, 'Login Error',
+                                    'Your credentials are invalid');
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            child: Text(
+                              "Log In",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Container(
+                        width: (screenWidth(context) / 100) * 45,
+                        height: (screenHeight(context) / 100) * 5.5,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                              begin: Alignment(0, -1),
+                              end: Alignment(0, 0),
+                              colors: [
+                                Colors.lightBlue,
+                                Colors.lightBlueAccent
+                              ]),
+                          borderRadius: BorderRadius.circular(35),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await _auth.signInWithGoogle();
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            child: Text(
+                              "Log In",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

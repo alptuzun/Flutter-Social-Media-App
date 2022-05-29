@@ -275,7 +275,7 @@ class _WalkThroughState extends State<WalkThrough> {
                   backgroundColor: Colors.blueAccent,
                   minimumSize: const Size.fromHeight(80)),
               onPressed: () {
-                MySharedPreferences.instance.setBooleanValue("loggedIn", true);
+                MySharedPreferences.instance.setBooleanValue("initialLoad", true);
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => const Welcome()));
               },

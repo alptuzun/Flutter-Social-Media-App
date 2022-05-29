@@ -1,15 +1,17 @@
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/models/comment.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Post {
-  User user;
+  MyUser user;
   String? caption;
   String date;
-  List<User> likes = [];
+  List<MyUser> likes = [];
   List<Comment> comments = [];
   String? location;
   String imageName;
   String? price;
+  XFile? image;
 
   Post(
       {required this.user,
@@ -17,7 +19,7 @@ class Post {
       required this.date,
       this.location,
       required this.imageName,
-      this.price});
+      this.price, this.image});
 
   int getNumLikes() {
     return likes.length;

@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:io';
 
 class PostCard extends StatelessWidget {
   final Post post;
-
   final VoidCallback comment;
   final VoidCallback likes;
   final VoidCallback dislikes;
 
-  const PostCard(
+
+   const PostCard(
       {Key? key,
       required this.post,
       required this.comment,
@@ -23,7 +24,7 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -58,13 +59,18 @@ class PostCard extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
-              child: Image(
+              child: post.image == null ? Image(
                 image: AssetImage(post.imageName.toString()),
                 alignment: Alignment.center,
                 isAntiAlias: true,
                 fit: BoxFit.contain,
                 filterQuality: FilterQuality.high,
-              ),
+              ) :  Image.file(File(post.image!.path),
+                alignment: Alignment.center,
+                isAntiAlias: true,
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.high,
+              )
             ),
             if (post.caption != null)
               Text(
@@ -78,7 +84,9 @@ class PostCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(),
+                const Spacer(
+                  flex: 20
+                ),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
@@ -88,7 +96,9 @@ class PostCard extends StatelessWidget {
                   splashRadius: 14,
                   color: Colors.green,
                 ),
-                const Spacer(),
+                const Spacer(
+                  flex: 2,
+                ),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
@@ -104,7 +114,7 @@ class PostCard extends StatelessWidget {
                 Text(post.getNumLikes().toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
-                  flex: 52,
+                  flex: 7,
                 ),
                 IconButton(
                   constraints: const BoxConstraints(),
@@ -116,11 +126,13 @@ class PostCard extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 const Spacer(
-                  flex: 2,
+                  flex: 1,
                 ),
                 Text(post.getNumComments().toString(),
                     style: Styles.appMainTextStyle),
-                const Spacer(),
+                const Spacer(
+                  flex: 20
+                ),
               ],
             )
           ],

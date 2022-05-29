@@ -20,7 +20,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
-  User mockUser = User(
+  MyUser mockUser = MyUser(
       username: "isiktantanis",
       fullName: "Işıktan Tanış",
       email: "isiktantanis@gmail.com");
