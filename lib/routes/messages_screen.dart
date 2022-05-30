@@ -2,6 +2,7 @@ import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/message.dart';
 import 'package:cs310_group_28/ui/messagecard.dart';
@@ -129,15 +130,19 @@ List<Message> sampleMessages = [
 class MessageBox extends StatefulWidget {
   const MessageBox({Key? key}) : super(key: key);
 
-  static const String routeName = "/notifications";
+  static const String routeName = "/messages_screen";
 
   @override
   State<MessageBox> createState() => _MessageBoxState();
 }
 
 class _MessageBoxState extends State<MessageBox> {
+
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   @override
   Widget build(BuildContext context) {
+    analytics.logScreenView(screenName: "Messages", screenClass: "MessageBox");
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/register.dart';
@@ -5,10 +6,13 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:cs310_group_28/ui/styled_button.dart';
 
 class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+  Welcome({Key? key}) : super(key: key);
+
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   Widget build(BuildContext context) {
+    analytics.logEvent(name: "Opened_welcome_screen");
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(

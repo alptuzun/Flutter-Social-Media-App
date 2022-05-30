@@ -4,6 +4,7 @@ import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,7 @@ class _HomeViewState extends State<HomeView> {
 
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void addComment(Post post) {
     setState(() {
@@ -100,9 +102,10 @@ class _HomeViewState extends State<HomeView> {
 
   Future pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    _image = pickedFile;
     setState(() {
-      _image = pickedFile;
       if (_image != null) {
+        analytics.logShare(contentType: "Photo", itemId: "1", method: "From_Internal_Gallery");
         samplePosts.insert(0,Post(user: MyUser(username: "Jeff",
           fullName: "Jeffrey Bezos",
           email: "jeff.bezos@amazon.com",
@@ -139,6 +142,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    analytics.logScreenView(screenClass: "HomeView", screenName: "Main_Screen");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -149,6 +153,7 @@ class _HomeViewState extends State<HomeView> {
           color: AppColors.titleColor,
           iconSize: 40,
           onPressed: () {
+
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Notifications()));
           },

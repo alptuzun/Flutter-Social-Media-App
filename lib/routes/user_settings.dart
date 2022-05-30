@@ -1,6 +1,7 @@
 import 'package:cs310_group_28/routes/welcome.dart';
 import 'package:cs310_group_28/util/auth.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/models/user.dart';
@@ -16,6 +17,7 @@ class UserSettings extends StatefulWidget {
 
 class _UserSettingsState extends State<UserSettings> {
   late MyUser mockUser;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void handlePrivateAccountToggle(bool val) {
     setState(() {
@@ -37,6 +39,7 @@ class _UserSettingsState extends State<UserSettings> {
 
   @override
   Widget build(BuildContext context) {
+    analytics.logScreenView(screenClass: "UserSettings", screenName: "User's Settings Screen");
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -251,7 +254,7 @@ class _UserSettingsState extends State<UserSettings> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Welcome()),
+                              builder: (context) => Welcome()),
                           (r) => false);
                     },
                     child: Container(

@@ -1,6 +1,7 @@
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -25,6 +26,7 @@ class _LoginState extends State<Login> {
   final AuthService _auth = AuthService();
   String email = "";
   String pass = "";
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   Future loginUser() async {
     ConnectionWaiter.loadingScreen(context);
@@ -37,6 +39,9 @@ class _LoginState extends State<Login> {
       Alerts.showAlert(context, 'Login Error',
           "Invalid email or password.\nPlease try again");
     } else if (result is User) {
+      analytics.logLogin(
+        loginMethod: "Email & Password"
+      );
       Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (route) => false);
     } else {
@@ -54,7 +59,7 @@ class _LoginState extends State<Login> {
     if (result is String) {
       Alerts.showAlert(context, 'Login Error', result);
     } else if (result is User) {
-      //User signed in
+      analytics.logLogin(loginMethod: "Anonymously");
       Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (route) => false);
     } else {

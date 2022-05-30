@@ -1,4 +1,5 @@
 import 'package:cs310_group_28/ui/marketcard.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
@@ -72,13 +73,17 @@ class MarketPlace extends StatefulWidget {
 }
 
 class _MarketPlaceState extends State<MarketPlace> {
-  void addtobasket(Post post) {
+
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+  void addToBasket(Post post) {
     setState(() {
-      // inform user
+      analytics.logAddToCart(currency: "TRY", value: 1500);
     });
   }
   @override
   Widget build(BuildContext context) {
+    analytics.logScreenView(screenClass: "MarketPlace", screenName: "Market Place");
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -121,7 +126,7 @@ class _MarketPlaceState extends State<MarketPlace> {
           children: sampleMarkets
               .map((post) => MarketCard(
             addToBasket: () {
-              addtobasket(post);
+              addToBasket(post);
             },
             post: post,
           ))

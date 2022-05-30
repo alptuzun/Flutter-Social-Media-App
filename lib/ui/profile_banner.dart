@@ -55,9 +55,9 @@ class ProfileBanner extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        infoColumn(user.getNumPosts(), "Posts"),
-                        infoColumn(user.getNumFollowers(), "Followers"),
-                        infoColumn(user.getNumFollowing(), "Following"),
+                        infoColumn(user.posts.length, "Posts"),
+                        infoColumn(user.followers.length, "Followers"),
+                        infoColumn(user.following.length, "Following"),
                       ],
                     ),
                   ),

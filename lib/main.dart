@@ -5,6 +5,7 @@ import 'package:cs310_group_28/routes/marketplace.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/routes/user_profile.dart';
 import 'package:cs310_group_28/routes/user_settings.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/routes/welcome.dart';
@@ -28,8 +29,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   bool initialLoad = false;
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  late FirebaseAnalytics analytics;
 
   _MyAppState() {
     MySharedPreferences.instance
@@ -45,6 +48,8 @@ class _MyAppState extends State<MyApp> {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
+          analytics = FirebaseAnalytics.instance;
+          analytics.logEvent(name: "Failed_to_load_the_app");
           return MaterialApp(
             home: Scaffold(
               body: Center(
@@ -55,8 +60,10 @@ class _MyAppState extends State<MyApp> {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
+          analytics = FirebaseAnalytics.instance;
+          analytics.logAppOpen();
           return MaterialApp(
-            home: initialLoad ? const Welcome() : const WalkThrough(),
+            home: initialLoad ? Welcome() : const WalkThrough(),
             routes: {
               Login.routeName: (context) => const Login(),
               Register.routeName: (context) => const Register(),

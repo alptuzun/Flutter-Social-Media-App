@@ -4,6 +4,7 @@ import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/ui/profile_banner.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,12 +19,14 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
   MyUser mockUser = MyUser(
       username: "isiktantanis",
       fullName: "Işıktan Tanış",
       email: "isiktantanis@gmail.com");
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -132,6 +135,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    analytics.logScreenView(screenClass: "UserProfile", screenName: "User's Profile Screen");
     return Scaffold(
         appBar: AppBar(
           elevation: 0,

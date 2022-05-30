@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/ui/notification_card.dart';
 import 'package:cs310_group_28/models/notification.dart';
@@ -14,6 +14,8 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsViewState extends State<Notifications> {
+
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   List<MyNotification> notifications = [
 
     MyNotification(
@@ -50,10 +52,7 @@ class _NotificationsViewState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-
-    if (kDebugMode) {
-      print('build');
-    }
+    analytics.logScreenView(screenName: "Notification", screenClass: "Notifications");
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -73,7 +72,6 @@ class _NotificationsViewState extends State<Notifications> {
           style: Styles.appBarTitleTextStyle,
           )
         ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

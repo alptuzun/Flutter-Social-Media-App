@@ -1,7 +1,27 @@
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/models/comment.dart';
 import 'package:image_picker/image_picker.dart';
+/*
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'post.g.dart';
+part 'post.freezed.dart';
+
+@Freezed()
+class Post with _Post {
+  const factory Post({
+    required MyUser user,
+    String? caption,
+    required String date,
+    String? location,
+    required String imageName,
+    String? price,
+    XFile? image
+  }) = _Post;
+
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJason(json);
+}
+*/
 class Post {
   MyUser user;
   String? caption;
@@ -28,5 +48,4 @@ class Post {
   int getNumComments() {
     return comments.length;
   }
-
 }

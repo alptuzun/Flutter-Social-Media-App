@@ -2,6 +2,7 @@ import 'package:cs310_group_28/models/shared_preferences.dart';
 import 'package:cs310_group_28/routes/welcome.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -14,6 +15,8 @@ class WalkThrough extends StatefulWidget {
 }
 
 class _WalkThroughState extends State<WalkThrough> {
+
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   int currentIndex = 0;
   bool isLastPage = false;
 
@@ -27,6 +30,7 @@ class _WalkThroughState extends State<WalkThrough> {
 
   @override
   Widget build(BuildContext context) {
+    analytics.logTutorialBegin();
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(bottom: 80),
@@ -276,8 +280,9 @@ class _WalkThroughState extends State<WalkThrough> {
                   minimumSize: const Size.fromHeight(80)),
               onPressed: () {
                 MySharedPreferences.instance.setBooleanValue("initialLoad", true);
+                analytics.logTutorialComplete();
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const Welcome()));
+                    MaterialPageRoute(builder: (context) => Welcome()));
               },
               child: Text(
                 'Get Started',
@@ -312,9 +317,11 @@ class _WalkThroughState extends State<WalkThrough> {
                   TextButton(
                     child: Text('NEXT',
                     style: GoogleFonts.poppins(),),
-                    onPressed: () => controller.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut),
+                    onPressed: () {
+                      controller.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut);
+                    }
                   ),
                 ],
               ),
