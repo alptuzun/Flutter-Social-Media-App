@@ -14,7 +14,7 @@ class PageNavigator extends StatefulWidget {
 }
 
 class _PageNavigatorState extends State<PageNavigator> {
-  final List<Widget> _pages = [
+  final List <Widget> _pages = [
     const HomeView(),
     const Explore(),
     const MarketPlace(),

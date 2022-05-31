@@ -2,6 +2,7 @@ import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
+import 'package:cs310_group_28/services/add_post.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -78,8 +79,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
 
-  final ImagePicker _picker = ImagePicker();
-  XFile? _image;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void addComment(Post post) {
@@ -101,35 +100,27 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    _image = pickedFile;
-    setState(() {
-      if (_image != null) {
-        analytics.logShare(contentType: "Photo", itemId: "1", method: "From_Internal_Gallery");
-        samplePosts.insert(0,Post(user: MyUser(username: "Jeff",
-          fullName: "Jeffrey Bezos",
-          email: "jeff.bezos@amazon.com",
-        ),
-          date: "30 May 2022",
-          imageName: "jeff",
-          image: _image,
-        ));
-      }
-    });
-  }
+    final picker = ImagePicker();
+    XFile? image;
+    final storage = FirebaseStorage.instance;
 
-  Future uploadImageToFirebase(BuildContext context) async {
-    String fileName = basename(_image!.path);
-    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('uploads/$fileName');
+    image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      var snapshot = await storage.ref().child('images/MJ').putFile(File(image.path));
+      var downLoadUrl = await snapshot.ref.getDownloadURL();
+      setState (() {
+
+      });
+
+    }
+    /*
     try {
-      await firebaseStorageRef.putFile(File(_image!.path));
+      await firebaseStorageRef.putFile(File(image.path));
       if (kDebugMode) {
         print("Upload complete");
       }
-      setState(() {
-        _image = null;
-      });
-    } on FirebaseException catch(e) {
+      setState(() {});
+    }  on FirebaseException catch (e) {
       if (kDebugMode) {
         print('ERROR: ${e.code} - ${e.message}');
       }
@@ -137,7 +128,13 @@ class _HomeViewState extends State<HomeView> {
       if (kDebugMode) {
         print(e.toString());
       }
-    }
+    }*/
+  }
+
+  Future uploadImageToFirebase(BuildContext context) async {
+
+
+
   }
 
   @override
@@ -153,7 +150,6 @@ class _HomeViewState extends State<HomeView> {
           color: AppColors.titleColor,
           iconSize: 40,
           onPressed: () {
-
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Notifications()));
           },
@@ -199,12 +195,17 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       floatingActionButton: SizedBox(
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         child: FloatingActionButton(
-          onPressed: pickImage,
-          child: const Icon(Icons.add_photo_alternate_outlined,
-          size: 30,),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AddPost()));
+          },
+          child: const Icon(
+            Icons.add,
+            size: 40,
+          ),
         ),
       ),
     );

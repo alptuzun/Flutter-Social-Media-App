@@ -8,6 +8,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cs310_group_28/services/user_service.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -19,42 +20,55 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
   MyUser mockUser = MyUser(
       username: "isiktantanis",
       fullName: "Işıktan Tanış",
-      email: "isiktantanis@gmail.com");
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+      email: "isiktantanis@gmail.com",
+      posts: [],
+      );
 
   @override
   void initState() {
     super.initState();
-    mockUser.addPost(Post(
-        user: mockUser,
-        date: "27/05/2022",
-        imageName: "assets/images/eloncar.jpg"));
-    mockUser.addPost(Post(
-        user: mockUser,
-        date: "27/05/2022",
-        imageName: "assets/images/eloncar.jpg"));
-    mockUser.addPost(Post(
-        user: mockUser,
-        date: "27/05/2022",
-        imageName: "assets/images/eloncar.jpg"));
-    mockUser.addPost(Post(
-        user: mockUser,
-        date: "27/05/2022",
-        imageName: "assets/images/eloncar.jpg"));
-    mockUser.addPost(Post(
-        user: mockUser,
-        date: "27/05/2022",
-        imageName: "assets/images/eloncar.jpg"));
-    mockUser.addPost(Post(
-        user: mockUser,
-        date: "27/05/2022",
-        imageName: "assets/images/eloncar.jpg"));
+    UserService.addPost(
+        mockUser,
+        Post(
+            user: mockUser,
+            date: "27/05/2022",
+            imageName: "assets/images/eloncar.jpg"));
+    UserService.addPost(
+        mockUser,
+        Post(
+            user: mockUser,
+            date: "27/05/2022",
+            imageName: "assets/images/eloncar.jpg"));
+    UserService.addPost(
+        mockUser,
+        Post(
+            user: mockUser,
+            date: "27/05/2022",
+            imageName: "assets/images/eloncar.jpg"));
+    UserService.addPost(
+        mockUser,
+        Post(
+            user: mockUser,
+            date: "27/05/2022",
+            imageName: "assets/images/eloncar.jpg"));
+    UserService.addPost(
+        mockUser,
+        Post(
+            user: mockUser,
+            date: "27/05/2022",
+            imageName: "assets/images/eloncar.jpg"));
+    UserService.addPost(
+        mockUser,
+        Post(
+            user: mockUser,
+            date: "27/05/2022",
+            imageName: "assets/images/eloncar.jpg"));
   }
 
   Container notFound(String section) {
@@ -135,7 +149,8 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    analytics.logScreenView(screenClass: "UserProfile", screenName: "User's Profile Screen");
+    analytics.logScreenView(
+        screenClass: "UserProfile", screenName: "User's Profile Screen");
     return Scaffold(
         appBar: AppBar(
           elevation: 0,

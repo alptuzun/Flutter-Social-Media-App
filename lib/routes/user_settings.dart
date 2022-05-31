@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:cs310_group_28/services/user_service.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _UserSettingsState extends State<UserSettings> {
 
   void handlePrivateAccountToggle(bool val) {
     setState(() {
-      mockUser.setPrivate(val);
+      UserService.setPrivate(mockUser, val);
     });
   }
 

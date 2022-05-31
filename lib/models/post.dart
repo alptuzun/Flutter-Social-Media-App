@@ -1,51 +1,21 @@
 import 'package:cs310_group_28/models/user.dart';
-import 'package:cs310_group_28/models/comment.dart';
-import 'package:image_picker/image_picker.dart';
-/*
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'post.g.dart';
 part 'post.freezed.dart';
 
-@Freezed()
-class Post with _Post {
-  const factory Post({
+@unfreezed
+class Post with _$Post {
+  factory Post({
     required MyUser user,
     String? caption,
     required String date,
     String? location,
     required String imageName,
+    @Default([]) List likes,
+    @Default([]) List comments,
     String? price,
-    XFile? image
   }) = _Post;
 
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJason(json);
-}
-*/
-class Post {
-  MyUser user;
-  String? caption;
-  String date;
-  List<MyUser> likes = [];
-  List<Comment> comments = [];
-  String? location;
-  String imageName;
-  String? price;
-  XFile? image;
-
-  Post(
-      {required this.user,
-      this.caption,
-      required this.date,
-      this.location,
-      required this.imageName,
-      this.price, this.image});
-
-  int getNumLikes() {
-    return likes.length;
-  }
-
-  int getNumComments() {
-    return comments.length;
-  }
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 }

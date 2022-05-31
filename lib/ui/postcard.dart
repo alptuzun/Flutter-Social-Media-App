@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:io';
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -59,18 +58,13 @@ class PostCard extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
-              child: post.image == null ? Image(
+              child:  Image(
                 image: AssetImage(post.imageName.toString()),
                 alignment: Alignment.center,
                 isAntiAlias: true,
                 fit: BoxFit.contain,
                 filterQuality: FilterQuality.high,
-              ) :  Image.file(File(post.image!.path),
-                alignment: Alignment.center,
-                isAntiAlias: true,
-                fit: BoxFit.contain,
-                filterQuality: FilterQuality.high,
-              )
+              ),
             ),
             if (post.caption != null)
               Text(
@@ -111,7 +105,7 @@ class PostCard extends StatelessWidget {
                 const Spacer(
                   flex: 2,
                 ),
-                Text(post.getNumLikes().toString(),
+                Text(post.likes.length.toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
                   flex: 7,
@@ -128,7 +122,7 @@ class PostCard extends StatelessWidget {
                 const Spacer(
                   flex: 1,
                 ),
-                Text(post.getNumComments().toString(),
+                Text(post.comments.length.toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
                   flex: 20
