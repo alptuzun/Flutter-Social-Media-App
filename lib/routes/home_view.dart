@@ -7,7 +7,6 @@ import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:image_picker/image_picker.dart';
@@ -78,7 +77,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void addComment(Post post) {
@@ -106,12 +104,10 @@ class _HomeViewState extends State<HomeView> {
 
     image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      var snapshot = await storage.ref().child('images/MJ').putFile(File(image.path));
+      var snapshot =
+          await storage.ref().child('images/MJ').putFile(File(image.path));
       var downLoadUrl = await snapshot.ref.getDownloadURL();
-      setState (() {
-
-      });
-
+      setState(() {});
     }
     /*
     try {
@@ -131,11 +127,7 @@ class _HomeViewState extends State<HomeView> {
     }*/
   }
 
-  Future uploadImageToFirebase(BuildContext context) async {
-
-
-
-  }
+  Future uploadImageToFirebase(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
