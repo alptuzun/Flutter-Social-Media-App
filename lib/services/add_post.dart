@@ -1,8 +1,14 @@
+import 'dart:io';
+import 'package:camera/camera.dart';
+import 'package:cs310_group_28/services/camera.dart';
+import 'package:cs310_group_28/visuals/alerts.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -13,6 +19,49 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
+
+  File? image;
+  File? video;
+  ImagePicker picker = ImagePicker();
+
+  Future pickImage() async {
+    try {
+      XFile? galleryImage = await picker.pickImage(source: ImageSource.gallery);
+      if (galleryImage != null) {
+        var imageRoute = File(galleryImage.path);
+        setState (() {
+          image = imageRoute;
+        });
+      }
+    } catch (e) {
+      FirebaseCrashlytics.instance.log(e.toString());
+    }
+  }
+
+  Future loadCamera() async {
+    final cameras = await availableCameras();
+    final firstCamera = cameras[0];
+    if (!mounted) {
+      return;
+    }
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera) ));
+  }
+
+  Future pickVideo() async {
+    try {
+      XFile? galleryVideo = await picker.pickVideo(source: ImageSource.gallery);
+      if (galleryVideo != null) {
+        var videoRoute = File(galleryVideo.path);
+        setState(() {
+          video = videoRoute;
+        });
+      }
+    } catch (e) {
+      FirebaseCrashlytics.instance.log(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,80 +85,100 @@ class _AddPostState extends State<AddPost> {
         centerTitle: true,
       ),
       backgroundColor: const Color(0xCBFFFFFF),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment. center,
-        children: [
-          Container(
-            width: screenWidth(context) / 100 * 50 ,
-            height: (screenHeight(context) / 100) * 5.5,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                  begin: Alignment(0, -1),
-                  end: Alignment(0, 0),
-                  colors: [
-                    Colors.lightBlue,
-                    Colors.lightBlueAccent
-                  ]),
-              borderRadius: BorderRadius.circular(40),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Spacer(
+              flex: 5,
             ),
-            child: Material(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(30),
-              child: ElevatedButton(
-                onPressed: ()  {
-                  null;
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30))),
-                child: Text(
-                  "Add a Image",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      fontSize: 18, fontWeight: FontWeight.w600),
+            Container(
+              width: screenWidth(context) / 100 * 80,
+              height: (screenHeight(context) / 100) * 8,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment(0, -1),
+                    end: Alignment(0, 0),
+                    colors: [Colors.lightBlue, Colors.lightBlueAccent]),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Alerts.showOptions(context, "Add an Image", "Please select an option", " Choose a picture ", " Take a picture ", pickImage, loadCamera);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      shadowColor: Colors.transparent),
+                  child: Text(
+                    "Add an Image",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            width: screenWidth(context) / 100 * 50 ,
-            height: (screenHeight(context) / 100) * 5.5,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                  begin: Alignment(0, -1),
-                  end: Alignment(0, 0),
-                  colors: [
-                    Colors.lightBlue,
-                    Colors.lightBlueAccent
-                  ]),
-              borderRadius: BorderRadius.circular(40),
-            ),
-            child: Material(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(30),
-              child: ElevatedButton(
-                onPressed: ()  {
-                  null;
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30))),
-                child: Text(
-                  "Add a Image",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      fontSize: 18, fontWeight: FontWeight.w600),
+            const Spacer(),
+            Container(
+              width: screenWidth(context) / 100 * 80,
+              height: (screenHeight(context) / 100) * 8,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment(0, -1),
+                    end: Alignment(0, 0),
+                    colors: [Colors.lightBlue, Colors.lightBlueAccent]),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: ElevatedButton(
+                  onPressed: pickVideo,
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      shadowColor: Colors.transparent),
+                  child: Text(
+                    "Add a Video",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            const Spacer(),
+            Container(
+              width: screenWidth(context) / 100 * 80,
+              height: (screenHeight(context) / 100) * 8,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment(0, -1),
+                    end: Alignment(0, 0),
+                    colors: [Colors.lightBlue, Colors.lightBlueAccent]),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: ElevatedButton(
+                  onPressed: () {
+                    null;
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      shadowColor: Colors.transparent),
+                  child: Text(
+                    "Add a Text Post",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(
+              flex: 5,
+            ),
+          ],
+        ),
       ),
     );
   }

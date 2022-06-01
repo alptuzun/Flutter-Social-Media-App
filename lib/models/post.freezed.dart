@@ -20,8 +20,8 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Post {
-  MyUser get user => throw _privateConstructorUsedError;
-  set user(MyUser value) => throw _privateConstructorUsedError;
+  User get user => throw _privateConstructorUsedError;
+  set user(User value) => throw _privateConstructorUsedError;
   String? get caption => throw _privateConstructorUsedError;
   set caption(String? value) => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $PostCopyWith<$Res> {
   factory $PostCopyWith(Post value, $Res Function(Post) then) =
       _$PostCopyWithImpl<$Res>;
   $Res call(
-      {MyUser user,
+      {User user,
       String? caption,
       String date,
       String? location,
@@ -82,7 +82,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as MyUser,
+              as User,
       caption: caption == freezed
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
@@ -128,7 +128,7 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       __$$_PostCopyWithImpl<$Res>;
   @override
   $Res call(
-      {MyUser user,
+      {User user,
       String? caption,
       String date,
       String? location,
@@ -165,7 +165,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as MyUser,
+              as User,
       caption: caption == freezed
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
@@ -214,7 +214,7 @@ class _$_Post implements _Post {
   factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
 
   @override
-  MyUser user;
+  User user;
   @override
   String? caption;
   @override
@@ -250,7 +250,7 @@ class _$_Post implements _Post {
 
 abstract class _Post implements Post {
   factory _Post(
-      {required MyUser user,
+      {required User user,
       String? caption,
       required String date,
       String? location,
@@ -262,7 +262,7 @@ abstract class _Post implements Post {
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
   @override
-  MyUser get user => throw _privateConstructorUsedError;
+  User get user => throw _privateConstructorUsedError;
   @override
   String? get caption => throw _privateConstructorUsedError;
   @override

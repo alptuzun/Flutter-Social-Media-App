@@ -11,7 +11,7 @@ List<Message> sampleMessages = [
   Message(
     message: "I will think about it.",
     timeAgo: "10m ago",
-    user: MyUser(
+    user: User(
       username: 'klcilkr',
       fullName: 'İlker Kılıç',
       email: 'klclkr@sabanciuniv.edu',
@@ -23,7 +23,7 @@ List<Message> sampleMessages = [
   Message(
     message: "Ok it is done.",
     timeAgo: "12m ago",
-    user: MyUser(
+    user: User(
       username: 'Sila',
       fullName: 'Sıla Özinan',
       email: 'silaozinan@sabanciuniv.edu',
@@ -35,7 +35,7 @@ List<Message> sampleMessages = [
   Message(
     message: "Deal!, I am selling my F1 car to you.",
     timeAgo: "35m ago",
-    user: MyUser(
+    user: User(
       username: 'lewis',
       fullName: 'Lewis Hamilton',
       email: 'hamiltonlewis@sabanciuniv.edu',
@@ -47,7 +47,7 @@ List<Message> sampleMessages = [
   Message(
     message: "See u",
     timeAgo: "1h ago",
-    user: MyUser(
+    user: User(
       username: 'sermetozgu',
       fullName: 'Sermet Özgü',
       email: 'sermetozgu@sabanciuniv.edu',
@@ -59,7 +59,7 @@ List<Message> sampleMessages = [
   Message(
     message: "200\$ is ok for you?",
     timeAgo: "1h ago",
-    user: MyUser(
+    user: User(
       username: "alptuzun",
       email: "alptuzun@sabanciuniv.edu",
       fullName: "Alp Tüzün",
@@ -71,7 +71,7 @@ List<Message> sampleMessages = [
   Message(
       message: "Have you cheated on your exam?",
       timeAgo: "2h ago",
-      user: MyUser(
+      user: User(
         username: 'levi',
         fullName: 'Albert Levi',
         email: 'levi@sabanciuniv.edu',
@@ -82,7 +82,7 @@ List<Message> sampleMessages = [
   Message(
       message: "This Wednesday is ok.",
       timeAgo: "2h ago",
-      user: MyUser(
+      user: User(
         username: 'ozgun12',
         fullName: 'Ali Özgün Akyüz',
         email: 'akyuz@sabanciuniv.edu',
@@ -93,7 +93,7 @@ List<Message> sampleMessages = [
   Message(
     message: "I'll handle it",
     timeAgo: "3h ago",
-    user: MyUser(
+    user: User(
       username: 'emre26',
       fullName: 'Emre Güneş',
       email: 'emregunes@sabanciuniv.edu',
@@ -105,7 +105,7 @@ List<Message> sampleMessages = [
   Message(
     message: "Hii",
     timeAgo: "4h ago",
-    user: MyUser(
+    user: User(
       username: "isiktantanis",
       email: "isiktantanis@sabanciuniv.edu",
       fullName: "Işıktan Tanış",
@@ -117,7 +117,7 @@ List<Message> sampleMessages = [
   Message(
       message: "OK",
       timeAgo: "1d ago",
-      user: MyUser(
+      user: User(
         username: 'eylül.simsek',
         fullName: 'Eylül Şimşek',
         email: 'eylülsimsek@sabanciuniv.edu',
@@ -137,7 +137,6 @@ class MessageBox extends StatefulWidget {
 }
 
 class _MessageBoxState extends State<MessageBox> {
-
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override

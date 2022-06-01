@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,8 @@ import 'package:cs310_group_28/ui/styled_button.dart';
 import 'package:cs310_group_28/ui/styled_password_field.dart';
 import 'package:cs310_group_28/ui/styled_text_field.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -32,7 +36,7 @@ class _RegisterState extends State<Register> {
     if (username != null) {
       if (username.isEmpty) {
         return "Cannot leave username empty";
-      } else if ((username.length >= 4 && username.length <= 14) &&
+      } else if (!(username.length >= 4 && username.length <= 14) &&
           validCharacters.hasMatch(username)) {
         return "Please enter a proper username";
       }
@@ -99,7 +103,7 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  void handleButtonPress() {
+  void handleButtonPress() async {
     if (kDebugMode) {
       print(
           "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
@@ -107,8 +111,34 @@ class _RegisterState extends State<Register> {
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.pushNamedAndRemoveUntil(
-          context, PageNavigator.routeName, (r) => false);
+
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        print(userCredential.user);
+        var db = FirebaseFirestore.instance;
+        db.collection("Users").doc(userCredential.user!.uid).set({
+          "name": name,
+          "fullName": username,
+          "email": email,
+          "phone": null,
+          "profilePicture":
+              "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/images%2Fblank_pfp.png?alt=media&token=6654f31c-284d-4c00-97de-eaa530c0e5ce",
+          "private": false,
+        });
+        Navigator.pushNamedAndRemoveUntil(
+            context, PageNavigator.routeName, (r) => false);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          Alerts.showAlert(
+              context, 'Signup Error', 'The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          Alerts.showAlert(context, 'Signup Error',
+              'The account already exists for that email.');
+        }
+      } catch (e) {
+        Alerts.showAlert(context, 'Signup Error', e.toString());
+      }
     } else {
       Alerts.showAlert(
           context, 'Signup Error', 'Please fill out the form correctly!');

@@ -23,12 +23,12 @@ class _UserProfileState extends State<UserProfile> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
-  MyUser mockUser = MyUser(
-      username: "isiktantanis",
-      fullName: "Işıktan Tanış",
-      email: "isiktantanis@gmail.com",
-      posts: [],
-      );
+  User mockUser = User(
+    username: "isiktantanis",
+    fullName: "Işıktan Tanış",
+    email: "isiktantanis@gmail.com",
+    posts: [],
+  );
 
   @override
   void initState() {

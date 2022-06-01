@@ -8,7 +8,7 @@ import 'package:cs310_group_28/models/user.dart';
 
 List<Post> sampleSearchPosts = [
   Post(
-    user: MyUser(
+    user: User(
       username: "alptuzun",
       email: "alptuzun@sabanciuniv.edu",
       fullName: "Alp Tüzün",
@@ -21,7 +21,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/goldengate.jpg',
   ),
   Post(
-    user: MyUser(
+    user: User(
       username: "isiktantanis",
       email: "isiktantanis@sabanciuniv.edu",
       fullName: "Işıktan Tanış",
@@ -32,7 +32,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
-    user: MyUser(
+    user: User(
       username: "elonmusk",
       email: "elonmusk@sabanciuniv.edu",
       fullName: "Elon Musk",
@@ -46,7 +46,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/eloncar.jpg',
   ),
   Post(
-    user: MyUser(
+    user: User(
       username: "yasinalbayrak",
       email: "yasinalbayrak@sabanciuniv.edu",
       fullName: "Yasin Albayrak",
@@ -59,7 +59,7 @@ List<Post> sampleSearchPosts = [
     imageName: "assets/images/muhammed_ali.jpg",
   ),
   Post(
-      user: MyUser(
+      user: User(
         username: "silaozinan",
         email: "silaozinan@sabanciuniv.edu",
         fullName: "Sıla Özinan",
@@ -68,10 +68,9 @@ List<Post> sampleSearchPosts = [
       date: "21 September 2021",
       location: "Sabancı University",
       imageName: 'assets/images/fridge.jpg',
-      price: "2000 TL"
-  ),
+      price: "2000 TL"),
   Post(
-      user: MyUser(
+      user: User(
         username: "aliozgunakyuz",
         email: "akyuz@sabanciuniv.edu",
         fullName: "Ali Özgün Akyüz",
@@ -81,10 +80,9 @@ List<Post> sampleSearchPosts = [
       // likes: 488,
       // comments: 27,
       imageName: 'assets/images/couch.jpg',
-      price:"1000 TL"
-  ),
+      price: "1000 TL"),
   Post(
-      user: MyUser(
+      user: User(
         username: "sermetozgu",
         email: "sermetozgu@sabanciuniv.edu",
         fullName: "Sermet Özgü",
@@ -96,10 +94,9 @@ List<Post> sampleSearchPosts = [
       // comments: 7787,
       location: "Sabancı University",
       imageName: 'assets/images/books.jpg',
-      price: "150 TL"
-  ),
+      price: "150 TL"),
   Post(
-      user: MyUser(
+      user: User(
         username: "yasinalbayrak",
         email: "yasinalbayrak@sabanciuniv.edu",
         fullName: "Yasin Albayrak",
@@ -110,9 +107,9 @@ List<Post> sampleSearchPosts = [
       //
       // comments: 12,
       imageName: "assets/images/bike.jpg",
-      price: "90 €"
-  )
+      price: "90 €")
 ];
+
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
 
@@ -123,7 +120,7 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-  bool click= true;
+  bool click = true;
   bool _isOpen = false;
 
   void closed() {
@@ -131,18 +128,18 @@ class _ExploreState extends State<Explore> {
       _isOpen = false;
     });
   }
-  void showPopupMenu()  {
+
+  void showPopupMenu() {
     _isOpen = true;
 
     showMenu(
       semanticLabel: "popupmenu",
-      constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 150),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20)
-      ),
+      constraints: const BoxConstraints(maxWidth: 75, maxHeight: 150),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       //shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))) ,
-      position: const RelativeRect.fromLTRB(25.0, 100, 20, 0.0),  //position where you// want to show the menu on screen
+      position: const RelativeRect.fromLTRB(25.0, 100, 20,
+          0.0), //position where you// want to show the menu on screen
 
       items: [
         PopupMenuItem(
@@ -152,12 +149,24 @@ class _ExploreState extends State<Explore> {
             child: Column(
               children: [
                 IconButton(
-
-                  onPressed: () {nullptr;}, icon: const Icon(Icons.account_circle_outlined, color: Colors.black,size: 20,),constraints: const BoxConstraints(maxHeight: 30),
+                  onPressed: () {
+                    nullptr;
+                  },
+                  icon: const Icon(
+                    Icons.account_circle_outlined,
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                  constraints: const BoxConstraints(maxHeight: 30),
                 ),
-                const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
+                const Divider(
+                  color: Colors.deepPurpleAccent,
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
               ],
-            ) ),
+            )),
         PopupMenuItem(
             height: 2,
             padding: const EdgeInsets.all(0),
@@ -165,38 +174,64 @@ class _ExploreState extends State<Explore> {
             child: Column(
               children: [
                 IconButton(
-                  onPressed: () {nullptr;}, icon: const Icon(Icons.location_on_outlined,color: Colors.black,size: 20, ),
-                  constraints: const BoxConstraints(maxHeight: 30),),
-                const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
+                  onPressed: () {
+                    nullptr;
+                  },
+                  icon: const Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                  constraints: const BoxConstraints(maxHeight: 30),
+                ),
+                const Divider(
+                  color: Colors.deepPurpleAccent,
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
               ],
-            ) ),
+            )),
         PopupMenuItem(
             height: 2,
             padding: const EdgeInsets.all(0),
             value: 3,
             child: Column(
               children: [
-                IconButton(onPressed: () {nullptr;}, icon: const Icon(Icons.tag,color: Colors.black,size: 20, ),constraints: const BoxConstraints(maxHeight: 30),),
-                const Divider(color: Colors.deepPurpleAccent,thickness: 1,indent:10,endIndent: 10,),
+                IconButton(
+                  onPressed: () {
+                    nullptr;
+                  },
+                  icon: const Icon(
+                    Icons.tag,
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                  constraints: const BoxConstraints(maxHeight: 30),
+                ),
+                const Divider(
+                  color: Colors.deepPurpleAccent,
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
               ],
-            )
-        ),
+            )),
       ],
       elevation: 8.0,
     ).then((_) {
       closed();
-    } );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: const Color(0xCBFFFFFF),
-      body:
-        SingleChildScrollView(
-          child: Column(
-            children: [
-               Padding(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
                 padding: const EdgeInsets.fromLTRB(5, 30, 5, 5),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
@@ -205,7 +240,7 @@ class _ExploreState extends State<Explore> {
                     label: SizedBox(
                       width: double.infinity,
                       child: Row(
-                        children:  [
+                        children: [
                           const SizedBox(width: 10),
                           Text(
                             "Search",
@@ -228,15 +263,15 @@ class _ExploreState extends State<Explore> {
                       ),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    suffixIcon:  Row(
+                    suffixIcon: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0,0,0,20),
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                           child: IconButton(
                               onPressed: () {
-                                setState(()  {
+                                setState(() {
                                   click = !click;
                                   showPopupMenu();
                                 });
@@ -244,17 +279,18 @@ class _ExploreState extends State<Explore> {
                               },
                               icon: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                                child:
-                                Icon(( _isOpen == true)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,
-                                    size:50,
-                                    color: Colors.black ),
-                              )
-                          ),
+                                child: Icon(
+                                    (_isOpen == true)
+                                        ? Icons.arrow_drop_up_outlined
+                                        : Icons.arrow_drop_down_outlined,
+                                    size: 50,
+                                    color: Colors.black),
+                              )),
                         ),
                         //Padding(
-                           //padding: const EdgeInsets.fromLTRB(0,0,0,20),
-                           //child:
-                            /* onSelected:  (int a) {click = false;},
+                        //padding: const EdgeInsets.fromLTRB(0,0,0,20),
+                        //child:
+                        /* onSelected:  (int a) {click = false;},
                              onCanceled: () {click = true;},
                              icon: Padding(
                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
@@ -270,28 +306,30 @@ class _ExploreState extends State<Explore> {
                              constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 500),*/
                         //),
                         IconButton(
-                          icon: const Icon(Icons.search_rounded, size: 30, color: Colors.black),
-                          onPressed: () {null;},
+                          icon: const Icon(Icons.search_rounded,
+                              size: 30, color: Colors.black),
+                          onPressed: () {
+                            null;
+                          },
                         )
                       ],
                       //child: Icon(Icons.search_rounded, size: 30, color: Colors.black)
                     ),
                   ),
-                   //Icon(Icons.search_rounded, size: 30),
-                )
-              ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: sampleSearchPosts
-                    .map((post) => SearchCard(
-                      post: post,
-                    ))
-                        .toList(),
-                  ),
-            ],
-          ),
+                  //Icon(Icons.search_rounded, size: 30),
+                )),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: sampleSearchPosts
+                  .map((post) => SearchCard(
+                        post: post,
+                      ))
+                  .toList(),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

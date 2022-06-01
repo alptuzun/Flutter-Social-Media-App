@@ -15,7 +15,7 @@ class Comment with _Comment {
 */
 
 class Comment {
-  MyUser user;
+  User user;
   String content;
   Comment({required this.user, required this.content});
 }

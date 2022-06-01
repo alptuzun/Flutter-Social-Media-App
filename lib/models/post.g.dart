@@ -9,7 +9,7 @@ part of 'post.dart';
 // **************************************************************************
 
 _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
-      user: MyUser.fromJson(json['user'] as Map<String, dynamic>),
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
       caption: json['caption'] as String?,
       date: json['date'] as String,
       location: json['location'] as String?,

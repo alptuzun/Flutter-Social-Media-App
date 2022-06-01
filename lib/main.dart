@@ -13,6 +13,7 @@ import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/walkthrough.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
+import 'firebase_options.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,9 +30,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   bool initialLoad = false;
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   late FirebaseAnalytics analytics;
 
   _MyAppState() {
@@ -48,8 +50,8 @@ class _MyAppState extends State<MyApp> {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          analytics = FirebaseAnalytics.instance;
-          analytics.logEvent(name: "Failed_to_load_the_app");
+          // analytics = FirebaseAnalytics.instance;
+          // analytics.logEvent(name: "Failed_to_load_the_app");
           return MaterialApp(
             home: Scaffold(
               body: Center(
@@ -76,9 +78,7 @@ class _MyAppState extends State<MyApp> {
             },
           );
         }
-        return const MaterialApp(
-          home: Splash(loadingText: "FireBase App")
-        );
+        return const MaterialApp(home: Splash(loadingText: "FireBase App"));
       },
     );
   }

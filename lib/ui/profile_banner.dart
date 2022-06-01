@@ -16,7 +16,7 @@ Column infoColumn(int number, String text) {
 }
 
 class ProfileBanner extends StatelessWidget {
-  final MyUser user;
+  final User user;
 
   const ProfileBanner({Key? key, required this.user}) : super(key: key);
 

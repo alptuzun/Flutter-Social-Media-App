@@ -7,7 +7,7 @@ part 'post.freezed.dart';
 @unfreezed
 class Post with _$Post {
   factory Post({
-    required MyUser user,
+    required User user,
     String? caption,
     required String date,
     String? location,

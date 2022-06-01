@@ -10,7 +10,6 @@ class PostCard extends StatelessWidget {
   final VoidCallback likes;
   final VoidCallback dislikes;
 
-
    const PostCard(
       {Key? key,
       required this.post,

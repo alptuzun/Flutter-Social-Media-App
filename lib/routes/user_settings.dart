@@ -17,7 +17,7 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
-  late MyUser mockUser;
+  late User mockUser;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void handlePrivateAccountToggle(bool val) {
@@ -29,7 +29,7 @@ class _UserSettingsState extends State<UserSettings> {
   @override
   void initState() {
     super.initState();
-    mockUser = MyUser(
+    mockUser = User(
         username: "isiktantanis",
         fullName: "Işıktan Tanış",
         email: "isiktantanis@gmail.com",
@@ -40,7 +40,8 @@ class _UserSettingsState extends State<UserSettings> {
 
   @override
   Widget build(BuildContext context) {
-    analytics.logScreenView(screenClass: "UserSettings", screenName: "User's Settings Screen");
+    analytics.logScreenView(
+        screenClass: "UserSettings", screenName: "User's Settings Screen");
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -249,19 +250,17 @@ class _UserSettingsState extends State<UserSettings> {
                   GestureDetector(
                     onTap: () async {
                       await _auth.signOut();
-                      if(!mounted) {
+                      if (!mounted) {
                         return;
                       }
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => Welcome()),
+                          MaterialPageRoute(builder: (context) => Welcome()),
                           (r) => false);
                     },
                     child: Container(
                       color: Colors.white,
                       child: Row(
-
                         children: [
                           Padding(
                               padding: const EdgeInsets.all(8.0),
