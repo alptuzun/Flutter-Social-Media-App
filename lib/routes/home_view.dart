@@ -6,13 +6,8 @@ import 'package:cs310_group_28/services/add_post.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:path/path.dart';
 
 List<Post> samplePosts = [
   Post(
@@ -98,7 +93,7 @@ class _HomeViewState extends State<HomeView> {
       // post.likes--;
     });
   }
-
+/*
   Future pickImage() async {
     final picker = ImagePicker();
     XFile? image;
@@ -106,14 +101,15 @@ class _HomeViewState extends State<HomeView> {
 
     image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      var snapshot = await storage.ref().child('images/MJ').putFile(File(image.path));
+      var snapshot = await storage.ref().child('images/MJ').putFile(
+          File(image.path));
       var downLoadUrl = await snapshot.ref.getDownloadURL();
-      setState (() {
+      setState(() {
 
       });
-
     }
-    /*
+  }
+
     try {
       await firebaseStorageRef.putFile(File(image.path));
       if (kDebugMode) {
@@ -129,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
         print(e.toString());
       }
     }*/
-  }
+
 
   Future uploadImageToFirebase(BuildContext context) async {
 
