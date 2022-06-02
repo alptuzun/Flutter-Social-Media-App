@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
           "Invalid email or password.\nPlease try again");
     } else if (result is User) {
       analytics.logLogin(loginMethod: "Email & Password");
-      await MySharedPreferences.instance.setBooleanValue("loggedIn", true);
+      MySharedPreferences.instance.setBooleanValue("loggedIn", true);
       Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (route) => false);
     } else {
@@ -288,17 +288,10 @@ class _LoginState extends State<Login> {
                         width: (screenWidth(context) / 100) * 45,
                         height: (screenHeight(context) / 100) * 5.5,
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                              begin: Alignment(0, -1),
-                              end: Alignment(0, 0),
-                              colors: [
-                                Colors.lightBlue,
-                                Colors.lightBlueAccent
-                              ]),
+                          border: Border.all(color: Colors.black45),
                           borderRadius: BorderRadius.circular(35),
                         ),
                         child: Material(
-                          color: Colors.transparent,
                           borderRadius: BorderRadius.circular(20),
                           child: ElevatedButton(
                             onPressed: () async {
@@ -309,11 +302,12 @@ class _LoginState extends State<Login> {
                                 shadowColor: Colors.transparent,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20))),
-                            child: Text(
-                              "Log In",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox
+                                  (child: Image.asset("assets/images/google_icon.png"),),
+                              ],
                             ),
                           ),
                         ),
@@ -374,10 +368,12 @@ class _LoginState extends State<Login> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Register()));
+                                  builder: (BuildContext context) => const Register()
+                              )
+                          );
                         }),
                 ],
               ),

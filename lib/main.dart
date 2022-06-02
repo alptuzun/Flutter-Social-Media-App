@@ -13,7 +13,7 @@ import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/walkthrough.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
-import 'firebase_options.dart';
+import 'package:cs310_group_28/util/firebase_options.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,8 +50,6 @@ class _MyAppState extends State<MyApp> {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          // analytics = FirebaseAnalytics.instance;
-          // analytics.logEvent(name: "Failed_to_load_the_app");
           return MaterialApp(
             home: Scaffold(
               body: Center(

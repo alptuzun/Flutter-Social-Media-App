@@ -12,7 +12,7 @@ Future<bool> emailExists(String emailAddress) async {
       // user using the email address
       return true;
     } else {
-      // Return false because email adress is not in use
+      // Return false because email address is not in use
       return false;
     }
   } catch (error) {

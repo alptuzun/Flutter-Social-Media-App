@@ -22,11 +22,14 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
   User currentUser =
       User(username: "asdfa", fullName: "adfadsf", email: "asdfasdf");
+
+
 
   @override
   void initState() {

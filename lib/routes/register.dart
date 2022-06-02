@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
+import 'package:cs310_group_28/util/auth.dart';
+import 'package:cs310_group_28/visuals/loading_screen.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,10 +14,6 @@ import 'package:cs310_group_28/ui/styled_button.dart';
 import 'package:cs310_group_28/ui/styled_password_field.dart';
 import 'package:cs310_group_28/ui/styled_text_field.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -28,12 +24,15 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+
   String name = "";
   String email = "";
   String username = "";
   String password = "";
   final validCharacters = RegExp(r'^[a-zA-Z0-9_]+$');
   final _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   String? usernameValidator(String? username) {
     if (username != null) {
@@ -106,46 +105,24 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  void handleButtonPress() async {
-    if (kDebugMode) {
-      print(
-          "\nemail:$email,\npassword:$password,\nusername:$username,\nname:$name");
+  Future registerUser() async {
+    ConnectionWaiter.loadingScreen(context);
+    dynamic result = await _auth.registerUserWithEmailPass(email, password);
+    if (!mounted) {
+      return;
     }
-
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-        print(userCredential.user);
-        var db = FirebaseFirestore.instance;
-        db.collection("Users").doc(userCredential.user!.uid).set({
-          "fullName": name,
-          "username": username,
-          "email": email,
-          "phone": null,
-          "profilePicture": "/blank_pfp.png",
-          "private": false,
-        });
-        FirebaseAnalytics.instance.logSignUp(signUpMethod: "Email & Password");
-        await MySharedPreferences.instance.setBooleanValue("loggedIn", true);
-        Navigator.pushNamedAndRemoveUntil(
-            context, PageNavigator.routeName, (r) => false);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          Alerts.showAlert(
-              context, 'Signup Error', 'The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          Alerts.showAlert(context, 'Signup Error',
-              'The account already exists for that email.');
-        }
-      } catch (e) {
-        Alerts.showAlert(context, 'Signup Error', e.toString());
-      }
-    } else {
-      Alerts.showAlert(
-          context, 'Signup Error', 'Please fill out the form correctly!');
+    Navigator.of(context).pop();
+    if (result is String) {
+      Alerts.showAlert(context, 'Register Error',
+          result.toString());
+    }
+    else if (result is User) {
+      analytics.logSignUp(signUpMethod: "Email_and_Password");
+      Navigator.pushNamedAndRemoveUntil(
+          context, PageNavigator.routeName, (route) => false);
+    }
+    else {
+      Alerts.showAlert(context, 'Login Error', result.toString());
     }
   }
 
@@ -195,7 +172,15 @@ class _RegisterState extends State<Register> {
                       validator: passwordValidator),
                   StyledButton(
                     label: "register",
-                    onPressed: handleButtonPress,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        await registerUser();
+                      }
+                      else {
+                        Alerts.showAlert(context, 'Signup Error', 'Please fill out the form correctly!');
+                      }
+                    }
                   )
                 ],
               ),
@@ -224,10 +209,12 @@ class _RegisterState extends State<Register> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Login()));
+                                  builder: (BuildContext context) => const Login()
+                              )
+                          );
                         }),
                 ])),
             SizedBox(

@@ -62,6 +62,8 @@ class _AddPostState extends State<AddPost> {
     }
   }
 
+  Future uploadImageToFirebase(BuildContext context) async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

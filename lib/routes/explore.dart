@@ -1,8 +1,7 @@
-import 'dart:ffi';
 import 'package:cs310_group_28/ui/search_card.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
-import 'package:cs310_group_28/visuals/text_style.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 
@@ -15,8 +14,6 @@ List<Post> sampleSearchPosts = [
     ),
     caption: "Very Beautiful day in San Francisco",
     date: "21 June 2021",
-    // likes: 505,
-    // comments: 15,
     location: "Golden Gate Bridge",
     imageName: 'assets/images/goldengate.jpg',
   ),
@@ -27,8 +24,6 @@ List<Post> sampleSearchPosts = [
       fullName: "Işıktan Tanış",
     ),
     date: "8 November 2021",
-    // likes: 488,
-    // comments: 27,
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
@@ -39,9 +34,6 @@ List<Post> sampleSearchPosts = [
     ),
     caption: "With my new Whip",
     date: "27 May 2021",
-    // likes: 1070897,
-    //
-    // comments: 7787,
     location: "Tesla Inc. HQ",
     imageName: 'assets/images/eloncar.jpg',
   ),
@@ -53,9 +45,6 @@ List<Post> sampleSearchPosts = [
     ),
     caption: "Live Like A Champion",
     date: "16 May 2021",
-    // likes: 247,
-    //
-    // comments: 12,
     imageName: "assets/images/muhammed_ali.jpg",
   ),
   Post(
@@ -77,8 +66,6 @@ List<Post> sampleSearchPosts = [
       ),
       caption: "couch (only used for one semester)",
       date: "17 November 2021",
-      // likes: 488,
-      // comments: 27,
       imageName: 'assets/images/couch.jpg',
       price: "1000 TL"),
   Post(
@@ -89,9 +76,6 @@ List<Post> sampleSearchPosts = [
       ),
       caption: "I'm selling TLL101 books",
       date: "27 May 2021",
-      // likes: 1070897,
-      //
-      // comments: 7787,
       location: "Sabancı University",
       imageName: 'assets/images/books.jpg',
       price: "150 TL"),
@@ -103,9 +87,6 @@ List<Post> sampleSearchPosts = [
       ),
       caption: "Anyone want to buy a bike?",
       date: "16 May 2021",
-      // likes: 247,
-      //
-      // comments: 12,
       imageName: "assets/images/bike.jpg",
       price: "90 €")
 ];
@@ -120,8 +101,9 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-  bool click = true;
+  bool click = false;
   bool _isOpen = false;
+  String currValue = "Accounts";
 
   void closed() {
     setState(() {
@@ -138,8 +120,8 @@ class _ExploreState extends State<Explore> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       //shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))) ,
-      position: const RelativeRect.fromLTRB(25.0, 100, 20,
-          0.0), //position where you// want to show the menu on screen
+      position: const RelativeRect.fromLTRB(25.0, 100, 20, 0.0),
+      //position where you// want to show the menu on screen
 
       items: [
         PopupMenuItem(
@@ -150,7 +132,7 @@ class _ExploreState extends State<Explore> {
               children: [
                 IconButton(
                   onPressed: () {
-                    nullptr;
+                    null;
                   },
                   icon: const Icon(
                     Icons.account_circle_outlined,
@@ -175,7 +157,7 @@ class _ExploreState extends State<Explore> {
               children: [
                 IconButton(
                   onPressed: () {
-                    nullptr;
+                    null;
                   },
                   icon: const Icon(
                     Icons.location_on_outlined,
@@ -200,7 +182,7 @@ class _ExploreState extends State<Explore> {
               children: [
                 IconButton(
                   onPressed: () {
-                    nullptr;
+                    null;
                   },
                   icon: const Icon(
                     Icons.tag,
@@ -228,6 +210,122 @@ class _ExploreState extends State<Explore> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xCBFFFFFF),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            backgroundColor: Colors.white,
+            actions: [
+              if (currValue == "Accounts")
+                const Icon(
+                  Icons.account_circle_outlined,
+                  color: Colors.black,
+                )
+              else if (currValue == "Locations")
+                const Icon(
+                  Icons.location_on_outlined,
+                  color: Colors.black,
+                )
+              else if (currValue == "Hashtags")
+                  const Icon(
+                    Icons.tag,
+                    color: Colors.black,
+                  ),
+              PopupMenuButton(
+                icon: const Icon(
+                  Icons.arrow_drop_down_outlined,
+                  color: Colors.black,
+                ),
+                iconSize: 40,
+                onSelected: (value) {
+                  currValue = value.toString();
+                  setState(() {
+                  });
+                },
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      height: screenHeight(context) / 100 * 5,
+                      value: 'Accounts',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.account_circle_outlined,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                          Text("Accounts"),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      height: screenHeight(context) / 100 * 5,
+                      value: 'Locations',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                          Text("Locations"),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      height: screenHeight(context) / 100 * 5,
+                      value: 'Hashtags',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.tag,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                          Text("Hashtags"),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+              ),
+              IconButton(
+                padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                splashRadius: 27,
+                icon: const Icon(Icons.search_outlined),
+                color: AppColors.titleColor,
+                iconSize: 40,
+                onPressed: () {
+                  null;
+                },
+              ),
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: sampleSearchPosts
+                      .map((post) => SearchCard(
+                            post: post,
+                          ))
+                      .toList(),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+/* backgroundColor: const Color(0xCBFFFFFF),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -287,24 +385,6 @@ class _ExploreState extends State<Explore> {
                                     color: Colors.black),
                               )),
                         ),
-                        //Padding(
-                        //padding: const EdgeInsets.fromLTRB(0,0,0,20),
-                        //child:
-                        /* onSelected:  (int a) {click = false;},
-                             onCanceled: () {click = true;},
-                             icon: Padding(
-                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                               child:
-                               Icon((click==false)? Icons.arrow_drop_up_outlined : Icons.arrow_drop_up_outlined,
-                                   size:50,
-                                   color: Colors.black ),
-                             ),
-                             shape:RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(20)
-                             ) ,
-                             position: PopupMenuPosition.under,
-                             constraints: const BoxConstraints(maxWidth:75 ,maxHeight: 500),*/
-                        //),
                         IconButton(
                           icon: const Icon(Icons.search_rounded,
                               size: 30, color: Colors.black),
@@ -313,10 +393,8 @@ class _ExploreState extends State<Explore> {
                           },
                         )
                       ],
-                      //child: Icon(Icons.search_rounded, size: 30, color: Colors.black)
                     ),
                   ),
-                  //Icon(Icons.search_rounded, size: 30),
                 )),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -329,7 +407,4 @@ class _ExploreState extends State<Explore> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
+      ), */

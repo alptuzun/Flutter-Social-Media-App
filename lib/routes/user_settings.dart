@@ -19,6 +19,7 @@ class UserSettings extends StatefulWidget {
 class _UserSettingsState extends State<UserSettings> {
   late User mockUser;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  final AuthService _auth = AuthService();
 
   void handlePrivateAccountToggle(bool val) {
     setState(() {
@@ -36,7 +37,7 @@ class _UserSettingsState extends State<UserSettings> {
         private: true);
   }
 
-  final AuthService _auth = AuthService();
+
 
   @override
   Widget build(BuildContext context) {

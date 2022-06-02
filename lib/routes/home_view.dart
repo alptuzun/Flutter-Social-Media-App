@@ -6,7 +6,6 @@ import 'package:cs310_group_28/services/add_post.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
@@ -74,6 +73,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void addComment(Post post) {
@@ -93,42 +93,6 @@ class _HomeViewState extends State<HomeView> {
       // post.likes--;
     });
   }
-/*
-  Future pickImage() async {
-    final picker = ImagePicker();
-    XFile? image;
-    final storage = FirebaseStorage.instance;
-
-    image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-
-      var snapshot = await storage.ref().child('images/MJ').putFile(
-          File(image.path));
-      var downLoadUrl = await snapshot.ref.getDownloadURL();
-      setState(() {
-
-      });
-
-    }
-  }
-
-    try {
-      await firebaseStorageRef.putFile(File(image.path));
-      if (kDebugMode) {
-        print("Upload complete");
-      }
-      setState(() {});
-    }  on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print('ERROR: ${e.code} - ${e.message}');
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-    }*/
-
-  Future uploadImageToFirebase(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
