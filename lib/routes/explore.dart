@@ -1,10 +1,15 @@
 import 'dart:ffi';
+import 'package:cs310_group_28/routes/explore_SearchScreen.dart';
 import 'package:cs310_group_28/ui/search_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/models/user_search_model.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+
+import 'package:cs310_group_28/services/fadeanimation.dart';
 
 List<Post> sampleSearchPosts = [
   Post(
@@ -309,7 +314,9 @@ class _ExploreState extends State<Explore> {
                           icon: const Icon(Icons.search_rounded,
                               size: 30, color: Colors.black),
                           onPressed: () {
-                            null;
+                            Navigator.push(context,MaterialPageRoute(builder: (context) => SearchScreen()));
+
+
                           },
                         )
                       ],
