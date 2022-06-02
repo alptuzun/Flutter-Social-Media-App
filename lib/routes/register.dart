@@ -4,6 +4,7 @@ import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -15,6 +16,8 @@ import 'package:cs310_group_28/ui/styled_text_field.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -118,14 +121,15 @@ class _RegisterState extends State<Register> {
         print(userCredential.user);
         var db = FirebaseFirestore.instance;
         db.collection("Users").doc(userCredential.user!.uid).set({
-          "name": name,
-          "fullName": username,
+          "fullName": name,
+          "username": username,
           "email": email,
           "phone": null,
-          "profilePicture":
-              "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/images%2Fblank_pfp.png?alt=media&token=6654f31c-284d-4c00-97de-eaa530c0e5ce",
+          "profilePicture": "/blank_pfp.png",
           "private": false,
         });
+        FirebaseAnalytics.instance.logSignUp(signUpMethod: "Email & Password");
+        await MySharedPreferences.instance.setBooleanValue("loggedIn", true);
         Navigator.pushNamedAndRemoveUntil(
             context, PageNavigator.routeName, (r) => false);
       } on FirebaseAuthException catch (e) {

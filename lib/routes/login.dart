@@ -12,6 +12,8 @@ import 'package:cs310_group_28/visuals/alerts.dart';
 import 'package:cs310_group_28/util/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../models/shared_preferences.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -39,9 +41,8 @@ class _LoginState extends State<Login> {
       Alerts.showAlert(context, 'Login Error',
           "Invalid email or password.\nPlease try again");
     } else if (result is User) {
-      analytics.logLogin(
-        loginMethod: "Email & Password"
-      );
+      analytics.logLogin(loginMethod: "Email & Password");
+      await MySharedPreferences.instance.setBooleanValue("loggedIn", true);
       Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (route) => false);
     } else {

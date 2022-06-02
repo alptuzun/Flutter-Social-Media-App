@@ -1,14 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/post.dart';
+import 'package:cs310_group_28/models/shared_preferences.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/ui/profile_banner.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cs310_group_28/services/user_service.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -23,52 +25,36 @@ class _UserProfileState extends State<UserProfile> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
-  User mockUser = User(
-    username: "isiktantanis",
-    fullName: "Işıktan Tanış",
-    email: "isiktantanis@gmail.com",
-    posts: [],
-  );
+  User currentUser =
+      User(username: "asdfa", fullName: "adfadsf", email: "asdfasdf");
 
   @override
   void initState() {
+    MySharedPreferences.instance
+        .getBooleanValue("loggedIn")
+        .then((loggedIn) => {if (loggedIn) {}});
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      print(user!.uid);
+      if (user != null) {
+        FirebaseFirestore.instance
+            .collection("Users")
+            .doc("ww7kadAu7ccLNLKHrT4n9aygNWH3")
+            .get()
+            .then(
+          (DocumentSnapshot doc) {
+            Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+            print(data);
+            currentUser = User(
+                username: data["username"],
+                fullName: data["fullName"],
+                email: data["email"]);
+            print(currentUser);
+          },
+          onError: (e) => print("Error getting document: $e"),
+        );
+      }
+    });
     super.initState();
-    UserService.addPost(
-        mockUser,
-        Post(
-            user: mockUser,
-            date: "27/05/2022",
-            imageName: "assets/images/eloncar.jpg"));
-    UserService.addPost(
-        mockUser,
-        Post(
-            user: mockUser,
-            date: "27/05/2022",
-            imageName: "assets/images/eloncar.jpg"));
-    UserService.addPost(
-        mockUser,
-        Post(
-            user: mockUser,
-            date: "27/05/2022",
-            imageName: "assets/images/eloncar.jpg"));
-    UserService.addPost(
-        mockUser,
-        Post(
-            user: mockUser,
-            date: "27/05/2022",
-            imageName: "assets/images/eloncar.jpg"));
-    UserService.addPost(
-        mockUser,
-        Post(
-            user: mockUser,
-            date: "27/05/2022",
-            imageName: "assets/images/eloncar.jpg"));
-    UserService.addPost(
-        mockUser,
-        Post(
-            user: mockUser,
-            date: "27/05/2022",
-            imageName: "assets/images/eloncar.jpg"));
   }
 
   Container notFound(String section) {
@@ -86,9 +72,9 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget posts() {
-    if (mockUser.posts.isNotEmpty) {
+    if (currentUser.posts.isNotEmpty) {
       return Column(
-          children: mockUser.posts
+          children: currentUser.posts
               .map((post) => PostCard(
                   post: post, comment: () {}, likes: () {}, dislikes: () {}))
               .toList());
@@ -97,9 +83,9 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget favorites() {
-    if (mockUser.favorites.isNotEmpty) {
+    if (currentUser.favorites.isNotEmpty) {
       return Column(
-          children: mockUser.favorites
+          children: currentUser.favorites
               .map((post) => PostCard(
                   post: post, comment: () {}, likes: () {}, dislikes: () {}))
               .toList());
@@ -108,9 +94,9 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget comments() {
-    if (mockUser.comments.isNotEmpty) {
+    if (currentUser.comments.isNotEmpty) {
       return Column(
-          children: mockUser.comments
+          children: currentUser.comments
               .map((post) => PostCard(
                   post: post, comment: () {}, likes: () {}, dislikes: () {}))
               .toList());
@@ -182,7 +168,7 @@ class _UserProfileState extends State<UserProfile> {
             ),
           ],
           title: Text(
-            mockUser.username,
+            currentUser.username,
             style: Styles.appBarTitleTextStyle,
           ),
         ),
@@ -191,7 +177,7 @@ class _UserProfileState extends State<UserProfile> {
             child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ProfileBanner(user: mockUser),
+            ProfileBanner(user: currentUser),
             SizedBox(
               height: 40,
               child: Padding(
