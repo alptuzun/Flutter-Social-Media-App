@@ -40,7 +40,7 @@ class _AddPostState extends State<AddPost> {
 
   Future loadCamera() async {
     final cameras = await availableCameras();
-    final firstCamera = cameras[0];
+    final firstCamera = cameras[1];
     if (!mounted) {
       return;
     }

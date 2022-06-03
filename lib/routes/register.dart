@@ -10,9 +10,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cs310_group_28/ui/styled_button.dart';
-import 'package:cs310_group_28/ui/styled_password_field.dart';
-import 'package:cs310_group_28/ui/styled_text_field.dart';
+import 'package:cs310_group_28/visuals/styled_button.dart';
+import 'package:cs310_group_28/visuals/styled_password_field.dart';
+import 'package:cs310_group_28/visuals/styled_text_field.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
 
 class Register extends StatefulWidget {

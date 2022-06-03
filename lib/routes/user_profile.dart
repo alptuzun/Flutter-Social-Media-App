@@ -6,7 +6,7 @@ import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/ui/profile_banner.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,38 +21,39 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
-  MyUser currentUser =
-      MyUser(username: "asdfa", fullName: "adfadsf", email: "asdfasdf");
+  MyUser currentUser = MyUser(username: "", fullName: "", email: "");
 
-  @override
-  void initState() {
+  getUserInfo() async {
     MySharedPreferences.instance
         .getBooleanValue("loggedIn")
         .then((loggedIn) => {if (loggedIn) {}});
-    FirebaseAuth.instance.authStateChanges().listen((user) {
-      print(user!.uid);
-      if (user != null) {
-        FirebaseFirestore.instance
-            .collection("Users")
-            .doc("ww7kadAu7ccLNLKHrT4n9aygNWH3")
-            .get()
-            .then(
-          (DocumentSnapshot doc) {
-            Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-            print(data);
+    FirebaseAuth.instance.authStateChanges().listen((user) async {
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc("ww7kadAu7ccLNLKHrT4n9aygNWH3")
+          .get()
+          .then(
+        (DocumentSnapshot doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          setState(() {
             currentUser = MyUser(
                 username: data["username"],
                 fullName: data["fullName"],
                 email: data["email"]);
-            print(currentUser);
-          },
-          onError: (e) => print("Error getting document: $e"),
-        );
-      }
+          });
+        },
+        onError: (e) => print("Error getting document: ${e.toString()}"),
+      );
     });
+  }
+
+  @override
+  void initState() {
+    getUserInfo();
     super.initState();
   }
 
@@ -172,6 +173,94 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ),
         backgroundColor: const Color(0xCBFFFFFF),
+        body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection("Users")
+                .snapshots()
+                .asBroadcastStream(),
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot> querySnapshot) {
+              if (!querySnapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return SingleChildScrollView(
+                    child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ProfileBanner(user: currentUser),
+                    SizedBox(
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                          children: [
+                            for (final sec in sections.asMap().entries) ...[
+                              section(sec.value),
+                              if (sec.key != sections.length - 1)
+                                const VerticalDivider(
+                                  color: Colors.black38,
+                                  thickness: 2,
+                                  indent: 5,
+                                  endIndent: 5,
+                                ),
+                            ]
+                          ],
+                        ),
+                      ),
+                    ),
+                    content(),
+                  ],
+                ));
+              }
+            }));
+
+    /*
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection("Users").snapshots().asBroadcastStream(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+        if (!querySnapshot.hasData) {
+          return const Center(child: CircularProgressIndicator(backgroundColor: Colors.white,));
+        }
+      },
+    );
+    */
+
+    /* return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+            splashRadius: 27,
+            icon: const Icon(Icons.notifications_none_rounded),
+            color: Colors.grey,
+            iconSize: 40,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Notifications()));
+            },
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+              splashRadius: 27,
+              icon: const Icon(Icons.menu_rounded),
+              color: Colors.grey,
+              iconSize: 40,
+              onPressed: () {
+                Navigator.pushNamed(context, "user_settings");
+              },
+            ),
+          ],
+          title: Text(
+            currentUser.username,
+            style: Styles.appBarTitleTextStyle,
+          ),
+        ),
+        backgroundColor: const Color(0xCBFFFFFF),
         body: SingleChildScrollView(
             child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -199,6 +288,6 @@ class _UserProfileState extends State<UserProfile> {
             ),
             content(),
           ],
-        )));
+        )));*/
   }
 }

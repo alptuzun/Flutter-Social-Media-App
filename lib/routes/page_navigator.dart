@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/routes/explore.dart';
@@ -21,6 +22,7 @@ class _PageNavigatorState extends State<PageNavigator> {
     const UserProfile()
   ];
   int _currIdx = 0;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -30,6 +32,7 @@ class _PageNavigatorState extends State<PageNavigator> {
 
   @override
   Widget build(BuildContext context) {
+    analytics.logScreenView(screenClass: "PageNavigator", screenName: "Main_Screen_Navigation");
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: _pages[_currIdx],
@@ -66,7 +69,7 @@ class _PageNavigatorState extends State<PageNavigator> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
-              label: "Explore",
+              label: "Profile",
             ),
           ],
         ),

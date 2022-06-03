@@ -1,4 +1,4 @@
-import 'package:cs310_group_28/ui/styled_text_field_container.dart';
+import 'package:cs310_group_28/visuals/styled_text_field_container.dart';
 import 'package:cs310_group_28/visuals/app_dimensions.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';

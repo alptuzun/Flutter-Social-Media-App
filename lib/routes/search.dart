@@ -37,98 +37,96 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-                padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-                splashRadius: 27,
-                icon: const Icon(
-                  Icons.arrow_back_ios_rounded,
-                  size: 34,
-                ),
-                color: AppColors.titleColor,
-                onPressed: () {
-                  Navigator.pop(context); // pop the context
-                }),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            title: SizedBox(
-              height: 40,
-              child: TextField(
-                onChanged: (val) => onSearch(val),
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 228, 228, 228),
-                    contentPadding: const EdgeInsets.all(10),
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Color.fromARGB(255, 146, 146, 146),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none),
-                    hintText: "Search",
-                    hintStyle: const TextStyle(
-                        fontSize: 14,
-                        color: Color.fromARGB(255, 131, 131, 131))),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+              splashRadius: 27,
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                size: 34,
               ),
+              color: AppColors.titleColor,
+              onPressed: () {
+                Navigator.pop(context); // pop the context
+              }),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: SizedBox(
+            height: 40,
+            child: TextField(
+              onChanged: (val) => onSearch(val),
+              decoration: InputDecoration(
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 228, 228, 228),
+                  contentPadding: const EdgeInsets.all(10),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Color.fromARGB(255, 146, 146, 146),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none),
+                  hintText: "Search",
+                  hintStyle: const TextStyle(
+                      fontSize: 14,
+                      color: Color.fromARGB(255, 131, 131, 131))),
             ),
           ),
-          body: Container(
-              color: const Color.fromARGB(255, 245, 245, 245),
-              child: _foundUsers.isEmpty
-                  ? const Center(
-                      child: Text(
-                        "No user has been found",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: _foundUsers.length,
-                      itemBuilder: (ctx, index) {
-                        return FadeAnimation(
-                            delay: 0.7 * index,
-                            child: Slidable(
-                              child: userPart(aUser: _foundUsers[index]),
-                              actionPane: const SlidableStrechActionPane(),
-                              actionExtentRatio: 0.25,
-                              actions: const [
-                                IconSlideAction(
-                                  caption: "Archive",
-                                  color: Color.fromARGB(255, 236, 236, 236),
-                                  iconWidget: Icon(
-                                    Icons.archive,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                IconSlideAction(
-                                  caption: 'Share',
-                                  color: Color.fromARGB(255, 236, 236, 236),
-                                  iconWidget: Icon(
-                                    Icons.share,
-                                    color: Colors.black,
-                                  ),
-                                  onTap: null,
-                                ),
-                              ],
-                              secondaryActions: [
-                                IconSlideAction(
-                                  caption: 'Remove',
-                                  color: Colors.red,
-                                  iconWidget: const Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                  ),
-                                  onTap: () => userRemoveWithIndex(index),
-                                ),
-                              ],
-                            ));
-                      },
-                    )),
         ),
+        body: Container(
+            color: const Color.fromARGB(255, 245, 245, 245),
+            child: _foundUsers.isEmpty
+                ? const Center(
+                    child: Text(
+                      "No user has been found",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: _foundUsers.length,
+                    itemBuilder: (ctx, index) {
+                      return FadeAnimation(
+                          delay: 0.05 * index,
+                          child: Slidable(
+                            child: userPart(aUser: _foundUsers[index]),
+                            actionPane: const SlidableStrechActionPane(),
+                            actionExtentRatio: 0.25,
+                            actions: const [
+                              IconSlideAction(
+                                caption: "Archive",
+                                color: Color.fromARGB(255, 236, 236, 236),
+                                iconWidget: Icon(
+                                  Icons.archive,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              IconSlideAction(
+                                caption: 'Share',
+                                color: Color.fromARGB(255, 236, 236, 236),
+                                iconWidget: Icon(
+                                  Icons.share,
+                                  color: Colors.black,
+                                ),
+                                onTap: null,
+                              ),
+                            ],
+                            secondaryActions: [
+                              IconSlideAction(
+                                caption: 'Remove',
+                                color: Colors.red,
+                                iconWidget: const Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                ),
+                                onTap: () => userRemoveWithIndex(index),
+                              ),
+                            ],
+                          ));
+                    },
+                  )),
       ),
     );
   }

@@ -42,4 +42,9 @@ class UserService {
       "notifications": []
     });
   }
+
+  static returnRef() => FirebaseFirestore.instance.collection("Users");
+
+
+
 }

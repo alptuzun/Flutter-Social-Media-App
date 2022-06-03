@@ -19,7 +19,6 @@ class _ResetPasswordState extends State<ResetPassword> {
   final AuthService _auth = AuthService();
   String email = "";
 
-
   Future resetPass() async {
     ConnectionWaiter.loadingScreen(context);
     dynamic results = await _auth.passwordResetEmail(email);
@@ -30,6 +29,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     if (results is String) {
       Alerts.showAlert(context, 'Reset Error', results);
     }
+    Alerts.showAlert(context, "Reset Email has been sent", "Please also check your spam folder.");
   }
 
   @override
