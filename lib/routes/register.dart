@@ -125,7 +125,7 @@ class _RegisterState extends State<Register> {
       Alerts.showAlert(context, 'Login Error', result.toString());
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/register.dart';
+import 'package:cs310_group_28/routes/reset_pass.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,7 @@ import 'package:flutter/gestures.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
 import 'package:cs310_group_28/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../models/shared_preferences.dart';
+import 'package:cs310_group_28/services/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -352,7 +352,10 @@ class _LoginState extends State<Login> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // forgot Your Password
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ResetPassword()));
                         }),
                 ],
               ),

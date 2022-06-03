@@ -1,4 +1,4 @@
-import 'package:cs310_group_28/models/shared_preferences.dart';
+import 'package:cs310_group_28/services/shared_preferences.dart';
 import 'package:cs310_group_28/routes/explore.dart';
 import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/routes/marketplace.dart';

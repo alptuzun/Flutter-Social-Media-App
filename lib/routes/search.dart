@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/user_search_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:cs310_group_28/services/fade_animation.dart';
+import 'package:cs310_group_28/visuals/fade_animation.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 
 class SearchScreen extends StatefulWidget {
