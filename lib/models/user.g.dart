@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'user.dart';
 
 // **************************************************************************
@@ -12,10 +10,11 @@ _$_MyUser _$$_MyUserFromJson(Map<String, dynamic> json) => _$_MyUser(
       username: json['username'] as String,
       fullName: json['fullName'] as String,
       email: json['email'] as String,
+      bio: json['bio'] as String? ?? "",
       phone: json['phone'] as String?,
       profilePicture: json['profilePicture'] as String? ??
           "assets/images/default_profile_picture.webp",
-      private: json['private'] as bool? ?? true,
+      private: json['private'] as bool? ?? false,
       posts: json['posts'] as List<dynamic>? ?? const [],
       favorites: json['favorites'] as List<dynamic>? ?? const [],
       comments: json['comments'] as List<dynamic>? ?? const [],
@@ -27,6 +26,7 @@ Map<String, dynamic> _$$_MyUserToJson(_$_MyUser instance) => <String, dynamic>{
       'username': instance.username,
       'fullName': instance.fullName,
       'email': instance.email,
+      'bio': instance.bio,
       'phone': instance.phone,
       'profilePicture': instance.profilePicture,
       'private': instance.private,

@@ -7,6 +7,7 @@ import 'package:cs310_group_28/routes/user_profile.dart';
 import 'package:cs310_group_28/routes/user_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/routes/welcome.dart';
 import 'package:cs310_group_28/routes/login.dart';
@@ -34,7 +35,6 @@ class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  late FirebaseAnalytics analytics;
 
   _MyAppState() {
     MySharedPreferences.instance
@@ -60,7 +60,8 @@ class _MyAppState extends State<MyApp> {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          analytics = FirebaseAnalytics.instance;
+          FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+          FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
           analytics.logAppOpen();
           return MaterialApp(
             home: initialLoad ? Welcome() : const WalkThrough(),

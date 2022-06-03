@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-User _$MyUserFromJson(Map<String, dynamic> json) {
+MyUser _$MyUserFromJson(Map<String, dynamic> json) {
   return _MyUser.fromJson(json);
 }
 
@@ -26,6 +26,8 @@ mixin _$MyUser {
   set fullName(String value) => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   set email(String value) => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
+  set bio(String value) => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   set phone(String? value) => throw _privateConstructorUsedError;
   String get profilePicture => throw _privateConstructorUsedError;
@@ -45,17 +47,18 @@ mixin _$MyUser {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MyUserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
+  $MyUserCopyWith<MyUser> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $MyUserCopyWith<$Res> {
-  factory $MyUserCopyWith(User value, $Res Function(User) then) =
+  factory $MyUserCopyWith(MyUser value, $Res Function(MyUser) then) =
       _$MyUserCopyWithImpl<$Res>;
   $Res call(
       {String username,
       String fullName,
       String email,
+      String bio,
       String? phone,
       String profilePicture,
       bool private,
@@ -70,15 +73,16 @@ abstract class $MyUserCopyWith<$Res> {
 class _$MyUserCopyWithImpl<$Res> implements $MyUserCopyWith<$Res> {
   _$MyUserCopyWithImpl(this._value, this._then);
 
-  final User _value;
+  final MyUser _value;
   // ignore: unused_field
-  final $Res Function(User) _then;
+  final $Res Function(MyUser) _then;
 
   @override
   $Res call({
     Object? username = freezed,
     Object? fullName = freezed,
     Object? email = freezed,
+    Object? bio = freezed,
     Object? phone = freezed,
     Object? profilePicture = freezed,
     Object? private = freezed,
@@ -100,6 +104,10 @@ class _$MyUserCopyWithImpl<$Res> implements $MyUserCopyWith<$Res> {
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: bio == freezed
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       phone: phone == freezed
           ? _value.phone
@@ -146,6 +154,7 @@ abstract class _$$_MyUserCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       {String username,
       String fullName,
       String email,
+      String bio,
       String? phone,
       String profilePicture,
       bool private,
@@ -170,6 +179,7 @@ class __$$_MyUserCopyWithImpl<$Res> extends _$MyUserCopyWithImpl<$Res>
     Object? username = freezed,
     Object? fullName = freezed,
     Object? email = freezed,
+    Object? bio = freezed,
     Object? phone = freezed,
     Object? profilePicture = freezed,
     Object? private = freezed,
@@ -191,6 +201,10 @@ class __$$_MyUserCopyWithImpl<$Res> extends _$MyUserCopyWithImpl<$Res>
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: bio == freezed
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       phone: phone == freezed
           ? _value.phone
@@ -235,9 +249,10 @@ class _$_MyUser implements _MyUser {
       {required this.username,
       required this.fullName,
       required this.email,
+      this.bio = "",
       this.phone,
       this.profilePicture = "assets/images/default_profile_picture.webp",
-      this.private = true,
+      this.private = false,
       this.posts = const [],
       this.favorites = const [],
       this.comments = const [],
@@ -253,6 +268,9 @@ class _$_MyUser implements _MyUser {
   String fullName;
   @override
   String email;
+  @override
+  @JsonKey()
+  String bio;
   @override
   String? phone;
   @override
@@ -279,7 +297,7 @@ class _$_MyUser implements _MyUser {
 
   @override
   String toString() {
-    return 'MyUser(username: $username, fullName: $fullName, email: $email, phone: $phone, profilePicture: $profilePicture, private: $private, posts: $posts, favorites: $favorites, comments: $comments, following: $following, followers: $followers)';
+    return 'MyUser(username: $username, fullName: $fullName, email: $email, bio: $bio, phone: $phone, profilePicture: $profilePicture, private: $private, posts: $posts, favorites: $favorites, comments: $comments, following: $following, followers: $followers)';
   }
 
   @JsonKey(ignore: true)
@@ -293,11 +311,12 @@ class _$_MyUser implements _MyUser {
   }
 }
 
-abstract class _MyUser implements User {
+abstract class _MyUser implements MyUser {
   factory _MyUser(
       {required String username,
       required String fullName,
       required String email,
+      String bio,
       String? phone,
       String profilePicture,
       bool private,
@@ -315,6 +334,8 @@ abstract class _MyUser implements User {
   String get fullName => throw _privateConstructorUsedError;
   @override
   String get email => throw _privateConstructorUsedError;
+  @override
+  String get bio => throw _privateConstructorUsedError;
   @override
   String? get phone => throw _privateConstructorUsedError;
   @override

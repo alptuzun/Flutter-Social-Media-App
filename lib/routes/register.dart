@@ -1,6 +1,6 @@
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
-import 'package:cs310_group_28/util/auth.dart';
+import 'package:cs310_group_28/services/auth.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -107,7 +107,7 @@ class _RegisterState extends State<Register> {
 
   Future registerUser() async {
     ConnectionWaiter.loadingScreen(context);
-    dynamic result = await _auth.registerUserWithEmailPass(email, password);
+    dynamic result = await _auth.registerUserWithEmailPass(email, password, name, username);
     if (!mounted) {
       return;
     }

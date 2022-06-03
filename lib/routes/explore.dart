@@ -1,3 +1,4 @@
+import 'package:cs310_group_28/routes/search.dart';
 import 'package:cs310_group_28/ui/search_card.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
@@ -7,7 +8,7 @@ import 'package:cs310_group_28/models/user.dart';
 
 List<Post> sampleSearchPosts = [
   Post(
-    user: User(
+    user: MyUser(
       username: "alptuzun",
       email: "alptuzun@sabanciuniv.edu",
       fullName: "Alp Tüzün",
@@ -18,7 +19,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/goldengate.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "isiktantanis",
       email: "isiktantanis@sabanciuniv.edu",
       fullName: "Işıktan Tanış",
@@ -27,7 +28,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "elonmusk",
       email: "elonmusk@sabanciuniv.edu",
       fullName: "Elon Musk",
@@ -38,7 +39,7 @@ List<Post> sampleSearchPosts = [
     imageName: 'assets/images/eloncar.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "yasinalbayrak",
       email: "yasinalbayrak@sabanciuniv.edu",
       fullName: "Yasin Albayrak",
@@ -48,7 +49,7 @@ List<Post> sampleSearchPosts = [
     imageName: "assets/images/muhammed_ali.jpg",
   ),
   Post(
-      user: User(
+      user: MyUser(
         username: "silaozinan",
         email: "silaozinan@sabanciuniv.edu",
         fullName: "Sıla Özinan",
@@ -59,7 +60,7 @@ List<Post> sampleSearchPosts = [
       imageName: 'assets/images/fridge.jpg',
       price: "2000 TL"),
   Post(
-      user: User(
+      user: MyUser(
         username: "aliozgunakyuz",
         email: "akyuz@sabanciuniv.edu",
         fullName: "Ali Özgün Akyüz",
@@ -69,7 +70,7 @@ List<Post> sampleSearchPosts = [
       imageName: 'assets/images/couch.jpg',
       price: "1000 TL"),
   Post(
-      user: User(
+      user: MyUser(
         username: "sermetozgu",
         email: "sermetozgu@sabanciuniv.edu",
         fullName: "Sermet Özgü",
@@ -80,7 +81,7 @@ List<Post> sampleSearchPosts = [
       imageName: 'assets/images/books.jpg',
       price: "150 TL"),
   Post(
-      user: User(
+      user: MyUser(
         username: "yasinalbayrak",
         email: "yasinalbayrak@sabanciuniv.edu",
         fullName: "Yasin Albayrak",
@@ -101,110 +102,8 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-  bool click = false;
-  bool _isOpen = false;
+
   String currValue = "Accounts";
-
-  void closed() {
-    setState(() {
-      _isOpen = false;
-    });
-  }
-
-  void showPopupMenu() {
-    _isOpen = true;
-
-    showMenu(
-      semanticLabel: "popupmenu",
-      constraints: const BoxConstraints(maxWidth: 75, maxHeight: 150),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      context: context,
-      //shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))) ,
-      position: const RelativeRect.fromLTRB(25.0, 100, 20, 0.0),
-      //position where you// want to show the menu on screen
-
-      items: [
-        PopupMenuItem(
-            height: 2,
-            padding: const EdgeInsets.all(0),
-            value: 1,
-            child: Column(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    null;
-                  },
-                  icon: const Icon(
-                    Icons.account_circle_outlined,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  constraints: const BoxConstraints(maxHeight: 30),
-                ),
-                const Divider(
-                  color: Colors.deepPurpleAccent,
-                  thickness: 1,
-                  indent: 10,
-                  endIndent: 10,
-                ),
-              ],
-            )),
-        PopupMenuItem(
-            height: 2,
-            padding: const EdgeInsets.all(0),
-            value: 2,
-            child: Column(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    null;
-                  },
-                  icon: const Icon(
-                    Icons.location_on_outlined,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  constraints: const BoxConstraints(maxHeight: 30),
-                ),
-                const Divider(
-                  color: Colors.deepPurpleAccent,
-                  thickness: 1,
-                  indent: 10,
-                  endIndent: 10,
-                ),
-              ],
-            )),
-        PopupMenuItem(
-            height: 2,
-            padding: const EdgeInsets.all(0),
-            value: 3,
-            child: Column(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    null;
-                  },
-                  icon: const Icon(
-                    Icons.tag,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  constraints: const BoxConstraints(maxHeight: 30),
-                ),
-                const Divider(
-                  color: Colors.deepPurpleAccent,
-                  thickness: 1,
-                  indent: 10,
-                  endIndent: 10,
-                ),
-              ],
-            )),
-      ],
-      elevation: 8.0,
-    ).then((_) {
-      closed();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -299,7 +198,7 @@ class _ExploreState extends State<Explore> {
                 color: AppColors.titleColor,
                 iconSize: 40,
                 onPressed: () {
-                  null;
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => const SearchScreen()));
                 },
               ),
             ],
@@ -324,87 +223,3 @@ class _ExploreState extends State<Explore> {
     );
   }
 }
-
-/* backgroundColor: const Color(0xCBFFFFFF),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-                padding: const EdgeInsets.fromLTRB(5, 30, 5, 5),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    label: SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 10),
-                          Text(
-                            "Search",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                              color: Colors.grey,
-                              fontSize: 17.0,
-                            ),
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
-                    fillColor: Colors.white70,
-                    filled: true,
-                    labelStyle: Styles.appMainTextStyle,
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.white70,
-                      ),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    suffixIcon: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                          child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  click = !click;
-                                  showPopupMenu();
-                                });
-                                //if(click==false){ }
-                              },
-                              icon: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                                child: Icon(
-                                    (_isOpen == true)
-                                        ? Icons.arrow_drop_up_outlined
-                                        : Icons.arrow_drop_down_outlined,
-                                    size: 50,
-                                    color: Colors.black),
-                              )),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.search_rounded,
-                              size: 30, color: Colors.black),
-                          onPressed: () {
-                            null;
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                )),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: sampleSearchPosts
-                  .map((post) => SearchCard(
-                        post: post,
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
-      ), */

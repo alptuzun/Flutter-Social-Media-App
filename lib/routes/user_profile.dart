@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/shared_preferences.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
@@ -22,14 +21,11 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
-  User currentUser =
-      User(username: "asdfa", fullName: "adfadsf", email: "asdfasdf");
-
-
+  MyUser currentUser =
+      MyUser(username: "asdfa", fullName: "adfadsf", email: "asdfasdf");
 
   @override
   void initState() {
@@ -47,7 +43,7 @@ class _UserProfileState extends State<UserProfile> {
           (DocumentSnapshot doc) {
             Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
             print(data);
-            currentUser = User(
+            currentUser = MyUser(
                 username: data["username"],
                 fullName: data["fullName"],
                 email: data["email"]);

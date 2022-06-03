@@ -1,5 +1,5 @@
 import 'package:cs310_group_28/routes/welcome.dart';
-import 'package:cs310_group_28/util/auth.dart';
+import 'package:cs310_group_28/services/auth.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
-  late User mockUser;
+  late MyUser mockUser;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final AuthService _auth = AuthService();
 
@@ -30,14 +30,12 @@ class _UserSettingsState extends State<UserSettings> {
   @override
   void initState() {
     super.initState();
-    mockUser = User(
+    mockUser = MyUser(
         username: "isiktantanis",
         fullName: "Işıktan Tanış",
         email: "isiktantanis@gmail.com",
         private: true);
   }
-
-
 
   @override
   Widget build(BuildContext context) {

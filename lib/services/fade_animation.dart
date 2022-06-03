@@ -8,7 +8,8 @@ class FadeAnimation extends StatelessWidget {
   final double delay;
   final Widget child;
 
-  FadeAnimation({required this.delay, required  this.child});
+  const FadeAnimation({Key? key, required this.delay, required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,6 @@ class FadeAnimation extends StatelessWidget {
       ..add(AniProps.opacity, 0.0.tweenTo(1.0), 500.milliseconds)
       ..add(AniProps.translateY, (-30.0).tweenTo(0.0), 500.milliseconds,
           Curves.easeOut);
-
 
     return PlayAnimation<MultiTweenValues<AniProps>>(
       delay: Duration(milliseconds: (500 * delay).round()),

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs310_group_28/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -18,7 +20,7 @@ class AuthService {
         email: email,
         password: pass,
       );
-      return uc.user;
+      return _userFromFirebase(uc.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return e.message ?? 'E-mail and/or Password not found';
@@ -36,13 +38,14 @@ class AuthService {
     }
   }
 
-  Future<dynamic> registerUserWithEmailPass(String email, String pass) async {
+  Future<dynamic> registerUserWithEmailPass(String email, String pass, String displayName, String username) async {
     try {
       UserCredential uc = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: pass,
       );
-      return uc.user;
+      UserService.registerUser(username, displayName, uc.user!.uid, uc.user!.email.toString());
+      return _userFromFirebase(uc.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return e.message ?? 'E-mail already in use';
@@ -63,7 +66,7 @@ class AuthService {
     }
   }
 
-  Future<User?> signInWithGoogle() async {
+  Future<dynamic> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
     final credential = GoogleAuthProvider.credential(
@@ -72,6 +75,13 @@ class AuthService {
     );
     UserCredential uc =
         await FirebaseAuth.instance.signInWithCredential(credential);
+    User? currUser = uc.user;
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('Users').doc(currUser!.uid).get();
+    if (!snapshot.exists){
+      String newUserName = "user";
+      newUserName += DateTime.now().toUtc().microsecondsSinceEpoch.toString();
+      UserService.registerUser(newUserName, googleUser?.displayName ?? "", currUser.uid, googleUser!.email);
+    }
     return _userFromFirebase(uc.user);
   }
 

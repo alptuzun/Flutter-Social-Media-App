@@ -4,11 +4,12 @@ part 'user.g.dart';
 part 'user.freezed.dart';
 
 @unfreezed
-class User with _$MyUser {
-  factory User({
+class MyUser with _$MyUser {
+  factory MyUser({
     required String username,
     required String fullName,
     required String email,
+    @Default("") String bio,
     String? phone,
     @Default("assets/images/default_profile_picture.webp")
         String profilePicture,
@@ -20,5 +21,5 @@ class User with _$MyUser {
     @Default([]) List followers,
   }) = _MyUser;
 
-  factory User.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
+  factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
 }

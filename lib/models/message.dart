@@ -3,7 +3,7 @@ import 'package:cs310_group_28/models/user.dart';
 class Message {
   String message;
   String timeAgo;
-  User user;
+  MyUser user;
   String messageType;
   bool? isRead = true;
   bool? incoming = false;

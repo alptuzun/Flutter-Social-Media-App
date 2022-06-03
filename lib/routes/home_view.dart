@@ -11,7 +11,7 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 
 List<Post> samplePosts = [
   Post(
-    user: User(
+    user: MyUser(
       username: "alptuzun",
       email: "alptuzun@sabanciuniv.edu",
       fullName: "Alp Tüzün",
@@ -24,7 +24,7 @@ List<Post> samplePosts = [
     imageName: 'assets/images/goldengate.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "isiktantanis",
       email: "isiktantanis@sabanciuniv.edu",
       fullName: "Işıktan Tanış",
@@ -35,7 +35,7 @@ List<Post> samplePosts = [
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "elonmusk",
       email: "elonmusk@sabanciuniv.edu",
       fullName: "Elon Musk",
@@ -49,7 +49,7 @@ List<Post> samplePosts = [
     imageName: 'assets/images/eloncar.jpg',
   ),
   Post(
-    user: User(
+    user: MyUser(
       username: "yasinalbayrak",
       email: "yasinalbayrak@sabanciuniv.edu",
       fullName: "Yasin Albayrak",

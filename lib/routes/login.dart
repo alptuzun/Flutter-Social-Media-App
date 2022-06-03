@@ -9,7 +9,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/gestures.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
-import 'package:cs310_group_28/util/auth.dart';
+import 'package:cs310_group_28/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/shared_preferences.dart';
@@ -57,6 +57,22 @@ class _LoginState extends State<Login> {
       return;
     }
     Navigator.of(context).pop();
+    if (result is String) {
+      Alerts.showAlert(context, 'Login Error', result);
+    } else if (result is User) {
+      analytics.logLogin(loginMethod: "Anonymously");
+      Navigator.pushNamedAndRemoveUntil(
+          context, PageNavigator.routeName, (route) => false);
+    } else {
+      Alerts.showAlert(context, 'Login Error', result.toString());
+    }
+  }
+
+  Future loginWithGoogle() async {
+    dynamic result = await _auth.signInWithGoogle();
+    if (!mounted) {
+      return;
+    }
     if (result is String) {
       Alerts.showAlert(context, 'Login Error', result);
     } else if (result is User) {
@@ -295,7 +311,7 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(20),
                           child: ElevatedButton(
                             onPressed: () async {
-                              await _auth.signInWithGoogle();
+                              await loginWithGoogle();
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.transparent,
@@ -305,8 +321,10 @@ class _LoginState extends State<Login> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                SizedBox
-                                  (child: Image.asset("assets/images/google_icon.png"),),
+                                SizedBox(
+                                  child: Image.asset(
+                                      "assets/images/google_icon.png"),
+                                ),
                               ],
                             ),
                           ),
@@ -371,9 +389,8 @@ class _LoginState extends State<Login> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => const Register()
-                              )
-                          );
+                                  builder: (BuildContext context) =>
+                                      const Register()));
                         }),
                 ],
               ),

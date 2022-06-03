@@ -20,8 +20,8 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Post {
-  User get user => throw _privateConstructorUsedError;
-  set user(User value) => throw _privateConstructorUsedError;
+  MyUser get user => throw _privateConstructorUsedError;
+  set user(MyUser value) => throw _privateConstructorUsedError;
   String? get caption => throw _privateConstructorUsedError;
   set caption(String? value) => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $PostCopyWith<$Res> {
   factory $PostCopyWith(Post value, $Res Function(Post) then) =
       _$PostCopyWithImpl<$Res>;
   $Res call(
-      {User user,
+      {MyUser user,
       String? caption,
       String date,
       String? location,
@@ -55,8 +55,6 @@ abstract class $PostCopyWith<$Res> {
       List<dynamic> likes,
       List<dynamic> comments,
       String? price});
-
-  $MyUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -82,7 +80,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as MyUser,
       caption: caption == freezed
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
@@ -113,13 +111,6 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
               as String?,
     ));
   }
-
-  @override
-  $MyUserCopyWith<$Res> get user {
-    return $MyUserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value));
-    });
-  }
 }
 
 /// @nodoc
@@ -128,7 +119,7 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       __$$_PostCopyWithImpl<$Res>;
   @override
   $Res call(
-      {User user,
+      {MyUser user,
       String? caption,
       String date,
       String? location,
@@ -136,9 +127,6 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       List<dynamic> likes,
       List<dynamic> comments,
       String? price});
-
-  @override
-  $MyUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -165,7 +153,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as MyUser,
       caption: caption == freezed
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
@@ -214,7 +202,7 @@ class _$_Post implements _Post {
   factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
 
   @override
-  User user;
+  MyUser user;
   @override
   String? caption;
   @override
@@ -250,7 +238,7 @@ class _$_Post implements _Post {
 
 abstract class _Post implements Post {
   factory _Post(
-      {required User user,
+      {required MyUser user,
       String? caption,
       required String date,
       String? location,
@@ -262,7 +250,7 @@ abstract class _Post implements Post {
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
   @override
-  User get user => throw _privateConstructorUsedError;
+  MyUser get user => throw _privateConstructorUsedError;
   @override
   String? get caption => throw _privateConstructorUsedError;
   @override

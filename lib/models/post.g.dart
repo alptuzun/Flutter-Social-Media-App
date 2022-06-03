@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'post.dart';
 
 // **************************************************************************
@@ -9,7 +7,7 @@ part of 'post.dart';
 // **************************************************************************
 
 _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'],
       caption: json['caption'] as String?,
       date: json['date'] as String,
       location: json['location'] as String?,
