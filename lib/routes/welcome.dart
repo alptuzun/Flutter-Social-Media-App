@@ -6,14 +6,17 @@ import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:cs310_group_28/ui/styled_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+import 'package:animate_do/animate_do.dart';
 
 class Welcome extends StatelessWidget {
   Welcome({Key? key}) : super(key: key);
-
+  final Duration duration = const Duration(milliseconds: 600);
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     analytics.logEvent(name: "Opened_welcome_screen");
     return Container(
       constraints: const BoxConstraints.expand(),
@@ -39,63 +42,146 @@ class Welcome extends StatelessWidget {
                 const Spacer(
                   flex: 4,
                 ),
-                Text(
-                  "Welcome!",
-                  style: Styles.boldTitleTextStyle,
+                FadeInUp(
+                    duration: duration,
+                    delay: const Duration(milliseconds: 2500),
+
+                    child: const Text(
+                        "Welcome!",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      ),
+
+
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+
+
+
+                FadeInUp(
+                  duration: duration,
+                  delay: const Duration(milliseconds: 2000),
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                      left: 5,
+                      right: 5,
+                    ),
+                    width: size.width,
+                    height: size.height / 2,
+                    child: Lottie.asset("assets/images/an.json", animate: true),
+                  ),
+                ),
+
+
+                /// SUBTITLE
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: FadeInUp(
+                    duration: duration,
+                    delay: const Duration(milliseconds: 1500),
+                    child: const Text(
+                      "Keep various ways to contact and get in touch easily right from this app with all Sabanci University students.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
                 ),
                 const Spacer(
                   flex: 8,
                 ),
+
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   const Spacer(),
-                  StyledButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Login()));
-                      },
-                      label: "Login"),
-                  const Spacer(),
-                  StyledButton(
-                    label: "register",
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Register()));
-                    },
+                  FadeInUp(
+                      duration: duration,
+                      delay: const Duration(milliseconds: 600),
+                      child: StyledButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()));
+                          },
+                          label: "Login")
                   ),
+                  const Spacer(),
+                  FadeInUp(
+                      duration: duration,
+                      delay: const Duration(milliseconds: 600),
+                      child:  StyledButton(
+                        label: "register",
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Register()));
+                        },
+                      ),
+                  ),
+
                   const Spacer(),
                 ]),
                 const Spacer(),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  width: screenWidth(context, dividedBy: 1.5),
-                  height: screenHeight(context, dividedBy: 18),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(35),
-                    color: const Color(0xFF012169),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                    child: ElevatedButton(
-                      onPressed: () => throw Exception(),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        shadowColor: Colors.transparent,
+                Row(
+                  children: [
+                    const SizedBox(width: 40,),
+                    SizedBox(
+                      width: 30,
+                      height:screenHeight(context, dividedBy: 18) ,
+                      child: StyledButton(
+                        label: "Reload",
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>  Welcome()));
+                        },
                       ),
-                      child: Text(
-                        "Throw Test Exception",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                    ),
+                    const SizedBox(width: 20,),
+                    FadeInUp(
+                      duration: duration,
+                      delay: const Duration(milliseconds: 200),
+                      child:   Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        width: screenWidth(context, dividedBy: 1.5),
+                        height: screenHeight(context, dividedBy: 18),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(35),
+                          color: const Color(0xFF012169),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: ElevatedButton(
+                            onPressed: () => throw Exception(),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                            ),
+                            child: Text(
+                              "Throw Test Exception",
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
+
                 const Spacer(),
               ],
             ),
