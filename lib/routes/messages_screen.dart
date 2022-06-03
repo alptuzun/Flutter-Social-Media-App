@@ -207,9 +207,9 @@ class _MessageBoxState extends State<MessageBox> {
 }
 
 class MySearchDelegate extends SearchDelegate {
-  final List<String> allChats =
+  final List allChats =
       sampleMessages.map((e) => e.user.fullName).toList();
-  final List<String> allChatSuggestions = sampleMessages
+  final List allChatSuggestions = sampleMessages
       .map((e) => e.user.fullName)
       .toList()
       .sublist(0, sampleMessages.length ~/ 2);

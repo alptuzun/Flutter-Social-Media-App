@@ -53,6 +53,8 @@ dependencies:
   supercharged: ^2.1.1
   simple_animations: ^4.0.1
   flutter_slidable: ^0.6.0
+  lottie: any
+  animate_do: any
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
 
   # To add assets to your application, add an assets section, like this:
   assets:
