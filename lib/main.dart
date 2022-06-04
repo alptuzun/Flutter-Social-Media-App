@@ -5,7 +5,6 @@ import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/routes/marketplace.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/routes/user_profile.dart';
-import 'package:cs310_group_28/routes/user_settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -79,7 +78,6 @@ class _MyAppState extends State<MyApp> {
                 MarketPlace.routeName: (context) => const MarketPlace(),
                 Explore.routeName: (context) => const Explore(),
                 UserProfile.routeName: (context) => const UserProfile(),
-                UserSettings.routeName: (context) => const UserSettings(),
               },
             ),
           );

@@ -14,7 +14,7 @@ class UserService {
   static Future<String> fetchUsername(String userID) async {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection('Users');
-    var ref = await usersRef.doc("ww7kadAu7ccLNLKHrT4n9aygNWH3").get();
+    var ref = await usersRef.doc(userID).get();
     var user = ref.data() as Map<String, dynamic>;
     var username = user["username"];
     return username;
@@ -44,7 +44,5 @@ class UserService {
   }
 
   static returnRef() => FirebaseFirestore.instance.collection("Users");
-
-
 
 }

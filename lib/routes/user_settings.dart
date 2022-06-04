@@ -9,32 +9,22 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:cs310_group_28/services/user_service.dart';
 
 class UserSettings extends StatefulWidget {
-  const UserSettings({Key? key}) : super(key: key);
+  const UserSettings({Key? key, required this.user}) : super(key: key);
   static const String routeName = "user_settings";
+  final MyUser user;
 
   @override
   State<UserSettings> createState() => _UserSettingsState();
 }
 
 class _UserSettingsState extends State<UserSettings> {
-  late MyUser mockUser;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final AuthService _auth = AuthService();
 
   void handlePrivateAccountToggle(bool val) {
     setState(() {
-      UserService.setPrivate(mockUser, val);
+      UserService.setPrivate(widget.user, val);
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    mockUser = MyUser(
-        username: "isiktantanis",
-        fullName: "Işıktan Tanış",
-        email: "isiktantanis@gmail.com",
-        private: true);
   }
 
   @override
@@ -145,7 +135,7 @@ class _UserSettingsState extends State<UserSettings> {
                           ],
                         ),
                         Switch(
-                            value: mockUser.private,
+                            value: widget.user.private,
                             onChanged: handlePrivateAccountToggle)
                       ],
                     ),
@@ -265,11 +255,11 @@ class _UserSettingsState extends State<UserSettings> {
                               padding: const EdgeInsets.all(8.0),
                               child: CircleAvatar(
                                 backgroundImage:
-                                    AssetImage(mockUser.profilePicture),
+                                    AssetImage(widget.user.profilePicture),
                                 minRadius: 17.5,
                               )),
                           Text(
-                            "Log out of ${mockUser.username}",
+                            "Log out of ${widget.user.username}",
                             style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
