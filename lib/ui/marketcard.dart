@@ -45,7 +45,7 @@ class MarketCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  post.date,
+                  "${post.postTime.day}-${post.postTime.month}-${post.postTime.year}",
                   style: GoogleFonts.poppins(
                     color: Colors.black45,
                   ),

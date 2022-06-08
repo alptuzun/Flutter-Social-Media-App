@@ -10,7 +10,7 @@ import 'package:cs310_group_28/ui/messagecard.dart';
 List<Message> sampleMessages = [
   Message(
     message: "I will think about it.",
-    timeAgo: "10m ago",
+    time: DateTime.now(),
     user: MyUser(
       username: 'klcilkr',
       fullName: 'İlker Kılıç',
@@ -22,7 +22,7 @@ List<Message> sampleMessages = [
   ),
   Message(
     message: "Ok it is done.",
-    timeAgo: "12m ago",
+    time: DateTime.now(),
     user: MyUser(
       username: 'Sila',
       fullName: 'Sıla Özinan',
@@ -34,7 +34,7 @@ List<Message> sampleMessages = [
   ),
   Message(
     message: "Deal!, I am selling my F1 car to you.",
-    timeAgo: "35m ago",
+    time: DateTime.now(),
     user: MyUser(
       username: 'lewis',
       fullName: 'Lewis Hamilton',
@@ -46,7 +46,7 @@ List<Message> sampleMessages = [
   ),
   Message(
     message: "See u",
-    timeAgo: "1h ago",
+    time: DateTime.now(),
     user: MyUser(
       username: 'sermetozgu',
       fullName: 'Sermet Özgü',
@@ -58,7 +58,7 @@ List<Message> sampleMessages = [
   ),
   Message(
     message: "200\$ is ok for you?",
-    timeAgo: "1h ago",
+    time: DateTime.now(),
     user: MyUser(
       username: "alptuzun",
       email: "alptuzun@sabanciuniv.edu",
@@ -69,8 +69,8 @@ List<Message> sampleMessages = [
     isRead: true,
   ),
   Message(
-      message: "Have you cheated on your exam?",
-      timeAgo: "2h ago",
+      message: "Have you cheated on ...",
+      time: DateTime.now(),
       user: MyUser(
         username: 'levi',
         fullName: 'Albert Levi',
@@ -81,7 +81,7 @@ List<Message> sampleMessages = [
       isRead: false),
   Message(
       message: "This Wednesday is ok.",
-      timeAgo: "2h ago",
+      time: DateTime.now(),
       user: MyUser(
         username: 'ozgun12',
         fullName: 'Ali Özgün Akyüz',
@@ -92,7 +92,7 @@ List<Message> sampleMessages = [
       isRead: false),
   Message(
     message: "I'll handle it",
-    timeAgo: "3h ago",
+    time: DateTime.now(),
     user: MyUser(
       username: 'emre26',
       fullName: 'Emre Güneş',
@@ -104,7 +104,7 @@ List<Message> sampleMessages = [
   ),
   Message(
     message: "Hii",
-    timeAgo: "4h ago",
+    time: DateTime.now(),
     user: MyUser(
       username: "isiktantanis",
       email: "isiktantanis@sabanciuniv.edu",
@@ -116,7 +116,7 @@ List<Message> sampleMessages = [
   ),
   Message(
       message: "OK",
-      timeAgo: "1d ago",
+      time: DateTime.now(),
       user: MyUser(
         username: 'eylül.simsek',
         fullName: 'Eylül Şimşek',

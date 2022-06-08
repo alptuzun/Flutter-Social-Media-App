@@ -5,7 +5,6 @@ import 'package:cs310_group_28/models/notification.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 
-
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
 
@@ -14,25 +13,23 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsViewState extends State<Notifications> {
-
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   List<MyNotification> notifications = [
-
     MyNotification(
-        text: 'Alp commented on your post.',
-        date: 'May 10'
+      text: 'Alp commented on your post.',
+      date: DateTime.now(),
     ),
     MyNotification(
-        text: 'Sermet followed you.',
-        date: 'May 4'
+      text: 'Sermet followed you.',
+      date: DateTime.now(),
     ),
     MyNotification(
-        text: 'Your friend Işıktan joined the App',
-        date: 'April 28'
+      text: 'Your friend Işıktan joined the App',
+      date: DateTime.now(),
     ),
     MyNotification(
-        text: 'Sıla wants to buy your item',
-        date: 'April 20'
+      text: 'Sıla wants to buy your item',
+      date: DateTime.now(),
     ),
   ];
 
@@ -52,7 +49,8 @@ class _NotificationsViewState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-    analytics.logScreenView(screenName: "Notification", screenClass: "Notifications");
+    analytics.logScreenView(
+        screenName: "Notification", screenClass: "Notifications");
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -68,10 +66,9 @@ class _NotificationsViewState extends State<Notifications> {
             },
           ),
           title: Text(
-          'Notifications',
-          style: Styles.appBarTitleTextStyle,
-          )
-        ),
+            'Notifications',
+            style: Styles.appBarTitleTextStyle,
+          )),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -81,13 +78,17 @@ class _NotificationsViewState extends State<Notifications> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  SizedBox(width: 8,),
+                  SizedBox(
+                    width: 8,
+                  ),
                 ],
               ),
               Column(
-                children: notifications.map((notifications) => NotificationCard(
-                  notification: notifications,
-                )).toList(),
+                children: notifications
+                    .map((notifications) => NotificationCard(
+                          notification: notifications,
+                        ))
+                    .toList(),
               ),
             ],
           ),
@@ -96,4 +97,3 @@ class _NotificationsViewState extends State<Notifications> {
     );
   }
 }
-

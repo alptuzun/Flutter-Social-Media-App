@@ -22,7 +22,7 @@ class NotificationCard extends StatelessWidget {
               ),
             ),
             Text(
-                notification.date,
+                "${notification.date.day}-${notification.date.month}-${notification.date.year}",
                 style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.normal,

@@ -37,12 +37,15 @@ class _UserProfileState extends State<UserProfile> {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           setState(() {
             currentUser = MyUser(
-                username: data["username"],
-                fullName: data["fullName"],
-                email: data["email"]);
+              username: data["username"],
+              fullName: data["fullName"],
+              email: data["email"],
+              profilePicture: data["pfp"],
+              private: data["private"],
+              bio: data["bio"],
+            );
           });
         },
-        onError: (e) => print("Error getting document: ${e.toString()}"),
       );
     });
   }
@@ -157,8 +160,10 @@ class _UserProfileState extends State<UserProfile> {
             color: Colors.grey,
             iconSize: 40,
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserSettings(user: currentUser)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserSettings(user: currentUser)));
             },
           ),
         ],

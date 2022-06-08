@@ -13,7 +13,7 @@ _$_MyUser _$$_MyUserFromJson(Map<String, dynamic> json) => _$_MyUser(
       bio: json['bio'] as String? ?? "",
       phone: json['phone'] as String?,
       profilePicture: json['profilePicture'] as String? ??
-          "assets/images/default_profile_picture.webp",
+          "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/blank_pfp.png?alt=media&token=5d0aef19-82e7-4519-b545-7360e8b1a249",
       private: json['private'] as bool? ?? false,
       posts: json['posts'] as List<dynamic>? ?? const [],
       favorites: json['favorites'] as List<dynamic>? ?? const [],

@@ -1,19 +1,20 @@
 import 'package:cs310_group_28/models/user.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Message {
-  String message;
-  String timeAgo;
-  MyUser user;
-  String messageType;
-  bool? isRead = true;
-  bool? incoming = false;
+part 'message.g.dart';
+part 'message.freezed.dart';
 
-  Message({
-    required this.message,
-    required this.timeAgo,
-    required this.user,
-    required this.messageType,
-    this.isRead,
-    this.incoming,
-  });
+@unfreezed
+class Message with _$Message {
+  factory Message({
+    required String message,
+    required DateTime time,
+    required MyUser user,
+    required String messageType,
+    @Default(true) bool isRead,
+    @Default(false) bool incoming,
+}) = _Message;
+
+  factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
 }
+

@@ -7,9 +7,11 @@ part 'post.freezed.dart';
 @unfreezed
 class Post with _$Post {
   factory Post({
+    required String postID,
+    required String userID,
+    required DateTime postTime,
     required MyUser user,
     String? caption,
-    required String date,
     String? location,
     required String imageName,
     @Default([]) List likes,

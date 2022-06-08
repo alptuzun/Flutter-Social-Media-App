@@ -1,12 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cs310_group_28/routes/welcome.dart';
 import 'package:cs310_group_28/services/auth.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:cs310_group_28/services/user_service.dart';
+import 'package:provider/provider.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key, required this.user}) : super(key: key);
@@ -21,14 +24,15 @@ class _UserSettingsState extends State<UserSettings> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final AuthService _auth = AuthService();
 
-  void handlePrivateAccountToggle(bool val) {
+  void handlePrivateAccountToggle(bool val, String userID) {
     setState(() {
-      UserService.setPrivate(widget.user, val);
+      UserService.setPrivate(widget.user, val, userID);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
     analytics.logScreenView(
         screenClass: "UserSettings", screenName: "User's Settings Screen");
     return Scaffold(
@@ -51,8 +55,7 @@ class _UserSettingsState extends State<UserSettings> {
             style: Styles.appBarTitleTextStyle,
           ),
         ),
-        body: (SafeArea(
-            child: Padding(
+        body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
@@ -136,7 +139,10 @@ class _UserSettingsState extends State<UserSettings> {
                         ),
                         Switch(
                             value: widget.user.private,
-                            onChanged: handlePrivateAccountToggle)
+                            onChanged: (value) {
+                              handlePrivateAccountToggle(value, user!.uid);
+                            },
+                        )
                       ],
                     ),
                   )
@@ -252,14 +258,15 @@ class _UserSettingsState extends State<UserSettings> {
                       child: Row(
                         children: [
                           Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage(widget.user.profilePicture),
-                                minRadius: 17.5,
-                              )),
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              radius: screenWidth(context) / 100 * 5,
+                              backgroundImage: CachedNetworkImageProvider(
+                                  widget.user.profilePicture),
+                            ),
+                          ),
                           Text(
-                            "Log out of ${widget.user.username}",
+                            "Log Out of ${widget.user.username}",
                             style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -273,6 +280,6 @@ class _UserSettingsState extends State<UserSettings> {
               )
             ],
           ),
-        ))));
+        ));
   }
 }

@@ -7,9 +7,11 @@ part of 'post.dart';
 // **************************************************************************
 
 _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
-      user: json['user'],
+      postID: json['postID'] as String,
+      userID: json['userID'] as String,
+      postTime: DateTime.parse(json['postTime'] as String),
+      user: MyUser.fromJson(json['user'] as Map<String, dynamic>),
       caption: json['caption'] as String?,
-      date: json['date'] as String,
       location: json['location'] as String?,
       imageName: json['imageName'] as String,
       likes: json['likes'] as List<dynamic>? ?? const [],
@@ -18,9 +20,11 @@ _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
     );
 
 Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
+      'postID': instance.postID,
+      'userID': instance.userID,
+      'postTime': instance.postTime.toIso8601String(),
       'user': instance.user,
       'caption': instance.caption,
-      'date': instance.date,
       'location': instance.location,
       'imageName': instance.imageName,
       'likes': instance.likes,

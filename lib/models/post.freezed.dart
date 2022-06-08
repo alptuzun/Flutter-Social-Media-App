@@ -20,12 +20,16 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Post {
+  String get postID => throw _privateConstructorUsedError;
+  set postID(String value) => throw _privateConstructorUsedError;
+  String get userID => throw _privateConstructorUsedError;
+  set userID(String value) => throw _privateConstructorUsedError;
+  DateTime get postTime => throw _privateConstructorUsedError;
+  set postTime(DateTime value) => throw _privateConstructorUsedError;
   MyUser get user => throw _privateConstructorUsedError;
   set user(MyUser value) => throw _privateConstructorUsedError;
   String? get caption => throw _privateConstructorUsedError;
   set caption(String? value) => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
-  set date(String value) => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   set location(String? value) => throw _privateConstructorUsedError;
   String get imageName => throw _privateConstructorUsedError;
@@ -47,14 +51,18 @@ abstract class $PostCopyWith<$Res> {
   factory $PostCopyWith(Post value, $Res Function(Post) then) =
       _$PostCopyWithImpl<$Res>;
   $Res call(
-      {MyUser user,
+      {String postID,
+      String userID,
+      DateTime postTime,
+      MyUser user,
       String? caption,
-      String date,
       String? location,
       String imageName,
       List<dynamic> likes,
       List<dynamic> comments,
       String? price});
+
+  $MyUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -67,9 +75,11 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? postID = freezed,
+    Object? userID = freezed,
+    Object? postTime = freezed,
     Object? user = freezed,
     Object? caption = freezed,
-    Object? date = freezed,
     Object? location = freezed,
     Object? imageName = freezed,
     Object? likes = freezed,
@@ -77,6 +87,18 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? price = freezed,
   }) {
     return _then(_value.copyWith(
+      postID: postID == freezed
+          ? _value.postID
+          : postID // ignore: cast_nullable_to_non_nullable
+              as String,
+      userID: userID == freezed
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
+      postTime: postTime == freezed
+          ? _value.postTime
+          : postTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -85,10 +107,6 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
               as String?,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
       location: location == freezed
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -111,6 +129,13 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
               as String?,
     ));
   }
+
+  @override
+  $MyUserCopyWith<$Res> get user {
+    return $MyUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -119,14 +144,19 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       __$$_PostCopyWithImpl<$Res>;
   @override
   $Res call(
-      {MyUser user,
+      {String postID,
+      String userID,
+      DateTime postTime,
+      MyUser user,
       String? caption,
-      String date,
       String? location,
       String imageName,
       List<dynamic> likes,
       List<dynamic> comments,
       String? price});
+
+  @override
+  $MyUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -140,9 +170,11 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? postID = freezed,
+    Object? userID = freezed,
+    Object? postTime = freezed,
     Object? user = freezed,
     Object? caption = freezed,
-    Object? date = freezed,
     Object? location = freezed,
     Object? imageName = freezed,
     Object? likes = freezed,
@@ -150,6 +182,18 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? price = freezed,
   }) {
     return _then(_$_Post(
+      postID: postID == freezed
+          ? _value.postID
+          : postID // ignore: cast_nullable_to_non_nullable
+              as String,
+      userID: userID == freezed
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
+      postTime: postTime == freezed
+          ? _value.postTime
+          : postTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -158,10 +202,6 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
               as String?,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
       location: location == freezed
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -190,9 +230,11 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Post implements _Post {
   _$_Post(
-      {required this.user,
+      {required this.postID,
+      required this.userID,
+      required this.postTime,
+      required this.user,
       this.caption,
-      required this.date,
       this.location,
       required this.imageName,
       this.likes = const [],
@@ -202,11 +244,15 @@ class _$_Post implements _Post {
   factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
 
   @override
+  String postID;
+  @override
+  String userID;
+  @override
+  DateTime postTime;
+  @override
   MyUser user;
   @override
   String? caption;
-  @override
-  String date;
   @override
   String? location;
   @override
@@ -222,7 +268,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(user: $user, caption: $caption, date: $date, location: $location, imageName: $imageName, likes: $likes, comments: $comments, price: $price)';
+    return 'Post(postID: $postID, userID: $userID, postTime: $postTime, user: $user, caption: $caption, location: $location, imageName: $imageName, likes: $likes, comments: $comments, price: $price)';
   }
 
   @JsonKey(ignore: true)
@@ -238,9 +284,11 @@ class _$_Post implements _Post {
 
 abstract class _Post implements Post {
   factory _Post(
-      {required MyUser user,
+      {required String postID,
+      required String userID,
+      required DateTime postTime,
+      required MyUser user,
       String? caption,
-      required String date,
       String? location,
       required String imageName,
       List<dynamic> likes,
@@ -250,11 +298,15 @@ abstract class _Post implements Post {
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
   @override
+  String get postID => throw _privateConstructorUsedError;
+  @override
+  String get userID => throw _privateConstructorUsedError;
+  @override
+  DateTime get postTime => throw _privateConstructorUsedError;
+  @override
   MyUser get user => throw _privateConstructorUsedError;
   @override
   String? get caption => throw _privateConstructorUsedError;
-  @override
-  String get date => throw _privateConstructorUsedError;
   @override
   String? get location => throw _privateConstructorUsedError;
   @override

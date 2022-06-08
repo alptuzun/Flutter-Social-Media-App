@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> {
           return StreamProvider<User?>.value(
             value: AuthService().user,
             initialData: null,
+
             child: MaterialApp(
               home: initialLoad ? Welcome() : const WalkThrough(),
               routes: {

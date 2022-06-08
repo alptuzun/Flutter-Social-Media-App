@@ -3,6 +3,7 @@ import 'package:cs310_group_28/routes/marketplace.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/routes/messages_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 Column infoColumn(int number, String text) {
   return Column(
@@ -16,8 +17,8 @@ Column infoColumn(int number, String text) {
 }
 
 class ProfileBanner extends StatelessWidget {
-  final MyUser user;
 
+  final MyUser user;
   const ProfileBanner({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -27,43 +28,36 @@ class ProfileBanner extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-            height: 155,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage(user.profilePicture),
-                        radius: 60,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text(user.fullName,
-                            style: GoogleFonts.poppins(
-                                fontSize: 16, fontWeight: FontWeight.w500)),
-                      )
-                    ],
-                  ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundImage: CachedNetworkImageProvider(user.profilePicture),
                 ),
-                Expanded(
-                  child: SizedBox(
-                    height: 120,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        infoColumn(user.posts.length, "Posts"),
-                        infoColumn(user.followers.length, "Followers"),
-                        infoColumn(user.following.length, "Following"),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Spacer(),
+                    infoColumn(user.posts.length, "Posts"),
+                    const Spacer(),
+                    infoColumn(user.followers.length, "Followers"),
+                    const Spacer(),
+                    infoColumn(user.following.length, "Following"),
+                    const Spacer(),
+                  ],
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Text(user.fullName,
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.w500)),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +82,7 @@ class ProfileBanner extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.all(5),
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -108,7 +102,7 @@ class ProfileBanner extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
         ]),
       ),
     );

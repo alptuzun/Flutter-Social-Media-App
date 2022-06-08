@@ -5,10 +5,12 @@ import 'package:cs310_group_28/visuals/alerts.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -31,6 +33,7 @@ class _AddPostState extends State<AddPost> {
         var imageRoute = File(galleryImage.path);
         setState (() {
           image = imageRoute;
+          Navigator.of(context).pop();
         });
       }
     } catch (e) {
@@ -66,6 +69,7 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = Provider.of<User?>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

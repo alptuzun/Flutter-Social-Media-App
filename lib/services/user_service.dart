@@ -7,8 +7,11 @@ class UserService {
     user.posts.add(p);
   }
 
-  static void setPrivate(MyUser user, bool val) {
+  static void setPrivate(MyUser user, bool val, String userID) {
     user.private = val;
+    final CollectionReference usersRef =
+    FirebaseFirestore.instance.collection("Users");
+    usersRef.doc(userID).update({"private" : val});
   }
 
   static Future<String> fetchUsername(String userID) async {
@@ -44,5 +47,6 @@ class UserService {
   }
 
   static returnRef() => FirebaseFirestore.instance.collection("Users");
+
 
 }

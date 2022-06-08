@@ -47,12 +47,12 @@ class Messagecard extends StatelessWidget {
                     //if (message.message.length > 29)
                     if (message.isRead == true || message.incoming == false)
                       Text(
-                        '${message.message}  ·  ${message.timeAgo}',
+                        '${message.message}  ·  ' "${message.time.day}-${message.time.month}-${message.time.year}",
                         style: Styles.appGreyText
                       ),
                     if (message.isRead == false && message.incoming == true)
                       Text(
-                        '${message.message}  ·  ${message.timeAgo}',
+                        '${message.message}  ·  ' "${message.time.day}-${message.time.month}-${message.time.year}",
                         style: Styles.appMainTextStyle,
                       ),
                   ],
