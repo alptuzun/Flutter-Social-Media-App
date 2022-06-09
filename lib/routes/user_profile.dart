@@ -78,7 +78,7 @@ class _UserProfileState extends State<UserProfile> {
         Post newPost = Post.fromJson(currentUser.posts[x]);
         allPosts.add(newPost);
       }
-     allPosts = List.from(allPosts.reversed);
+      allPosts = List.from(allPosts.reversed);
       return Column(
           children: allPosts
               .map((post) => PostCard(

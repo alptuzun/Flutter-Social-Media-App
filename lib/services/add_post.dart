@@ -102,7 +102,16 @@ class _AddPostState extends State<AddPost> {
                       ),
                       color: AppColors.titleColor,
                       onPressed: () {
-                        Navigator.pop(context); // pop the context
+                        if (video == null || image == null || caption == "@") {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          setState(() {
+                            image = null;
+                            video = null;
+                            caption = "";
+                          });
+                        } else {
+                          Navigator.pop(context);
+                        }
                       }),
                   backgroundColor: Colors.white,
                   title: Text(

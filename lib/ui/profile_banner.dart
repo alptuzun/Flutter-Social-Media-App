@@ -55,7 +55,7 @@ class ProfileBanner extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Text(user.fullName,
                 textScaleFactor: 0.8, style: Styles.boldTitleTextStyle),
           ),

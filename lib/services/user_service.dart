@@ -54,4 +54,21 @@ class UserService {
     return uname;
   }
 
+  static editBio(String userID, String newBio) async {
+    await FirebaseFirestore.instance.collection("Users").doc(userID).update({"bio" : newBio});
+  }
+
+  static editUsername(String userID, String newUsername) async {
+    await FirebaseFirestore.instance.collection("Users").doc(userID).update({"username" : newUsername});
+  }
+
+  static Future<bool> uniqueUsername(String username) async {
+    final results = await FirebaseFirestore.instance
+        .collection("Users")
+        .where("username", isEqualTo: username)
+        .limit(1)
+        .get();
+    return results.docs.isEmpty;
+  }
+
 }

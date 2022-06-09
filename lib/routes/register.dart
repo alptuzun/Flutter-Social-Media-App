@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/services/auth.dart';
+import 'package:cs310_group_28/services/user_service.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -25,7 +25,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
   String name = "";
   String email = "";
   String username = "";
@@ -81,47 +80,35 @@ class _RegisterState extends State<Register> {
     return null;
   }
 
-  Future<bool> uniqueUsername(String username) async {
-    final results = await FirebaseFirestore.instance.collection("Users").where("username", isEqualTo: username).get();
-    return results.docs.isEmpty;
-  }
-
   Future registerUser() async {
-    print(username);
-    print(email);
-    print(password);
-    print(name);
     ConnectionWaiter.loadingScreen(context);
-    bool unique = await uniqueUsername(username);
-    print(unique.toString());
+    bool unique = await UserService.uniqueUsername(username);
     if (unique) {
-      dynamic result = await _auth.registerUserWithEmailPass(email, password, name, username);
+      dynamic result = await _auth.registerUserWithEmailPass(
+          email, password, name, username);
       if (!mounted) {
         return;
       }
       Navigator.of(context).pop();
       if (result is String) {
-        Alerts.showAlert(context, 'Register Error',
-            result.toString());
-      }
-      else if (result is User) {
+        Alerts.showAlert(context, 'Register Error', result.toString());
+      } else if (result is User) {
         analytics.logSignUp(signUpMethod: "Email_and_Password");
         Navigator.pushNamedAndRemoveUntil(
             context, PageNavigator.routeName, (route) => false);
-      }
-      else {
+      } else {
         Alerts.showAlert(context, 'Login Error', result.toString());
       }
-    }
-    else {
+    } else {
       if (!mounted) {
         return;
       }
       Navigator.of(context).pop();
-      Alerts.showAlert(context, 'Login Error', "Please select a unique username");
+      Alerts.showAlert(
+          context, 'Login Error', "Please select a unique username");
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,17 +170,16 @@ class _RegisterState extends State<Register> {
                       },
                       validator: passwordValidator),
                   StyledButton(
-                    label: "register",
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        await registerUser();
-                      }
-                      else {
-                        Alerts.showAlert(context, 'Signup Error', 'Please fill out the form correctly!');
-                      }
-                    }
-                  )
+                      label: "register",
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          await registerUser();
+                        } else {
+                          Alerts.showAlert(context, 'Signup Error',
+                              'Please fill out the form correctly!');
+                        }
+                      })
                 ],
               ),
             ),
@@ -224,9 +210,8 @@ class _RegisterState extends State<Register> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => const Login()
-                              )
-                          );
+                                  builder: (BuildContext context) =>
+                                      const Login()));
                         }),
                 ])),
             SizedBox(
