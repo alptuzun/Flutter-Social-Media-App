@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cs310_group_28/models/post.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MyUser {
   String username;
   String fullName;
-  String? bio;
+  String bio;
   String email;
-  String? phone;
+  String phone;
   String profilePicture;
   bool private;
   List<dynamic> posts;
@@ -23,8 +22,8 @@ class MyUser {
     required this.username,
     required this.fullName,
     required this.email,
-    this.bio,
-    this.phone,
+    this.bio = "",
+    this.phone = "",
     this.profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/blank_pfp.png?alt=media&token=5d0aef19-82e7-4519-b545-7360e8b1a249",
     this.posts = const [],

@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 part 'post.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Post {
   String postURL;
   String postID;
@@ -46,7 +46,7 @@ class Post {
       username: data?['username'],
       fullName: data?['fullName'],
       caption: data?['caption'],
-      postTime: data?['postTime'],
+      postTime: DateTime.parse(data?['postTime'] as String),
       postID: data?['postID'],
       postURL: data?["postURL"],
       price: data?['price'],
@@ -70,7 +70,7 @@ class Post {
       "comments": comments,
       "postID": postID,
       "imageName": imageName,
-      "postTime": postTime,
+      "postTime": postTime.toIso8601String(),
       "userID": userID,
     };
   }

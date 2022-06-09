@@ -23,7 +23,7 @@ class Comment {
     return Comment(
       userID: data?["userID"],
       content: data?['content'],
-      time: data?['time'],
+      time: DateTime.parse(data?['time'] as String),
     );
   }
 
@@ -31,7 +31,7 @@ class Comment {
     return {
       "userID": userID,
       "content": content,
-      "time": time,
+      "time": time.toIso8601String(),
     };
   }
 

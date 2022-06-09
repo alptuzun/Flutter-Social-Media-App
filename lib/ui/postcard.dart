@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/post.dart';
@@ -10,7 +11,7 @@ class PostCard extends StatelessWidget {
   final VoidCallback likes;
   final VoidCallback dislikes;
 
-   const PostCard(
+  const PostCard(
       {Key? key,
       required this.post,
       required this.comment,
@@ -55,20 +56,27 @@ class PostCard extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
-              child:  Image(
-                image: AssetImage(post.imageName.toString()),
-                alignment: Alignment.center,
-                isAntiAlias: true,
-                fit: BoxFit.contain,
-                filterQuality: FilterQuality.high,
-              ),
+            if (post.type != "text")
+              Container(
+                  padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
+                  child: post.imageName.isNotEmpty
+                      ? Image(
+                          image: AssetImage(post.imageName.toString()),
+                          alignment: Alignment.center,
+                          isAntiAlias: true,
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.high,
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: post.postURL,
+                          alignment: Alignment.center,
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.contain,
+                        )),
+            Text(
+              post.caption,
+              style: Styles.appMainTextStyle,
             ),
-              Text(
-                post.caption,
-                style: Styles.appMainTextStyle,
-              ),
             if (post.caption.isNotEmpty)
               SizedBox(
                 height: screenHeight(context, dividedBy: 100),
@@ -76,9 +84,7 @@ class PostCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(
-                  flex: 20
-                ),
+                const Spacer(flex: 20),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
@@ -122,9 +128,7 @@ class PostCard extends StatelessWidget {
                 ),
                 Text(post.comments.length.toString(),
                     style: Styles.appMainTextStyle),
-                const Spacer(
-                  flex: 20
-                ),
+                const Spacer(flex: 20),
               ],
             )
           ],

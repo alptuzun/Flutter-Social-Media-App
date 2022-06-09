@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/routes/login.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/services/auth.dart';
@@ -38,8 +39,7 @@ class _RegisterState extends State<Register> {
     if (username != null) {
       if (username.isEmpty) {
         return "Cannot leave username empty";
-      } else if (!(username.length >= 4 && username.length <= 14) &&
-          validCharacters.hasMatch(username)) {
+      } else if (!validCharacters.hasMatch(username)) {
         return "Please enter a proper username";
       }
     }
@@ -81,48 +81,44 @@ class _RegisterState extends State<Register> {
     return null;
   }
 
-  void handleNameSave(String? val) {
-    setState(() {
-      name = val ?? '';
-    });
-  }
-
-  void handleUsernameSave(String? val) {
-    setState(() {
-      username = val ?? "";
-    });
-  }
-
-  void handleEmailSave(String? val) {
-    setState(() {
-      email = val ?? "";
-    });
-  }
-
-  void handlePasswordSave(String? val) {
-    setState(() {
-      password = val ?? "";
-    });
+  Future<bool> uniqueUsername(String username) async {
+    final results = await FirebaseFirestore.instance.collection("Users").where("username", isEqualTo: username).get();
+    return results.docs.isEmpty;
   }
 
   Future registerUser() async {
+    print(username);
+    print(email);
+    print(password);
+    print(name);
     ConnectionWaiter.loadingScreen(context);
-    dynamic result = await _auth.registerUserWithEmailPass(email, password, name, username);
-    if (!mounted) {
-      return;
-    }
-    Navigator.of(context).pop();
-    if (result is String) {
-      Alerts.showAlert(context, 'Register Error',
-          result.toString());
-    }
-    else if (result is User) {
-      analytics.logSignUp(signUpMethod: "Email_and_Password");
-      Navigator.pushNamedAndRemoveUntil(
-          context, PageNavigator.routeName, (route) => false);
+    bool unique = await uniqueUsername(username);
+    print(unique.toString());
+    if (unique) {
+      dynamic result = await _auth.registerUserWithEmailPass(email, password, name, username);
+      if (!mounted) {
+        return;
+      }
+      Navigator.of(context).pop();
+      if (result is String) {
+        Alerts.showAlert(context, 'Register Error',
+            result.toString());
+      }
+      else if (result is User) {
+        analytics.logSignUp(signUpMethod: "Email_and_Password");
+        Navigator.pushNamedAndRemoveUntil(
+            context, PageNavigator.routeName, (route) => false);
+      }
+      else {
+        Alerts.showAlert(context, 'Login Error', result.toString());
+      }
     }
     else {
-      Alerts.showAlert(context, 'Login Error', result.toString());
+      if (!mounted) {
+        return;
+      }
+      Navigator.of(context).pop();
+      Alerts.showAlert(context, 'Login Error', "Please select a unique username");
     }
   }
   
@@ -154,21 +150,37 @@ class _RegisterState extends State<Register> {
                       icon: Icons.account_box_sharp,
                       placeholder: 'Full Name',
                       validator: nameValidator,
-                      onChanged: handleNameSave),
+                      onChanged: (value) {
+                        setState(() {
+                          name = value;
+                        });
+                      }),
                   StyledTextField(
                       icon: Icons.perm_identity_rounded,
                       placeholder: "Username",
                       validator: usernameValidator,
-                      onChanged: handleUsernameSave),
+                      onChanged: (value) {
+                        setState(() {
+                          username = value;
+                        });
+                      }),
                   StyledTextField(
                     inputType: TextInputType.emailAddress,
                     icon: Icons.email,
                     placeholder: "Email Address",
                     validator: emailValidator,
-                    onChanged: handleEmailSave,
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
                   ),
                   StyledPasswordField(
-                      onChanged: handlePasswordSave,
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
                       validator: passwordValidator),
                   StyledButton(
                     label: "register",

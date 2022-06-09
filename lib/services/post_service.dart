@@ -29,5 +29,4 @@ class PostService {
     FirebaseFirestore.instance.collection('Posts').doc(newPost.postID).set(newPost.toFirestore());
   }
 
-
 }

@@ -32,7 +32,7 @@ class Message {
       fullName: data?["fullName"],
       username: data?['username'],
       message: data?['message'],
-      time: data?['time'],
+      time: DateTime.parse(data?['time'] as String),
       messageType: data?['messageType'],
       incoming: data?['incoming'],
       isRead: data?["isRead"],
@@ -43,7 +43,7 @@ class Message {
     return {
       "username": username,
       "message": message,
-      "time": time,
+      "time": time.toIso8601String(),
       "messageType": messageType,
       "incoming": incoming,
       "isRead": isRead,

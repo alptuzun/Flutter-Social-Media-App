@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:cs310_group_28/routes/user_settings.dart';
 import 'package:cs310_group_28/services/user_service.dart';
+import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/ui/profile_banner.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -38,7 +40,6 @@ class _UserProfileState extends State<UserProfile> {
         );
     final docSnap = await ref.get();
     currentUser = docSnap.data()!;
-
   }
 
   Future getUser() async {
@@ -71,34 +72,40 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget posts(MyUser currentUser) {
-    if (!currentUser.posts.isNotEmpty) {
-      /*return Column(
-          children: currentUser.posts
+    if (currentUser.posts.isNotEmpty) {
+      List<Post> allPosts = [];
+      for (int x = 0; x < currentUser.posts.length; x++) {
+        Post newPost = Post.fromJson(currentUser.posts[x]);
+        allPosts.add(newPost);
+      }
+     allPosts = List.from(allPosts.reversed);
+      return Column(
+          children: allPosts
               .map((post) => PostCard(
                   post: post, comment: () {}, likes: () {}, dislikes: () {}))
-              .toList());*/
+              .toList());
     }
     return notFound("posts");
   }
 
   Widget favorites(MyUser currentUser) {
     if (currentUser.favorites.isNotEmpty) {
-      /*return Column(
+      return Column(
           children: currentUser.favorites
               .map((post) => PostCard(
                   post: post, comment: () {}, likes: () {}, dislikes: () {}))
-              .toList());*/
+              .toList());
     }
     return notFound("favorites");
   }
 
   Widget comments(MyUser currentUser) {
     if (currentUser.comments.isNotEmpty) {
-      /*return Column(
+      return Column(
           children: currentUser.comments
               .map((post) => PostCard(
                   post: post, comment: () {}, likes: () {}, dislikes: () {}))
-              .toList());*/
+              .toList());
     }
     return notFound("comments");
   }

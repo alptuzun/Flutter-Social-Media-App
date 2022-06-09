@@ -90,7 +90,7 @@ class _AddPostState extends State<AddPost> {
         } else {
           MyUser user =
               MyUser.fromJson(snapshot.data!.data() as Map<String, dynamic>);
-          if (image != null || video != null) {
+          if (image != null || video != null || caption.isNotEmpty) {
             return Scaffold(
                 appBar: AppBar(
                   leading: IconButton(
@@ -170,28 +170,17 @@ class _AddPostState extends State<AddPost> {
                                 borderRadius: BorderRadius.circular(20),
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    String url = "";
-                                    if (image != null) {
-                                      url = await PostService
-                                          .uploadToFirebaseImage(
-                                              currentUser,
-                                              image!,
-                                              (user.posts.length + 1)
-                                                  .toString());
-                                    } else if (video != null) {
-                                      url = await PostService
-                                          .uploadToFirebaseVideo(
-                                              currentUser,
-                                              video!,
-                                              (user.posts.length + 1)
-                                                  .toString());
-                                    }
+                                    String url =
+                                        await PostService.uploadToFirebaseImage(
+                                            currentUser,
+                                            image!,
+                                            (user.posts.length + 1).toString());
                                     Post newPost = Post(
                                       postTime: DateTime.now(),
                                       postID:
                                           (user.posts.length + 1).toString(),
                                       postURL: url,
-                                      type: (image != null) ? "image" : "video",
+                                      type: "image",
                                       username: user.username,
                                       fullName: user.fullName,
                                       userID: currentUser.uid,
@@ -206,7 +195,6 @@ class _AddPostState extends State<AddPost> {
                                         currentUser.uid, newPost);
                                     setState(() {
                                       image = null;
-                                      video = null;
                                       caption = "";
                                     });
                                   },
@@ -228,8 +216,100 @@ class _AddPostState extends State<AddPost> {
                               ),
                             ),
                           ]))
-                    : const Center(
-                        child: Text("Your video is ready to upload!")));
+                    : video != null
+                        ? const Center(
+                            child: Text("Your video is ready to upload!"))
+                        : Center(
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 5),
+                                  child: Material(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: TextField(
+                                      keyboardType: TextInputType.multiline,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      minLines: 6,
+                                      maxLines: 6,
+                                      textAlign: TextAlign.center,
+                                      style: Styles.appMainTextStyle,
+                                      decoration: InputDecoration(
+                                        hintStyle: Styles.appMainTextStyle,
+                                        border: const OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(50)),
+                                        ),
+                                        hintText: "Enter your post text",
+                                      ),
+                                      onChanged: (text) {
+                                        caption = text;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: (screenWidth(context) / 100) * 45,
+                                  height: (screenHeight(context) / 100) * 5.5,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                        begin: Alignment(0, -1),
+                                        end: Alignment(0, 0),
+                                        colors: [
+                                          Colors.lightBlue,
+                                          Colors.lightBlueAccent
+                                        ]),
+                                    borderRadius: BorderRadius.circular(35),
+                                  ),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        Post newPost = Post(
+                                          postTime: DateTime.now(),
+                                          postID: (user.posts.length + 1)
+                                              .toString(),
+                                          postURL: "None",
+                                          type: "text",
+                                          username: user.username,
+                                          fullName: user.fullName,
+                                          userID: currentUser.uid,
+                                          caption: caption,
+                                          likes: [],
+                                          comments: [],
+                                          price: "-1",
+                                          location: "",
+                                          imageName: "",
+                                        );
+                                        PostService.publishPost(
+                                            currentUser.uid, newPost);
+                                        setState(() {
+                                          caption = "";
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.transparent,
+                                          shadowColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20))),
+                                      child: Text(
+                                        "Post",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ])));
           } else {
             return Scaffold(
               appBar: AppBar(
@@ -334,7 +414,9 @@ class _AddPostState extends State<AddPost> {
                         color: Colors.transparent,
                         child: ElevatedButton(
                           onPressed: () {
-                            null;
+                            setState(() {
+                              caption = "@";
+                            });
                           },
                           style: ElevatedButton.styleFrom(
                               primary: Colors.transparent,

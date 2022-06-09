@@ -1,7 +1,7 @@
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/marketplace.dart';
+import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -17,8 +17,8 @@ Column infoColumn(int number, String text) {
 }
 
 class ProfileBanner extends StatelessWidget {
-
   final MyUser user;
+
   const ProfileBanner({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -34,7 +34,8 @@ class ProfileBanner extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 10),
                 child: CircleAvatar(
                   radius: 60,
-                  backgroundImage: CachedNetworkImageProvider(user.profilePicture),
+                  backgroundImage:
+                      CachedNetworkImageProvider(user.profilePicture),
                 ),
               ),
               Expanded(
@@ -56,9 +57,16 @@ class ProfileBanner extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             child: Text(user.fullName,
-                style: GoogleFonts.poppins(
-                    fontSize: 16, fontWeight: FontWeight.w500)),
+                textScaleFactor: 0.8, style: Styles.boldTitleTextStyle),
           ),
+          if (user.bio.isNotEmpty)
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                child: Text(
+                  user.bio,
+                  style: Styles.appMainTextStyle,
+                )),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
