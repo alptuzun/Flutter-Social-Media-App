@@ -36,7 +36,7 @@ class Messagecard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      message.user.fullName,
+                      message.fullName,
                       style: Styles.userNameTextStyle,
                       textAlign: TextAlign.start,
                       textScaleFactor: 0.75,

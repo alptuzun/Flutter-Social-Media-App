@@ -2,62 +2,56 @@ import 'package:cs310_group_28/ui/marketcard.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
-
-import '../models/post.dart';
-import '../models/user.dart';
+import 'package:cs310_group_28/models/post.dart';
 import 'messages_screen.dart';
 import 'notifications.dart';
 
 List<Post> sampleMarkets = [
   Post(
-    postID: "1",
+      postURL: "",
+      type: "market",
+      postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "silaozinan",
-        email: "silaozinan@sabanciuniv.edu",
-        fullName: "Sıla Özinan",
-      ),
+      username: "silaozinan",
+      fullName: "Sıla Özinan",
       caption: "fridge for sale",
       location: "Sabancı University",
       imageName: 'assets/images/fridge.jpg',
       price: "2000 TL"),
   Post(
+      postURL: "",
+      type: "market",
       postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "aliozgunakyuz",
-        email: "akyuz@sabanciuniv.edu",
-        fullName: "Ali Özgün Akyüz",
-      ),
+      username: "aliozgunakyuz",
+      fullName: "Ali Özgün Akyüz",
       caption: "couch (only used for one semester)",
       // likes: 488,
       // comments: 27,
       imageName: 'assets/images/couch.jpg',
       price: "1000 TL"),
   Post(
+      postURL: "",
+      type: "market",
       postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "sermetozgu",
-        email: "sermetozgu@sabanciuniv.edu",
-        fullName: "Sermet Özgü",
-      ),
+      username: "sermetozgu",
+      fullName: "Sermet Özgü",
       caption: "I'm selling TLL101 books",
       location: "Sabancı University",
       imageName: 'assets/images/books.jpg',
       price: "150 TL"),
   Post(
+      postURL: "",
+      type: "market",
       postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "yasinalbayrak",
-        email: "yasinalbayrak@sabanciuniv.edu",
-        fullName: "Yasin Albayrak",
-      ),
+      username: "yasinalbayrak",
+      fullName: "Yasin Albayrak",
       caption: "Anyone want to buy a bike?",
       imageName: "assets/images/bike.jpg",
       price: "90 €")

@@ -4,105 +4,96 @@ import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/post.dart';
-import 'package:cs310_group_28/models/user.dart';
 
 List<Post> sampleSearchPosts = [
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "alptuzun",
-      email: "alptuzun@sabanciuniv.edu",
-      fullName: "Alp Tüzün",
-    ),
+    username: "alptuzun",
+    fullName: "Alp Tüzün",
     caption: "Very Beautiful day in San Francisco",
     location: "Golden Gate Bridge",
     imageName: 'assets/images/goldengate.jpg',
   ),
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "isiktantanis",
-      email: "isiktantanis@sabanciuniv.edu",
-      fullName: "Işıktan Tanış",
-    ),
+    username: "isiktantanis",
+    fullName: "Işıktan Tanış",
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "elonmusk",
-      email: "elonmusk@sabanciuniv.edu",
-      fullName: "Elon Musk",
-    ),
+    username: "elonmusk",
+    fullName: "Elon Musk",
     caption: "With my new Whip",
     location: "Tesla Inc. HQ",
     imageName: 'assets/images/eloncar.jpg',
   ),
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "yasinalbayrak",
-      email: "yasinalbayrak@sabanciuniv.edu",
-      fullName: "Yasin Albayrak",
-    ),
+    username: "yasinalbayrak",
+    fullName: "Yasin Albayrak",
     caption: "Live Like A Champion",
     imageName: "assets/images/muhammed_ali.jpg",
   ),
   Post(
+      postURL: "",
+      type: "image",
       postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "silaozinan",
-        email: "silaozinan@sabanciuniv.edu",
-        fullName: "Sıla Özinan",
-      ),
+      username: "silaozinan",
+      fullName: "Sıla Özinan",
       caption: "fridge for sale",
       location: "Sabancı University",
       imageName: 'assets/images/fridge.jpg',
       price: "2000 TL"),
   Post(
+      postURL: "",
+      type: "image",
       postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "aliozgunakyuz",
-        email: "akyuz@sabanciuniv.edu",
-        fullName: "Ali Özgün Akyüz",
-      ),
+      username: "aliozgunakyuz",
+      fullName: "Ali Özgün Akyüz",
       caption: "couch (only used for one semester)",
       imageName: 'assets/images/couch.jpg',
       price: "1000 TL"),
   Post(
+      postURL: "",
+      type: "image",
       postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "sermetozgu",
-        email: "sermetozgu@sabanciuniv.edu",
-        fullName: "Sermet Özgü",
-      ),
+      username: "sermetozgu",
+      fullName: "Sermet Özgü",
       caption: "I'm selling TLL101 books",
       location: "Sabancı University",
       imageName: 'assets/images/books.jpg',
       price: "150 TL"),
   Post(
+      postURL: "",
+      type: "image",
       postID: "1",
       postTime: DateTime.now(),
       userID: "2",
-      user: MyUser(
-        username: "yasinalbayrak",
-        email: "yasinalbayrak@sabanciuniv.edu",
-        fullName: "Yasin Albayrak",
-      ),
+      username: "yasinalbayrak",
+      fullName: "Yasin Albayrak",
       caption: "Anyone want to buy a bike?",
       imageName: "assets/images/bike.jpg",
       price: "90 €")
@@ -118,7 +109,6 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-
   String currValue = "Accounts";
 
   @override
@@ -142,10 +132,10 @@ class _ExploreState extends State<Explore> {
                   color: Colors.black,
                 )
               else if (currValue == "Hashtags")
-                  const Icon(
-                    Icons.tag,
-                    color: Colors.black,
-                  ),
+                const Icon(
+                  Icons.tag,
+                  color: Colors.black,
+                ),
               PopupMenuButton(
                 icon: const Icon(
                   Icons.arrow_drop_down_outlined,
@@ -154,8 +144,7 @@ class _ExploreState extends State<Explore> {
                 iconSize: 40,
                 onSelected: (value) {
                   currValue = value.toString();
-                  setState(() {
-                  });
+                  setState(() {});
                 },
                 itemBuilder: (context) {
                   return [
@@ -214,7 +203,10 @@ class _ExploreState extends State<Explore> {
                 color: AppColors.titleColor,
                 iconSize: 40,
                 onPressed: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => const SearchScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SearchScreen()));
                 },
               ),
             ],

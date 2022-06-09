@@ -9,12 +9,11 @@ class MarketCard extends StatelessWidget {
 
   final VoidCallback addToBasket;
 
-  const MarketCard(
-      {Key? key,
-        required this.post,
-        required this.addToBasket,
-        })
-      : super(key: key);
+  const MarketCard({
+    Key? key,
+    required this.post,
+    required this.addToBasket,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class MarketCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  post.user.fullName,
+                  post.fullName,
                   style: Styles.userNameTextStyle,
                   textAlign: TextAlign.start,
                   textScaleFactor: 0.75,
@@ -37,7 +36,7 @@ class MarketCard extends StatelessWidget {
                   width: screenWidth(context, dividedBy: 100),
                 ),
                 Text(
-                  "@${post.user.username}",
+                  "@${post.username}",
                   style: GoogleFonts.poppins(
                     color: Colors.black45,
                   ),
@@ -63,32 +62,33 @@ class MarketCard extends StatelessWidget {
                 filterQuality: FilterQuality.high,
               ),
             ),
-            if (post.caption != null)
-              Text(
-                post.caption ?? "",
-                style: Styles.appMainTextStyle,
-              ),
-            if (post.caption != null)
-              SizedBox(
-                height: screenHeight(context, dividedBy: 100),
-              ),
+            Text(
+              post.caption,
+              style: Styles.appMainTextStyle,
+            ),
+            SizedBox(
+              height: screenHeight(context, dividedBy: 100),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(),
                 Icon(Icons.money,
-                  color: Colors.green,
-                  size: screenWidth(context, dividedBy: 16,)
-                  //constraints: const BoxConstraints(),
-                  //padding: EdgeInsets.zero,
-                ),
+                    color: Colors.green,
+                    size: screenWidth(
+                      context,
+                      dividedBy: 16,
+                    )
+                    //constraints: const BoxConstraints(),
+                    //padding: EdgeInsets.zero,
+                    ),
                 const Spacer(
-                  flex:2,
+                  flex: 2,
                 ),
-                if (post.price!= null)
-                  Text(post.price ?? "",
-                    style: Styles.appMainTextStyle,),
-
+                  Text(
+                    post.price,
+                    style: Styles.appMainTextStyle,
+                  ),
                 const Spacer(
                   flex: 52,
                 ),
@@ -108,4 +108,5 @@ class MarketCard extends StatelessWidget {
         ),
       ),
     );
-  }}
+  }
+}

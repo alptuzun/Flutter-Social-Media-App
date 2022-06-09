@@ -54,7 +54,7 @@ class ProfileBanner extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             child: Text(user.fullName,
                 style: GoogleFonts.poppins(
                     fontSize: 16, fontWeight: FontWeight.w500)),

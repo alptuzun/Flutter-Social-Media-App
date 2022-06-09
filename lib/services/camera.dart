@@ -63,7 +63,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             );
           } catch (e) {
             FirebaseCrashlytics.instance.log(e.toString());
-            print(e);
           }
         },
         child: const Icon(Icons.camera_alt),

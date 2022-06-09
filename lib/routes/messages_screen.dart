@@ -1,4 +1,3 @@
-import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -11,11 +10,8 @@ List<Message> sampleMessages = [
   Message(
     message: "I will think about it.",
     time: DateTime.now(),
-    user: MyUser(
       username: 'klcilkr',
-      fullName: 'İlker Kılıç',
-      email: 'klclkr@sabanciuniv.edu',
-    ),
+    fullName: "İlker Kılıç",
     messageType: "Market Place",
     isRead: true,
     incoming: true,
@@ -23,11 +19,10 @@ List<Message> sampleMessages = [
   Message(
     message: "Ok it is done.",
     time: DateTime.now(),
-    user: MyUser(
+
       username: 'Sila',
       fullName: 'Sıla Özinan',
-      email: 'silaozinan@sabanciuniv.edu',
-    ),
+
     messageType: "Market Place",
     isRead: false,
     incoming: true,
@@ -35,11 +30,10 @@ List<Message> sampleMessages = [
   Message(
     message: "Deal!, I am selling my F1 car to you.",
     time: DateTime.now(),
-    user: MyUser(
+
       username: 'lewis',
       fullName: 'Lewis Hamilton',
-      email: 'hamiltonlewis@sabanciuniv.edu',
-    ),
+
     messageType: "Market Place",
     isRead: true,
     incoming: true,
@@ -47,11 +41,11 @@ List<Message> sampleMessages = [
   Message(
     message: "See u",
     time: DateTime.now(),
-    user: MyUser(
+
       username: 'sermetozgu',
       fullName: 'Sermet Özgü',
-      email: 'sermetozgu@sabanciuniv.edu',
-    ),
+
+
     messageType: "Private",
     isRead: true,
     incoming: false,
@@ -59,11 +53,11 @@ List<Message> sampleMessages = [
   Message(
     message: "200\$ is ok for you?",
     time: DateTime.now(),
-    user: MyUser(
+
       username: "alptuzun",
-      email: "alptuzun@sabanciuniv.edu",
+
       fullName: "Alp Tüzün",
-    ),
+
     messageType: "Market Place",
     incoming: true,
     isRead: true,
@@ -71,33 +65,30 @@ List<Message> sampleMessages = [
   Message(
       message: "Have you cheated on ...",
       time: DateTime.now(),
-      user: MyUser(
+
         username: 'levi',
         fullName: 'Albert Levi',
-        email: 'levi@sabanciuniv.edu',
-      ),
+
       messageType: "Private",
       incoming: true,
       isRead: false),
   Message(
       message: "This Wednesday is ok.",
       time: DateTime.now(),
-      user: MyUser(
+
         username: 'ozgun12',
         fullName: 'Ali Özgün Akyüz',
-        email: 'akyuz@sabanciuniv.edu',
-      ),
+
       messageType: "Private",
       incoming: true,
       isRead: false),
   Message(
     message: "I'll handle it",
     time: DateTime.now(),
-    user: MyUser(
+
       username: 'emre26',
       fullName: 'Emre Güneş',
-      email: 'emregunes@sabanciuniv.edu',
-    ),
+
     messageType: "Private",
     isRead: true,
     incoming: true,
@@ -105,11 +96,11 @@ List<Message> sampleMessages = [
   Message(
     message: "Hii",
     time: DateTime.now(),
-    user: MyUser(
+
       username: "isiktantanis",
-      email: "isiktantanis@sabanciuniv.edu",
+
       fullName: "Işıktan Tanış",
-    ),
+
     messageType: "Market Place",
     incoming: true,
     isRead: false,
@@ -117,11 +108,10 @@ List<Message> sampleMessages = [
   Message(
       message: "OK",
       time: DateTime.now(),
-      user: MyUser(
+
         username: 'eylül.simsek',
         fullName: 'Eylül Şimşek',
-        email: 'eylülsimsek@sabanciuniv.edu',
-      ),
+
       messageType: "Private",
       isRead: true,
       incoming: false),
@@ -208,9 +198,9 @@ class _MessageBoxState extends State<MessageBox> {
 
 class MySearchDelegate extends SearchDelegate {
   final List allChats =
-      sampleMessages.map((e) => e.user.fullName).toList();
+      sampleMessages.map((e) => e.fullName).toList();
   final List allChatSuggestions = sampleMessages
-      .map((e) => e.user.fullName)
+      .map((e) => e.fullName)
       .toList()
       .sublist(0, sampleMessages.length ~/ 2);
 

@@ -6,20 +6,21 @@ part of 'message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
+Message _$MessageFromJson(Map<String, dynamic> json) => Message(
+      fullName: json['fullName'] as String,
       message: json['message'] as String,
+      username: json['username'] as String,
       time: DateTime.parse(json['time'] as String),
-      user: MyUser.fromJson(json['user'] as Map<String, dynamic>),
       messageType: json['messageType'] as String,
-      isRead: json['isRead'] as bool? ?? true,
-      incoming: json['incoming'] as bool? ?? false,
+      incoming: json['incoming'] as bool,
+      isRead: json['isRead'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'message': instance.message,
       'time': instance.time.toIso8601String(),
-      'user': instance.user,
+      'username': instance.username,
+      'fullName': instance.fullName,
       'messageType': instance.messageType,
       'isRead': instance.isRead,
       'incoming': instance.incoming,

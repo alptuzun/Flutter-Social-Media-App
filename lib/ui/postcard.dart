@@ -30,7 +30,7 @@ class PostCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  post.user.fullName,
+                  post.fullName,
                   style: Styles.userNameTextStyle,
                   textAlign: TextAlign.start,
                   textScaleFactor: 0.75,
@@ -39,7 +39,7 @@ class PostCard extends StatelessWidget {
                   width: screenWidth(context, dividedBy: 100),
                 ),
                 Text(
-                  "@${post.user.username}",
+                  "@${post.username}",
                   style: GoogleFonts.poppins(
                     color: Colors.black45,
                   ),
@@ -65,12 +65,11 @@ class PostCard extends StatelessWidget {
                 filterQuality: FilterQuality.high,
               ),
             ),
-            if (post.caption != null)
               Text(
-                post.caption ?? "",
+                post.caption,
                 style: Styles.appMainTextStyle,
               ),
-            if (post.caption != null)
+            if (post.caption.isNotEmpty)
               SizedBox(
                 height: screenHeight(context, dividedBy: 100),
               ),

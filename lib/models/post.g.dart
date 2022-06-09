@@ -6,28 +6,34 @@ part of 'post.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
+Post _$PostFromJson(Map<String, dynamic> json) => Post(
+      postURL: json['postURL'] as String,
       postID: json['postID'] as String,
       userID: json['userID'] as String,
+      username: json['username'] as String,
+      fullName: json['fullName'] as String,
       postTime: DateTime.parse(json['postTime'] as String),
-      user: MyUser.fromJson(json['user'] as Map<String, dynamic>),
-      caption: json['caption'] as String?,
-      location: json['location'] as String?,
-      imageName: json['imageName'] as String,
-      likes: json['likes'] as List<dynamic>? ?? const [],
+      type: json['type'] as String,
       comments: json['comments'] as List<dynamic>? ?? const [],
-      price: json['price'] as String?,
+      caption: json['caption'] as String? ?? "",
+      likes: json['likes'] as List<dynamic>? ?? const [],
+      imageName: json['imageName'] as String? ?? "",
+      location: json['location'] as String? ?? "",
+      price: json['price'] as String? ?? "-1",
     );
 
-Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
+Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+      'postURL': instance.postURL,
       'postID': instance.postID,
       'userID': instance.userID,
+      'username': instance.username,
+      'fullName': instance.fullName,
       'postTime': instance.postTime.toIso8601String(),
-      'user': instance.user,
       'caption': instance.caption,
       'location': instance.location,
       'imageName': instance.imageName,
       'likes': instance.likes,
       'comments': instance.comments,
       'price': instance.price,
+      'type': instance.type,
     };

@@ -1,5 +1,4 @@
 import 'package:cs310_group_28/models/post.dart';
-import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
 import 'package:cs310_group_28/services/add_post.dart';
@@ -11,14 +10,13 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 
 List<Post> samplePosts = [
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "alptuzun",
-      email: "alptuzun@sabanciuniv.edu",
-      fullName: "Alp Tüzün",
-    ),
+    username: "alptuzun",
+    fullName: "Alp Tüzün",
     caption: "Very Beautiful day in San Francisco",
     // likes: 505,
     // comments: 15,
@@ -26,38 +24,35 @@ List<Post> samplePosts = [
     imageName: 'assets/images/goldengate.jpg',
   ),
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "isiktantanis",
-      email: "isiktantanis@sabanciuniv.edu",
-      fullName: "Işıktan Tanış",
-    ),
+    username: "isiktantanis",
+    fullName: "Işıktan Tanış",
     imageName: 'assets/images/andriod.jpg',
   ),
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "elonmusk",
-      email: "elonmusk@sabanciuniv.edu",
-      fullName: "Elon Musk",
-    ),
+    username: "elonmusk",
+    fullName: "Elon Musk",
     caption: "With my new Whip",
     location: "Tesla Inc. HQ",
     imageName: 'assets/images/eloncar.jpg',
   ),
   Post(
+    postURL: "",
+    type: "image",
     postID: "1",
     postTime: DateTime.now(),
     userID: "2",
-    user: MyUser(
-      username: "yasinalbayrak",
-      email: "yasinalbayrak@sabanciuniv.edu",
-      fullName: "Yasin Albayrak",
-    ),
+    username: "yasinalbayrak",
+    fullName: "Yasin Albayrak",
     caption: "Live Like A Champion",
     imageName: "assets/images/muhammed_ali.jpg",
   )
@@ -73,7 +68,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void addComment(Post post) {

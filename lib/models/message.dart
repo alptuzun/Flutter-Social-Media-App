@@ -1,20 +1,58 @@
-import 'package:cs310_group_28/models/user.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'message.g.dart';
-part 'message.freezed.dart';
 
-@unfreezed
-class Message with _$Message {
-  factory Message({
-    required String message,
-    required DateTime time,
-    required MyUser user,
-    required String messageType,
-    @Default(true) bool isRead,
-    @Default(false) bool incoming,
-}) = _Message;
+@JsonSerializable()
+class Message {
+  String message;
+  DateTime time;
+  String username;
+  String fullName;
+  String messageType;
+  bool isRead;
+  bool incoming;
+
+  Message({
+    required this.fullName,
+    required this.message,
+    required this.username,
+    required this.time,
+    required this.messageType,
+    required this.incoming,
+    this.isRead = false,
+  });
+
+  factory Message.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options,
+      ) {
+    final data = snapshot.data();
+    return Message(
+      fullName: data?["fullName"],
+      username: data?['username'],
+      message: data?['message'],
+      time: data?['time'],
+      messageType: data?['messageType'],
+      incoming: data?['incoming'],
+      isRead: data?["isRead"],
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      "username": username,
+      "message": message,
+      "time": time,
+      "messageType": messageType,
+      "incoming": incoming,
+      "isRead": isRead,
+      "fullName" : fullName,
+    };
+  }
 
   factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
-}
 
+  Map<String, dynamic> toJson() => _$MessageToJson(this);
+
+}

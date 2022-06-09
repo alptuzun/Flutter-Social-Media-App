@@ -8,7 +8,6 @@ class UserService {
   }
 
   static void setPrivate(MyUser user, bool val, String userID) {
-    user.private = val;
     final CollectionReference usersRef =
     FirebaseFirestore.instance.collection("Users");
     usersRef.doc(userID).update({"private" : val});
@@ -35,7 +34,7 @@ class UserService {
       "fullName": fullName,
       "private": false,
       "phone": "",
-      "pfp":
+      "profilePicture":
           "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/blank_pfp.png?alt=media&token=5d0aef19-82e7-4519-b545-7360e8b1a249",
       "posts": [],
       "favorites": [],
@@ -48,5 +47,11 @@ class UserService {
 
   static returnRef() => FirebaseFirestore.instance.collection("Users");
 
+  static getUsername(String userID) async {
+    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var data = ref.data() as Map<String, dynamic>;
+    var uname = data["username"];
+    return uname;
+  }
 
 }

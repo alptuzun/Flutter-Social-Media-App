@@ -6,27 +6,30 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MyUser _$$_MyUserFromJson(Map<String, dynamic> json) => _$_MyUser(
+MyUser _$MyUserFromJson(Map<String, dynamic> json) => MyUser(
       username: json['username'] as String,
       fullName: json['fullName'] as String,
       email: json['email'] as String,
-      bio: json['bio'] as String? ?? "",
+      bio: json['bio'] as String?,
       phone: json['phone'] as String?,
       profilePicture: json['profilePicture'] as String? ??
           "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/blank_pfp.png?alt=media&token=5d0aef19-82e7-4519-b545-7360e8b1a249",
-      private: json['private'] as bool? ?? false,
-      posts: json['posts'] as List<dynamic>? ?? const [],
-      favorites: json['favorites'] as List<dynamic>? ?? const [],
+      posts: (json['posts'] as List<dynamic>?)
+              ?.map((e) => Post.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       comments: json['comments'] as List<dynamic>? ?? const [],
+      private: json['private'] as bool? ?? false,
       following: json['following'] as List<dynamic>? ?? const [],
       followers: json['followers'] as List<dynamic>? ?? const [],
+      favorites: json['favorites'] as List<dynamic>? ?? const [],
     );
 
-Map<String, dynamic> _$$_MyUserToJson(_$_MyUser instance) => <String, dynamic>{
+Map<String, dynamic> _$MyUserToJson(MyUser instance) => <String, dynamic>{
       'username': instance.username,
       'fullName': instance.fullName,
-      'email': instance.email,
       'bio': instance.bio,
+      'email': instance.email,
       'phone': instance.phone,
       'profilePicture': instance.profilePicture,
       'private': instance.private,
