@@ -1,16 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserService {
   static void addPost(MyUser user, Post p) {
     user.posts.add(p);
-  }
-
-  static void setPrivate(MyUser user, bool val, String userID) {
-    final CollectionReference usersRef =
-    FirebaseFirestore.instance.collection("Users");
-    usersRef.doc(userID).update({"private" : val});
   }
 
   static Future<String> fetchUsername(String userID) async {
@@ -48,18 +46,25 @@ class UserService {
   static returnRef() => FirebaseFirestore.instance.collection("Users");
 
   static getUsername(String userID) async {
-    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var ref =
+        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
     var data = ref.data() as Map<String, dynamic>;
     var uname = data["username"];
     return uname;
   }
 
   static editBio(String userID, String newBio) async {
-    await FirebaseFirestore.instance.collection("Users").doc(userID).update({"bio" : newBio});
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(userID)
+        .update({"bio": newBio});
   }
 
   static editUsername(String userID, String newUsername) async {
-    await FirebaseFirestore.instance.collection("Users").doc(userID).update({"username" : newUsername});
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(userID)
+        .update({"username": newUsername});
   }
 
   static Future<bool> uniqueUsername(String username) async {
@@ -71,4 +76,34 @@ class UserService {
     return results.docs.isEmpty;
   }
 
+  static setNewPic(String url, String userID) async {
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userID)
+        .update({"profilePicture": url});
+  }
+
+  static Future<String> uploadToFirebase(User? user, File file) async {
+    var storageRef =
+        FirebaseStorage.instance.ref().child("profilePictures/${user!.uid}");
+    var upload = await storageRef.putFile(file);
+    String url = await upload.ref.getDownloadURL();
+    return url;
+  }
+
+  static Future uploadNewPic(User? user, File image) async {
+    String downloadUrl = await uploadToFirebase(user, image);
+    await setNewPic(downloadUrl, user!.uid);
+  }
+  
+  static setPrivacy(String userID, bool isPrivate) async {
+    FirebaseFirestore.instance.collection('Users').doc(userID).update({"private" : isPrivate});
+  }
+
+  static Future<bool> getPrivacy(String userID) async {
+    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var data = ref.data() as Map<String, dynamic>;
+    bool privacy = data["private"];
+    return privacy;
+  }
 }

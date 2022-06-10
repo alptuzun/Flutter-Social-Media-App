@@ -4,9 +4,6 @@ import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'app_dimensions.dart';
-import 'screen_size.dart';
-
 class StyledPasswordField extends StatefulWidget {
   final String? Function(String?)? validator;
   final ValueChanged<String> onChanged;

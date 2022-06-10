@@ -6,6 +6,7 @@ import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/models/user.dart';
@@ -31,11 +32,20 @@ class _UserSettingsState extends State<UserSettings> {
   String input = "";
   final validCharacters = RegExp(r'^[a-zA-Z0-9_]+$');
   String oldPassword = "";
+  bool privacy = false;
 
-  void handlePrivateAccountToggle(bool val, String userID) {
+  Future privacySettings() async {
+    var result =
+        await UserService.getPrivacy(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
-      UserService.setPrivate(widget.user, val, userID);
+      privacy = result;
     });
+  }
+
+  @override
+  void initState() {
+    privacySettings();
+    super.initState();
   }
 
   @override
@@ -144,6 +154,49 @@ class _UserSettingsState extends State<UserSettings> {
                     ),
                     Container(
                       color: Colors.white,
+                      width: screenWidth(context),
+                      padding: const EdgeInsets.all(3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Icon(Icons.lock_outlined, size: 35),
+                              ),
+                              Text(
+                                "Private account",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                          CupertinoSwitch(
+                            value: privacy,
+                            onChanged: (value) {
+                              setState(() {
+                                privacy = value;
+                                UserService.setPrivacy(user!.uid, value);
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenHeight(context, dividedBy: 40),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "General",
+                        style: GoogleFonts.poppins(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
                       child: TextButton(
                         onPressed: () {
                           setState(() {
@@ -197,46 +250,6 @@ class _UserSettingsState extends State<UserSettings> {
                             )
                           ],
                         ),
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      width: screenWidth(context),
-                      padding: const EdgeInsets.all(3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Icon(Icons.lock_outlined, size: 35),
-                              ),
-                              Text(
-                                "Private account",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 14, fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ),
-                          Switch(
-                            value: widget.user.private,
-                            onChanged: (value) {
-                              handlePrivateAccountToggle(value, user!.uid);
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: screenHeight(context, dividedBy: 40),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "General",
-                        style: GoogleFonts.poppins(
-                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
                     Container(
@@ -304,30 +317,6 @@ class _UserSettingsState extends State<UserSettings> {
                               style: GoogleFonts.poppins(
                                   fontSize: 14, fontWeight: FontWeight.w400),
                             )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      width: screenWidth(context),
-                      child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          primary: Colors.black,
-                          padding: const EdgeInsets.all(3),
-                        ),
-                        child: Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.language, size: 35),
-                            ),
-                            Text(
-                              "Change language",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
-                            ),
                           ],
                         ),
                       ),
