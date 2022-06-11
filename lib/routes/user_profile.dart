@@ -7,6 +7,8 @@ import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/marketplace.dart';
 import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/notifications.dart';
+import 'package:cs310_group_28/routes/user_followers.dart';
+import 'package:cs310_group_28/routes/user_following.dart';
 import 'package:cs310_group_28/routes/user_settings.dart';
 import 'package:cs310_group_28/services/camera.dart';
 import 'package:cs310_group_28/services/user_service.dart';
@@ -87,13 +89,29 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
-  Column infoColumn(int number, String text) {
+  Column infoColumnFollows(int number, String text) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(number.toString(), style: const TextStyle(fontSize: 20)),
-        Text(text,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500))
+        Text(number.toString(), style: const TextStyle(fontSize: 18)),
+        TextButton(
+            onPressed: (){
+              if (text == "Followers"){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const user_followers()));
+              }
+              else if (text == "Following")
+              {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const user_following()));
+              }
+            },
+            child: Text(text,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black87))),
       ],
     );
   }
@@ -349,14 +367,14 @@ class _UserProfileState extends State<UserProfile> {
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             const Spacer(),
-                                            infoColumn(currentUser.posts.length,
+                                            infoColumnFollows(currentUser.posts.length,
                                                 "Posts"),
                                             const Spacer(),
-                                            infoColumn(
+                                            infoColumnFollows(
                                                 currentUser.followers.length,
                                                 "Followers"),
                                             const Spacer(),
-                                            infoColumn(
+                                            infoColumnFollows(
                                                 currentUser.following.length,
                                                 "Following"),
                                             const Spacer(),

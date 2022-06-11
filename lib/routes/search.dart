@@ -1,8 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:cs310_group_28/models/user_search_model.dart';
+
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:cs310_group_28/visuals/fade_animation.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
+import 'package:cs310_group_28/services/user_service.dart';
+
+import '../models/user.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -13,18 +17,45 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<MyUsers> _foundUsers = [];
+  List<MyUser> _foundUsers = [];
+  List<MyUser> list_of_users = [];
+
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-    _foundUsers = listOfUsers;
+
+    print('***********');
+    //getUsers();
+
+    prt();
+
+    print('***********');
+
   }
+
+  /*Future getUsers() async {
+    var users =
+    await UserService.getAllUsers();
+    setState(() {
+      _foundUsers = users;
+    });
+  }*/
+  Future prt() async {
+    List<MyUser> users = await UserService.getAllUsers();
+    setState(() {
+      _foundUsers = users;
+      list_of_users = users;
+    });
+
+  }
+
+
 
   onSearch(String search) {
     setState(() {
-      _foundUsers = listOfUsers
-          .where((element) => element.name.toLowerCase().contains(search))
+      _foundUsers =
+          list_of_users.where((element) => element.fullName.toLowerCase().contains(search))
           .toList();
     });
   }
@@ -131,7 +162,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  userPart({required MyUsers aUser}) {
+  userPart({required MyUser aUser}) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -144,23 +175,24 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: 60,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Image.asset(
-                      aUser.imageAd,
-                      fit: BoxFit.cover,
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage:
+                      CachedNetworkImageProvider(aUser.profilePicture),
                     ),
                   )),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(aUser.name,
+                  Text(aUser.fullName,
                       style: const TextStyle(
                           color: Color.fromARGB(255, 15, 15, 15),
                           fontWeight: FontWeight.w700)),
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(aUser.userName,
+                  Text(aUser.username,
                       style: const TextStyle(
                           color: Color.fromARGB(255, 90, 90, 90))),
                 ],
@@ -169,7 +201,7 @@ class _SearchScreenState extends State<SearchScreen> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  aUser.isFollowed = !aUser.isFollowed;
+                  aUser.private = !aUser.private;//do here
                 });
               },
               child: AnimatedContainer(
@@ -177,20 +209,20 @@ class _SearchScreenState extends State<SearchScreen> {
                 width: 110,
                 duration: const Duration(milliseconds: 250),
                 decoration: BoxDecoration(
-                    color: aUser.isFollowed
+                    color: aUser.private
                         ? Colors.blue[700]
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(7),
                     border: Border.all(
-                        color: aUser.isFollowed
+                        color: aUser.private
                             ? Colors.transparent
                             : Colors.grey.shade700, // if statement
                         width: 1)),
                 child: Center(
                   child: Text(
-                    aUser.isFollowed ? "Unfollow" : "Follow",
+                    aUser.private ? "Unfollow" : "Follow",
                     style: TextStyle(
-                        color: aUser.isFollowed ? Colors.white : Colors.blue),
+                        color: aUser.private ? Colors.white : Colors.blue),
                   ),
                 ),
               ),
