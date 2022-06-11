@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/notification.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({Key? key, required this.notification }) : super(key: key);
@@ -22,7 +23,7 @@ class NotificationCard extends StatelessWidget {
               ),
             ),
             Text(
-                "${notification.date.day}-${notification.date.month}-${notification.date.year}",
+                "${notification.date.day}.${notification.date.month}.${notification.date.year}",
                 style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.normal,

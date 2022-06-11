@@ -54,10 +54,11 @@ class _NotificationsViewState extends State<Notifications> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
+          centerTitle: true,
           leading: IconButton(
             padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
             icon: const Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_rounded,
               color: AppColors.titleColor,
             ),
             color: Colors.black,

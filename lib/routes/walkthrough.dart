@@ -287,13 +287,14 @@ class _WalkThroughState extends State<WalkThrough> {
               child: Text(
                 'Get Started',
                 style: GoogleFonts.poppins(fontSize: 24),
-              ))
-          : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
+              )):
+          Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              alignment: Alignment.center,
               height: 80,
               color: Colors.white70,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
                       onPressed: () => controller.jumpToPage(6),
