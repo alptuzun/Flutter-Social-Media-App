@@ -27,6 +27,8 @@ class ExploreUserProfile extends StatefulWidget {
 }
 
 class _ExploreUserProfileState extends State<ExploreUserProfile> {
+  static const List<String> sections = ["Posts", "Favorites", "Comments"];
+  String currentSection = "Posts";
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   String username = "";
   MyUser currentUser =
@@ -86,12 +88,12 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
     super.initState();
   }
 
-  Container notFound(String section) {
+  Container notFound(String section, BuildContext context) {
     return Container(
       color: Colors.grey,
       width: screenWidth(context),
       child: SizedBox(
-        height: 460,
+        height: screenHeight(context) * 0.65,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Icon(Icons.cancel, color: Colors.black38, size: 60),
           Text("This user has no $section."),
@@ -100,7 +102,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
     );
   }
 
-  Widget posts(MyUser currentUser) {
+  Widget posts(MyUser currentUser, BuildContext context) {
     if (currentUser.posts.isNotEmpty) {
       List<Post> allPosts = [];
       for (int x = 0; x < currentUser.posts.length; x++) {
@@ -111,7 +113,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
       return Column(
           children: allPosts
               .map((post) => PostCard(
-                  isOwner: true,
+                  isOwner: false,
                   userID: post.userID,
                   realPost: post,
                   comment: () {},
@@ -119,25 +121,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                   dislikes: () {}))
               .toList());
     }
-    return notFound("posts");
-  }
-
-  Widget content(MyUser currentUser) {
-    return posts(currentUser);
-  }
-
-  Expanded section(String label) {
-    return Expanded(
-      child: Text(
-        label,
-        style: GoogleFonts.poppins(
-          fontSize: 18,
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    );
+    return notFound("posts", context);
   }
 
   @override
@@ -262,56 +246,10 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                                       currentUser.bio,
                                       style: Styles.appMainTextStyle,
                                     )),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.5),
-                                          shape: BoxShape.circle),
-                                      child: IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const MessageBox()));
-                                          },
-                                          icon: const Icon(Icons.forum),
-                                          splashRadius: 31,
-                                          iconSize: 35,
-                                          color: Colors.grey),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white.withOpacity(0.5),
-                                      ),
-                                      child: IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const MarketPlace()));
-                                          },
-                                          icon: const Icon(Icons.storefront),
-                                          splashRadius: 31,
-                                          iconSize: 35,
-                                          color: Colors.grey),
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ]),
                       ),
                     ),
+                    /*
                     SizedBox(
                       height: 40,
                       child: Padding(
@@ -319,11 +257,30 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [posts(currentUser)],
+                          children: [posts(currentUser, context)],
                         ),
                       ),
                     ),
-                    content(currentUser),
+                     */
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Expanded(
+                            child: Text(
+                                "Posts",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                                textAlign: TextAlign.center,
+                              ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    posts(currentUser, context),
                   ],
                 ),
               );

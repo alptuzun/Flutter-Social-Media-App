@@ -10,37 +10,24 @@ import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+/*
+class CommentCard extends StatefulWidget {
+  final Comment userComment;
 
-class PostCard extends StatefulWidget {
-  final Post realPost;
-  final VoidCallback comment;
-  final VoidCallback likes;
-  final VoidCallback dislikes;
-  final dynamic jsonPost;
-  final bool isOwner;
-  final String userID;
-
-  const PostCard(
-      {Key? key,
-      required this.realPost,
-      required this.comment,
-      required this.likes,
-      required this.dislikes,
-      required this.isOwner,
-      required this.userID,
-      this.jsonPost})
+  const CommentCard(
+      {Key? key, required this.userComment})
       : super(key: key);
 
   @override
-  State<PostCard> createState() => _PostCardState();
+  State<CommentCard> createState() => _CommentCardState();
 }
-
-class _PostCardState extends State<PostCard> {
+/*
+class _CommentCardState extends State<CommentCard> {
   String userPfp = "";
   String? comment;
 
   Future getAvatar() async {
-    final pFp = await UserService.getProfilePicture(widget.realPost.userID);
+    final pFp = await UserService.getProfilePicture(widget.userComment.userID);
     setState(() {
       userPfp = pFp;
     });
@@ -93,7 +80,7 @@ class _PostCardState extends State<PostCard> {
                   "${widget.realPost.postTime.day}-${widget.realPost.postTime.month}-${widget.realPost.postTime.year}",
                   style: GoogleFonts.poppins(
                     color: Colors.black45,
-                  ),
+       */           ),
                   textAlign: TextAlign.end,
                 ),
               ],
@@ -193,7 +180,7 @@ class _PostCardState extends State<PostCard> {
                 ),
                 Text(
                     (widget.realPost.likes.length -
-                            widget.realPost.dislikes.length)
+                        widget.realPost.dislikes.length)
                         .toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
@@ -209,7 +196,7 @@ class _PostCardState extends State<PostCard> {
                       physics: const NeverScrollableScrollPhysics(),
                       child: AlertDialog(
                         insetPadding:
-                            const EdgeInsets.fromLTRB(10, 200, 10, 200),
+                        const EdgeInsets.fromLTRB(10, 200, 10, 200),
                         elevation: 0,
                         backgroundColor: Colors.white,
                         content: Column(
@@ -258,7 +245,7 @@ class _PostCardState extends State<PostCard> {
                                           shadowColor: Colors.transparent,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(20))),
+                                              BorderRadius.circular(20))),
                                       child: Text(
                                         "Go Back",
                                         textAlign: TextAlign.center,
@@ -306,7 +293,7 @@ class _PostCardState extends State<PostCard> {
                                           shadowColor: Colors.transparent,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(20))),
+                                              BorderRadius.circular(20))),
                                       child: Text(
                                         "Comment",
                                         textAlign: TextAlign.center,
@@ -341,4 +328,4 @@ class _PostCardState extends State<PostCard> {
       ),
     );
   }
-}
+*/

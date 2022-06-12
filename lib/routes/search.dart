@@ -46,14 +46,15 @@ class _SearchScreenState extends State<SearchScreen> {
     print(followings);
     //handleFollowUser();
   }
+
   isfollows(dynamic user_id) async {
 
     var result = await UserService.isFollowing( uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
     setState(() {
       isFollowing = result;
     });
-
   }
+
   Future getUsersFollowers() async {
     var user =
     await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
@@ -63,12 +64,13 @@ class _SearchScreenState extends State<SearchScreen> {
     print('Followings are:');
     print(followings[1]=='X9nyMA5q6XePW6JH3320xLVZq6F3' ); //== " X9nyMA5q6XePW6JH3320xLVZq6F3X9nyMA5q6XePW6JH3320xLVZq6F3"
   }
-  Future updateFollowing() async{
-    List list = await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
+
+  Future updateFollowing() async {
+    List list = await UserService.getFollowings(
+        FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       followings = list;
     });
-
   }
 
   Future prt() async {
@@ -143,13 +145,10 @@ class _SearchScreenState extends State<SearchScreen> {
               return const Center(child: CircularProgressIndicator());
             }
             return Container(
-
               color: const Color.fromARGB(255, 245, 245, 245),
-
               child: ListView.builder(
                 itemCount: (snapshot.data! as dynamic).docs.length ,
                 itemBuilder: (ctx, index) {
-
                   return
                     FadeAnimation(
                         delay: 0.05 * index,
@@ -296,9 +295,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   ],
                 )
               ]),
-
-
-
               if(aUser['userID'] != FirebaseAuth.instance.currentUser!.uid)
                 GestureDetector(
                   onTap: () {

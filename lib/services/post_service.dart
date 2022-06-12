@@ -196,6 +196,9 @@ class PostService {
     FirebaseFirestore.instance.collection('Posts').doc(postID).update({
       "comments": FieldValue.arrayUnion([comment.toJson()])
     });
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userID).update({"comments" : FieldValue.arrayUnion([comment.toJson()])});
     UserService.sendNotifications(userID, otherUserID, "comment");
   }
 
