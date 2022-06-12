@@ -199,6 +199,7 @@ class _AddPostState extends State<AddPost> {
                                       price: "-1",
                                       location: "",
                                       imageName: "",
+                                      dislikes: [],
                                     );
                                     PostService.publishPost(
                                         currentUser.uid, newPost);

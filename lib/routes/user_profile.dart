@@ -38,7 +38,7 @@ class _UserProfileState extends State<UserProfile> {
   static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
   String username = "";
-  MyUser currentUser = MyUser(username: "", fullName: "", email: "");
+  MyUser currentUser = MyUser(username: "", fullName: "", email: "", userID: "");
   bool photoOP = false;
   ImagePicker picker = ImagePicker();
   File? image;
@@ -95,23 +95,24 @@ class _UserProfileState extends State<UserProfile> {
       children: [
         Text(number.toString(), style: const TextStyle(fontSize: 18)),
         TextButton(
-            onPressed: (){
-              if (text == "Followers"){
+            onPressed: () {
+              if (text == "Followers") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_followers()));
-              }
-              else if (text == "Following")
-              {
+                        builder: (context) => const UserFollowers()));
+              } else if (text == "Following") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_following()));
+                        builder: (context) => const SearchListCard()));
               }
             },
             child: Text(text,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black87))),
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87))),
       ],
     );
   }
@@ -148,7 +149,12 @@ class _UserProfileState extends State<UserProfile> {
       return Column(
           children: allPosts
               .map((post) => PostCard(
-                  post: post, comment: () {}, likes: () {}, dislikes: () {}))
+                  isOwner: true,
+                  userID: post.userID,
+                  post: post,
+                  comment: () {},
+                  likes: () {},
+                  dislikes: () {}))
               .toList());
     }
     return notFound("posts");
@@ -159,7 +165,12 @@ class _UserProfileState extends State<UserProfile> {
       return Column(
           children: currentUser.favorites
               .map((post) => PostCard(
-                  post: post, comment: () {}, likes: () {}, dislikes: () {}))
+                  isOwner: true,
+                  userID: post.userID,
+                  post: post,
+                  comment: () {},
+                  likes: () {},
+                  dislikes: () {}))
               .toList());
     }
     return notFound("favorites");
@@ -170,7 +181,12 @@ class _UserProfileState extends State<UserProfile> {
       return Column(
           children: currentUser.comments
               .map((post) => PostCard(
-                  post: post, comment: () {}, likes: () {}, dislikes: () {}))
+                  isOwner: true,
+                  userID: post.userID,
+                  post: post,
+                  comment: () {},
+                  likes: () {},
+                  dislikes: () {}))
               .toList());
     }
     return notFound("comments");
@@ -367,7 +383,8 @@ class _UserProfileState extends State<UserProfile> {
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             const Spacer(),
-                                            infoColumnFollows(currentUser.posts.length,
+                                            infoColumnFollows(
+                                                currentUser.posts.length,
                                                 "Posts"),
                                             const Spacer(),
                                             infoColumnFollows(

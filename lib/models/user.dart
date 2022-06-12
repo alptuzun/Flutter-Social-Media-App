@@ -12,6 +12,8 @@ class MyUser {
   String phone;
   String profilePicture;
   bool private;
+  String userID;
+  List<dynamic> notifications;
   List<dynamic> posts;
   List<dynamic> favorites;
   List<dynamic> comments;
@@ -22,11 +24,13 @@ class MyUser {
     required this.username,
     required this.fullName,
     required this.email,
+    required this.userID,
     this.bio = "",
     this.phone = "",
     this.profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/blank_pfp.png?alt=media&token=5d0aef19-82e7-4519-b545-7360e8b1a249",
     this.posts = const [],
+    this.notifications = const [],
     this.comments = const [],
     this.private = false,
     this.following = const [],
@@ -40,6 +44,8 @@ class MyUser {
   ) {
     final data = snapshot.data();
     return MyUser(
+      notifications: data?["notifications"] is Iterable ? List.from(data?["notifications"]) : [],
+      userID: data?["userID"],
       username: data?['username'],
       fullName: data?['fullName'],
       email: data?['email'],
@@ -71,6 +77,8 @@ class MyUser {
       "following" : following,
       "followers" : followers,
       "favorites" : favorites,
+      "userID" : userID,
+      "notifications": notifications,
     };
   }
 

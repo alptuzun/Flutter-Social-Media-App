@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:cs310_group_28/visuals/fade_animation.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/services/user_service.dart';
-
-import '../models/user.dart';
+import 'package:cs310_group_28/models/user.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -18,44 +16,26 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   List<MyUser> _foundUsers = [];
-  List<MyUser> list_of_users = [];
-
+  List<MyUser> listOfUsers = [];
 
   @override
-  void initState()  {
+  void initState() {
+    getList();
     super.initState();
-
-    print('***********');
-    //getUsers();
-
-    prt();
-
-    print('***********');
-
   }
 
-  /*Future getUsers() async {
-    var users =
-    await UserService.getAllUsers();
-    setState(() {
-      _foundUsers = users;
-    });
-  }*/
-  Future prt() async {
+  Future getList() async {
     List<MyUser> users = await UserService.getAllUsers();
     setState(() {
       _foundUsers = users;
-      list_of_users = users;
+      listOfUsers = users;
     });
-
   }
-
-
 
   onSearch(String search) {
     setState(() {
-      _foundUsers =
-          list_of_users.where((element) => element.fullName.toLowerCase().contains(search))
+      _foundUsers = listOfUsers
+          .where((element) => element.fullName.toLowerCase().contains(search))
           .toList();
     });
   }
@@ -102,8 +82,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       borderSide: BorderSide.none),
                   hintText: "Search",
                   hintStyle: const TextStyle(
-                      fontSize: 14,
-                      color: Color.fromARGB(255, 131, 131, 131))),
+                      fontSize: 14, color: Color.fromARGB(255, 131, 131, 131))),
             ),
           ),
         ),
@@ -178,7 +157,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: CircleAvatar(
                       radius: 60,
                       backgroundImage:
-                      CachedNetworkImageProvider(aUser.profilePicture),
+                          CachedNetworkImageProvider(aUser.profilePicture),
                     ),
                   )),
               const SizedBox(width: 10),
@@ -201,7 +180,7 @@ class _SearchScreenState extends State<SearchScreen> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  aUser.private = !aUser.private;//do here
+                  aUser.private = !aUser.private; //do here
                 });
               },
               child: AnimatedContainer(
@@ -209,9 +188,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 width: 110,
                 duration: const Duration(milliseconds: 250),
                 decoration: BoxDecoration(
-                    color: aUser.private
-                        ? Colors.blue[700]
-                        : Colors.transparent,
+                    color:
+                        aUser.private ? Colors.blue[700] : Colors.transparent,
                     borderRadius: BorderRadius.circular(7),
                     border: Border.all(
                         color: aUser.private

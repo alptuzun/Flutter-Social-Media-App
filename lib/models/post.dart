@@ -16,6 +16,7 @@ class Post {
   String imageName;
   List<dynamic> likes;
   List<dynamic> comments;
+  List<dynamic> dislikes;
   String price;
   String type;
 
@@ -27,6 +28,7 @@ class Post {
     required this.fullName,
     required this.postTime,
     required this.type,
+    this.dislikes = const [],
     this.comments = const [],
     this.caption = "",
     this.likes = const [],
@@ -55,6 +57,7 @@ class Post {
       comments:
           data?['comments'] is Iterable ? List.from(data?['comments']) : [],
       likes: data?["likes"] is Iterable ? List.from(data?["likes"]) : [],
+      dislikes: data?["dislikes"] is Iterable ? List.from(data?["dislikes"]) : [],
     );
   }
 
@@ -68,10 +71,12 @@ class Post {
       "price": price,
       "postURL": postURL,
       "comments": comments,
+      "likes": likes,
       "postID": postID,
       "imageName": imageName,
       "postTime": postTime.toIso8601String(),
       "userID": userID,
+      "dislikes": dislikes,
     };
   }
 

@@ -12,8 +12,8 @@ class UserService {
 
   static void setPrivate(MyUser user, bool val, String userID) {
     final CollectionReference usersRef =
-    FirebaseFirestore.instance.collection("Users");
-    usersRef.doc(userID).update({"private" : val});
+        FirebaseFirestore.instance.collection("Users");
+    usersRef.doc(userID).update({"private": val});
   }
 
   static Future<String> fetchUsername(String userID) async {
@@ -47,79 +47,61 @@ class UserService {
       "notifications": []
     });
   }
-  static getAllUsers()  async {
-    var ref = FirebaseFirestore.instance.collection("Users");
-    List<MyUser>  MyList = [];
-    /*int a = await UsersLength();
-    for(int i = 0; i< 5; i++)
-    {
-      final ref = FirebaseFirestore.instance
-          .collection("Users")
-          .doc('$i')
-          .withConverter(
-        fromFirestore: MyUser.fromFirestore,
-        toFirestore: (MyUser currentUser, _) => currentUser.toFirestore(),
+
+  static getAllUsers() async {
+    List<MyUser> myList = [];
+    var documentSnapshot =
+        await FirebaseFirestore.instance.collection("Users").get();
+    var allUsers = documentSnapshot.docs.map((doc) => doc.data()).toList();
+    int userCount = await usersLength();
+    for (int i = 0; i < userCount; i++) {
+      MyUser users = MyUser(
+        userID: allUsers[i]["userID"],
+        username: allUsers[i]['username'],
+        fullName: allUsers[i]['fullName'],
+        email: allUsers[i]['email'],
+        bio: allUsers[i]['bio'] ?? "",
+        phone: allUsers[i]['phone'] ?? "",
+        profilePicture: allUsers[i]["profilePicture"] ?? "",
+        private: allUsers[i]['private'],
+        comments: allUsers[i]['comments'] is Iterable
+            ? List.from(allUsers[i]['comments'])
+            : [],
+        posts: allUsers[i]['posts'] is Iterable
+            ? List.from(allUsers[i]['posts'])
+            : [],
+        following: allUsers[i]['following'] is Iterable
+            ? List.from(allUsers[i]['following'])
+            : [],
+        followers: allUsers[i]['followers'] is Iterable
+            ? List.from(allUsers[i]['followers'])
+            : [],
+        favorites: allUsers[i]['favorites'] is Iterable
+            ? List.from(allUsers[i]['favorites'])
+            : [],
       );
-      final docSnap = await ref.get();
-
-      MyList.add(docSnap.data());
-      print("For loop");
-
-
-    }*/
-
-    var DocumentSnapshot =await FirebaseFirestore.instance.collection("Users").get();
-    var Allusers =  DocumentSnapshot.docs.map((doc) => doc.data()).toList();
-    //var re = FirebaseFirestore.instance.collection("Users").doc('IBx8K3spDqWf5NIVo6BUsIv04Tp2').withConverter(fromFirestore: MyUser.fromFirestore, toFirestore: (MyUser currentUser, _) => currentUser.toFirestore());
-    //final docSnap = await re.get();
-
-    int userCount = await UsersLength();
-    for(int i = 0; i<userCount; i++)
-    {
-      MyUser Users =MyUser(
-        username: Allusers[i]?['username'],
-        fullName: Allusers[i]?['fullName'],
-        email: Allusers[i]?['email'],
-        bio: Allusers[i]?['bio'] ?? "",
-        phone: Allusers[i]?['phone'] ?? "",
-        profilePicture: Allusers[i]?["profilePicture"] ?? "",
-        private: Allusers[i]?['private'],
-        /*comments: Allusers[i]?['comments'] is Iterable ? List.from(Allusers[i]?['comments']) : [],
-        posts: Allusers[i]?['posts'] is Iterable ? List.from(Allusers[i]?['posts']) : [],
-        following: Allusers[i]?['following'] is Iterable ? List.from(Allusers[i]?['following']) : [],
-        followers: Allusers[i]?['followers'] is Iterable ? List.from(Allusers[i]?['followers']) : [],
-        favorites: Allusers[i]?['favorites'] is Iterable ? List.from(Allusers[i]?['favorites']) : [],0*/
-      );
-
-      MyList.add(Users);
-
+      myList.add(users);
     }
-
-
-    print('Here is coming ------');
-    //print(Allusers);
-    //print(docSnap.data());
-    print('2- Here is coming ------');
-    print(MyList);
-    return MyList;
-
-
+    return myList;
   }
-  static UsersLength() async{
-    var ref = FirebaseFirestore.instance.collection("Users");
-    var QuerySnapshot =await FirebaseFirestore.instance.collection("Users").get();
-    final int AllusersCount =  QuerySnapshot.docs.length;
-    return  AllusersCount;
+
+  static usersLength() async {
+    var querySnapshot =
+        await FirebaseFirestore.instance.collection("Users").get();
+    final int allUsersCount = querySnapshot.docs.length;
+    return allUsersCount;
   }
 
   static returnRef() => FirebaseFirestore.instance.collection("Users");
 
   static getUsername(String userID) async {
-    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var ref =
+        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
     var data = ref.data() as Map<String, dynamic>;
     var uname = data["username"];
     return uname;
   }
+
   static editBio(String userID, String newBio) async {
     await FirebaseFirestore.instance
         .collection("Users")
@@ -152,7 +134,7 @@ class UserService {
 
   static Future<String> uploadToFirebase(User? user, File file) async {
     var storageRef =
-    FirebaseStorage.instance.ref().child("profilePictures/${user!.uid}");
+        FirebaseStorage.instance.ref().child("profilePictures/${user!.uid}");
     var upload = await storageRef.putFile(file);
     String url = await upload.ref.getDownloadURL();
     return url;
@@ -164,14 +146,23 @@ class UserService {
   }
 
   static setPrivacy(String userID, bool isPrivate) async {
-    FirebaseFirestore.instance.collection('Users').doc(userID).update({"private" : isPrivate});
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userID)
+        .update({"private": isPrivate});
   }
 
   static Future<bool> getPrivacy(String userID) async {
-    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var ref =
+        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
     var data = ref.data() as Map<String, dynamic>;
     bool privacy = data["private"];
     return privacy;
   }
 
+  static Future getProfilePicture(String userID) async {
+    var doc =
+        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    return doc.get("profilePicture");
+  }
 }

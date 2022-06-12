@@ -5,15 +5,14 @@ import '../models/user_search_model.dart';
 import '../visuals/fade_animation.dart';
 import '../visuals/text_style.dart';
 
-class user_followers extends StatefulWidget {
-  const user_followers({Key? key}) : super(key: key);
+class UserFollowers extends StatefulWidget {
+  const UserFollowers({Key? key}) : super(key: key);
 
   @override
-  State<user_followers> createState() => _user_followersState();
+  State<UserFollowers> createState() => _UserFollowersState();
 }
 
-class _user_followersState extends State<user_followers> {
-
+class _UserFollowersState extends State<UserFollowers> {
   userRemoveWithIndex(int whichUser) {
     setState(() {
       listOfUsers.removeAt(whichUser);
@@ -46,55 +45,56 @@ class _user_followersState extends State<user_followers> {
           color: const Color.fromARGB(255, 245, 245, 245),
           child: listOfUsers.isEmpty
               ? const Center(
-            child: Text(
-              "No user has been found",
-              style: TextStyle(color: Colors.red),
-            ),
-          )
+                  child: Text(
+                    "No user has been found",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
               : ListView.builder(
-            itemCount: listOfUsers.length,
-            itemBuilder: (ctx, index) {
-              return FadeAnimation(
-                  delay: 0.05 * index,
-                  child: Slidable(
-                    child: userPart(aUser: listOfUsers[index]),
-                    actionPane: const SlidableStrechActionPane(),
-                    actionExtentRatio: 0.25,
-                    actions: const [
-                      IconSlideAction(
-                        caption: "Archive",
-                        color: Color.fromARGB(255, 236, 236, 236),
-                        iconWidget: Icon(
-                          Icons.archive,
-                          color: Colors.black,
-                        ),
-                      ),
-                      IconSlideAction(
-                        caption: 'Share',
-                        color: Color.fromARGB(255, 236, 236, 236),
-                        iconWidget: Icon(
-                          Icons.share,
-                          color: Colors.black,
-                        ),
-                        onTap: null,
-                      ),
-                    ],
-                    secondaryActions: [
-                      IconSlideAction(
-                        caption: 'Remove',
-                        color: Colors.red,
-                        iconWidget: const Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
-                        onTap: () => userRemoveWithIndex(index),
-                      ),
-                    ],
-                  ));
-            },
-          )),
+                  itemCount: listOfUsers.length,
+                  itemBuilder: (ctx, index) {
+                    return FadeAnimation(
+                        delay: 0.05 * index,
+                        child: Slidable(
+                          child: userPart(aUser: listOfUsers[index]),
+                          actionPane: const SlidableStrechActionPane(),
+                          actionExtentRatio: 0.25,
+                          actions: const [
+                            IconSlideAction(
+                              caption: "Archive",
+                              color: Color.fromARGB(255, 236, 236, 236),
+                              iconWidget: Icon(
+                                Icons.archive,
+                                color: Colors.black,
+                              ),
+                            ),
+                            IconSlideAction(
+                              caption: 'Share',
+                              color: Color.fromARGB(255, 236, 236, 236),
+                              iconWidget: Icon(
+                                Icons.share,
+                                color: Colors.black,
+                              ),
+                              onTap: null,
+                            ),
+                          ],
+                          secondaryActions: [
+                            IconSlideAction(
+                              caption: 'Remove',
+                              color: Colors.red,
+                              iconWidget: const Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                              onTap: () => userRemoveWithIndex(index),
+                            ),
+                          ],
+                        ));
+                  },
+                )),
     );
   }
+
   userPart({required MyUsers aUser}) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -163,7 +163,3 @@ class _user_followersState extends State<user_followers> {
         ));
   }
 }
-
-
-
-

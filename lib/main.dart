@@ -46,11 +46,7 @@ class _MyAppState extends State<MyApp> {
             }));
   }
 
-
-
   @override
-
-
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _initialization,
@@ -72,7 +68,6 @@ class _MyAppState extends State<MyApp> {
           return StreamProvider<User?>.value(
             value: AuthService().user,
             initialData: null,
-
             child: MaterialApp(
               home: initialLoad ? Welcome() : const WalkThrough(),
               routes: {
@@ -87,7 +82,7 @@ class _MyAppState extends State<MyApp> {
             ),
           );
         }
-        return const MaterialApp(home: Splash(loadingText: "FireBase App"));
+        return const MaterialApp(home: Splash(loadingText: "FireBase App is currently loading"));
       },
     );
   }
