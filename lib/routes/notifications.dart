@@ -49,6 +49,7 @@ class _NotificationsViewState extends State<Notifications> {
     });
   }
 
+
   void buttonClicked() {
     setState(() {
       notificationCount++;
