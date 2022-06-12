@@ -81,7 +81,10 @@ class PostService {
   }
 
   static likePost(String userId, String otherUserId, String postId) async {
-    var docRef = await FirebaseFirestore.instance.collection('Users').doc(otherUserId).get();
+    var docRef = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(otherUserId)
+        .get();
     var userPosts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = userPosts[0];
     int i = 0;
@@ -91,33 +94,40 @@ class PostService {
         break;
       }
     }
-    if (!thePost["likes"].contains(userId)) {
+    if (thePost["likes"] != null && !thePost["likes"].contains(userId)) {
       thePost["likes"] = thePost["likes"] + [userId];
       userPosts[i] = thePost;
-      FirebaseFirestore.instance.collection('Users').doc(otherUserId).update({"posts": userPosts});
-       // UserServices().pushNotifications(userId, otherUserId, "likedPost");
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(otherUserId)
+          .update({"posts": userPosts});
+      // UserServices().pushNotifications(userId, otherUserId, "likedPost");
     } else {
       thePost["likes"].remove(userId);
       userPosts[i] = thePost;
-      FirebaseFirestore.instance.collection('Users').doc(otherUserId).update({"posts": userPosts});
-    }
-    var docRefPost = await FirebaseFirestore.instance
-        .collection('Posts').doc(postId).get();
-    if (!docRefPost["likes"].contains(userId)) {
       FirebaseFirestore.instance
-          .collection('Posts').doc(postId).update({
+          .collection('Users')
+          .doc(otherUserId)
+          .update({"posts": userPosts});
+    }
+    var docRefPost =
+        await FirebaseFirestore.instance.collection('Posts').doc(postId).get();
+    if (!docRefPost["likes"].contains(userId)) {
+      FirebaseFirestore.instance.collection('Posts').doc(postId).update({
         "likes": FieldValue.arrayUnion([userId])
       });
     } else {
-      FirebaseFirestore.instance
-          .collection('Posts').doc(postId).update({
+      FirebaseFirestore.instance.collection('Posts').doc(postId).update({
         "likes": FieldValue.arrayRemove([userId])
       });
     }
   }
 
   static dislikePost(String userId, String otherUserId, String postId) async {
-    var docRef = await FirebaseFirestore.instance.collection('Users').doc(otherUserId).get();
+    var docRef = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(otherUserId)
+        .get();
     var userPosts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = userPosts[0];
     int i = 0;
@@ -130,22 +140,26 @@ class PostService {
     if (!thePost["dislikes"].contains(userId)) {
       thePost["dislikes"] = thePost["dislikes"] + [userId];
       userPosts[i] = thePost;
-      FirebaseFirestore.instance.collection('Users').doc(otherUserId).update({"posts": userPosts});
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(otherUserId)
+          .update({"posts": userPosts});
     } else {
       thePost["dislikes"].remove(userId);
       userPosts[i] = thePost;
-      FirebaseFirestore.instance.collection('Users').doc(otherUserId).update({"posts": userPosts});
-    }
-    var docRefPost = await FirebaseFirestore.instance
-        .collection('Posts').doc(postId).get();
-    if (!docRefPost["dislikes"].contains(userId)) {
       FirebaseFirestore.instance
-          .collection('Posts').doc(postId).update({
+          .collection('Users')
+          .doc(otherUserId)
+          .update({"posts": userPosts});
+    }
+    var docRefPost =
+        await FirebaseFirestore.instance.collection('Posts').doc(postId).get();
+    if (!docRefPost["dislikes"].contains(userId)) {
+      FirebaseFirestore.instance.collection('Posts').doc(postId).update({
         "dislikes": FieldValue.arrayUnion([userId])
       });
     } else {
-      FirebaseFirestore.instance
-          .collection('Posts').doc(postId).update({
+      FirebaseFirestore.instance.collection('Posts').doc(postId).update({
         "dislikes": FieldValue.arrayRemove([userId])
       });
     }

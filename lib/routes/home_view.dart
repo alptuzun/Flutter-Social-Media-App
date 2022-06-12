@@ -116,10 +116,6 @@ class _HomeViewState extends State<HomeView> {
                   return const Center(child: CircularProgressIndicator());
                 } else {
                   List<dynamic> postsList = querySnapshot.data!.docs
-                      .where((QueryDocumentSnapshot<Object?> element) {
-                        return (currentUser.following
-                            .contains(element["userID"]));
-                      })
                       .map((data) => (data["posts"]))
                       .toList();
 
@@ -141,10 +137,12 @@ class _HomeViewState extends State<HomeView> {
                                   userID: user.uid,
                                   comment: () {},
                                   likes: () {
-                                    PostService.likePost(user.uid, post["userID"], post["postID"]);
+                                    PostService.likePost(user.uid,
+                                        post["userID"], post["postID"]);
                                   },
                                   dislikes: () {
-                                    PostService.dislikePost(user.uid, post["userID"], post["postID"]);
+                                    PostService.dislikePost(user.uid,
+                                        post["userID"], post["postID"]);
                                   },
                                 ))
                             .toList()
