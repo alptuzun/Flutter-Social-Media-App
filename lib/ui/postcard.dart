@@ -1,6 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cs310_group_28/routes/explore_user_profile.dart';
-import 'package:cs310_group_28/routes/user_profile.dart';
 import 'package:cs310_group_28/services/user_service.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +30,6 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   String userPfp = "";
-  String userID = "";
 
   Future getAvatar() async {
     final pFp = await UserService.getProfilePicture(widget.post.userID);
@@ -43,9 +40,8 @@ class _PostCardState extends State<PostCard> {
 
   @override
   void initState() {
-    getAvatar();
-    userID = widget.post.userID;
     super.initState();
+    getAvatar();
   }
 
   @override
@@ -57,73 +53,51 @@ class _PostCardState extends State<PostCard> {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            InkWell(
-              onTap: () {
-                if (widget.isOwner) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserProfile()));
-                }
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ExploreUserProfile(userID: userID)));
-              },
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundImage: CachedNetworkImageProvider(userPfp),
+            Row(
+              children: [
+                if(userPfp.isNotEmpty)
+                CircleAvatar(
+                  radius: 15,
+                  backgroundImage: CachedNetworkImageProvider(userPfp),
+                ),
+                SizedBox(
+                  width: screenWidth(context, dividedBy: 100) * 2,
+                ),
+                Text(
+                  widget.post.fullName,
+                  style: Styles.userNameTextStyle,
+                  textAlign: TextAlign.start,
+                  textScaleFactor: 0.75,
+                ),
+                SizedBox(
+                  width: screenWidth(context, dividedBy: 100),
+                ),
+                Text(
+                  "@${widget.post.username}",
+                  style: GoogleFonts.poppins(
+                    color: Colors.black45,
                   ),
-                  SizedBox(
-                    width: screenWidth(context, dividedBy: 100) * 2,
+                  textAlign: TextAlign.start,
+                ),
+                const Spacer(),
+                Text(
+                  "${widget.post.postTime.day}-${widget.post.postTime.month}-${widget.post.postTime.year}",
+                  style: GoogleFonts.poppins(
+                    color: Colors.black45,
                   ),
-                  Text(
-                    widget.post.fullName,
-                    style: Styles.userNameTextStyle,
-                    textAlign: TextAlign.start,
-                    textScaleFactor: 0.75,
-                  ),
-                  SizedBox(
-                    width: screenWidth(context, dividedBy: 100),
-                  ),
-                  Text(
-                    "@${widget.post.username}",
-                    style: GoogleFonts.poppins(
-                      color: Colors.black45,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                  const Spacer(),
-                  Text(
-                    "${widget.post.postTime.day}-${widget.post.postTime.month}-${widget.post.postTime.year}",
-                    style: GoogleFonts.poppins(
-                      color: Colors.black45,
-                    ),
-                    textAlign: TextAlign.end,
-                  ),
-                ],
-              ),
+                  textAlign: TextAlign.end,
+                ),
+              ],
             ),
             if (widget.post.type != "text")
               Container(
                   padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
-                  child: widget.post.imageName.isNotEmpty
-                      ? Image(
-                          image: AssetImage(widget.post.imageName.toString()),
-                          alignment: Alignment.center,
-                          isAntiAlias: true,
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.high,
-                        )
-                      : CachedNetworkImage(
-                          imageUrl: widget.post.postURL,
-                          alignment: Alignment.center,
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.contain,
-                        )),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.post.postURL,
+                    alignment: Alignment.center,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.contain,
+                  )),
             Text(
               widget.post.caption,
               style: Styles.appMainTextStyle,
