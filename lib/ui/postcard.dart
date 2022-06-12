@@ -40,8 +40,8 @@ class _PostCardState extends State<PostCard> {
 
   @override
   void initState() {
-    getAvatar();
     super.initState();
+    getAvatar();
   }
 
   @override
@@ -55,6 +55,7 @@ class _PostCardState extends State<PostCard> {
           children: [
             Row(
               children: [
+                if(userPfp.isNotEmpty)
                 CircleAvatar(
                   radius: 15,
                   backgroundImage: CachedNetworkImageProvider(userPfp),
@@ -91,20 +92,12 @@ class _PostCardState extends State<PostCard> {
             if (widget.post.type != "text")
               Container(
                   padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
-                  child: widget.post.imageName.isNotEmpty
-                      ? Image(
-                          image: AssetImage(widget.post.imageName.toString()),
-                          alignment: Alignment.center,
-                          isAntiAlias: true,
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.high,
-                        )
-                      : CachedNetworkImage(
-                          imageUrl: widget.post.postURL,
-                          alignment: Alignment.center,
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.contain,
-                        )),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.post.postURL,
+                    alignment: Alignment.center,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.contain,
+                  )),
             Text(
               widget.post.caption,
               style: Styles.appMainTextStyle,
@@ -141,7 +134,7 @@ class _PostCardState extends State<PostCard> {
                 const Spacer(
                   flex: 2,
                 ),
-                Text(widget.post.likes.length.toString(),
+                Text((widget.post.likes.length - widget.post.dislikes.length).toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
                   flex: 7,

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs310_group_28/models/comment.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -85,30 +86,30 @@ class PostService {
         .collection('Users')
         .doc(otherUserId)
         .get();
-    var userPosts = (docRef.data() as Map<String, dynamic>)["posts"];
-    var thePost = userPosts[0];
+    var posts = (docRef.data() as Map<String, dynamic>)["posts"];
+    var thePost = posts[0];
     int i = 0;
-    for (; i < userPosts.length; i++) {
-      if (postId == userPosts[i]["postId"]) {
-        thePost = userPosts[i];
+    for (; i < posts.length; i++) {
+      if (postId == posts[i]["postID"]) {
+        thePost = posts[i];
         break;
       }
     }
-    if (thePost["likes"] != null && !thePost["likes"].contains(userId)) {
+    if (!thePost["likes"].contains(userId)) {
       thePost["likes"] = thePost["likes"] + [userId];
-      userPosts[i] = thePost;
+      posts[i] = thePost;
       FirebaseFirestore.instance
           .collection('Users')
           .doc(otherUserId)
-          .update({"posts": userPosts});
-      // UserServices().pushNotifications(userId, otherUserId, "likedPost");
+          .update({"posts": posts});
+      //UserServices().pushNotifications(userId, otherUserId, "likedPost");
     } else {
       thePost["likes"].remove(userId);
-      userPosts[i] = thePost;
+      posts[i] = thePost;
       FirebaseFirestore.instance
           .collection('Users')
           .doc(otherUserId)
-          .update({"posts": userPosts});
+          .update({"posts": posts});
     }
     var docRefPost =
         await FirebaseFirestore.instance.collection('Posts').doc(postId).get();
@@ -128,40 +129,63 @@ class PostService {
         .collection('Users')
         .doc(otherUserId)
         .get();
-    var userPosts = (docRef.data() as Map<String, dynamic>)["posts"];
-    var thePost = userPosts[0];
+    var posts = (docRef.data() as Map<String, dynamic>)["posts"];
+    var thePost = posts[0];
     int i = 0;
-    for (; i < userPosts.length; i++) {
-      if (postId == userPosts[i]["postId"]) {
-        thePost = userPosts[i];
+    for (; i < posts.length; i++) {
+      if (postId == posts[i]["postID"]) {
+        thePost = posts[i];
         break;
       }
     }
     if (!thePost["dislikes"].contains(userId)) {
       thePost["dislikes"] = thePost["dislikes"] + [userId];
-      userPosts[i] = thePost;
+      posts[i] = thePost;
       FirebaseFirestore.instance
-          .collection('Users')
-          .doc(otherUserId)
-          .update({"posts": userPosts});
+          .collection('Users').doc(otherUserId).update({"posts": posts});
     } else {
       thePost["dislikes"].remove(userId);
-      userPosts[i] = thePost;
+      posts[i] = thePost;
       FirebaseFirestore.instance
-          .collection('Users')
-          .doc(otherUserId)
-          .update({"posts": userPosts});
+          .collection('Users').doc(otherUserId).update({"posts": posts});
     }
-    var docRefPost =
-        await FirebaseFirestore.instance.collection('Posts').doc(postId).get();
+    var docRefPost = await FirebaseFirestore.instance
+        .collection('Posts').doc(postId).get();
     if (!docRefPost["dislikes"].contains(userId)) {
-      FirebaseFirestore.instance.collection('Posts').doc(postId).update({
+      FirebaseFirestore.instance
+          .collection('Posts').doc(postId).update({
         "dislikes": FieldValue.arrayUnion([userId])
       });
     } else {
-      FirebaseFirestore.instance.collection('Posts').doc(postId).update({
+      FirebaseFirestore.instance
+          .collection('Posts').doc(postId).update({
         "dislikes": FieldValue.arrayRemove([userId])
       });
     }
   }
+
+  static Future commentToPost(
+      String userId, String otherUserId, String postId, Comment comment) async {
+    var docRef = await FirebaseFirestore.instance
+        .collection('Users').doc(otherUserId).get();
+    var posts = (docRef.data() as Map<String, dynamic>)["posts"];
+    var thePost = posts[0];
+    int i = 0;
+    for (; i < posts.length; i++) {
+      if (postId == posts[i]["postID"]) {
+        thePost = posts[i];
+        break;
+      }
+    }
+    thePost["comments"] = thePost["comments"] + [comment.toJson()];
+    posts[i] = thePost;
+    FirebaseFirestore.instance
+        .collection('Users').doc(otherUserId).update({"posts": posts});
+    FirebaseFirestore.instance
+        .collection('Posts').doc(postId).update({
+      "comments": FieldValue.arrayUnion([comment.toJson()])
+    });
+    //UserServices().pushNotifications(userId, otherUserId, "commentedToPost");
+  }
+
 }

@@ -187,7 +187,7 @@ class _AddPostState extends State<AddPost> {
                                     Post newPost = Post(
                                       postTime: DateTime.now(),
                                       postID:
-                                          (user.posts.length + 1).toString(),
+                                      user.userID + (user.posts.length + 1).toString(),
                                       postURL: url,
                                       type: "image",
                                       username: user.username,
@@ -282,8 +282,8 @@ class _AddPostState extends State<AddPost> {
                                       onPressed: () async {
                                         Post newPost = Post(
                                           postTime: DateTime.now(),
-                                          postID: (user.posts.length + 1)
-                                              .toString(),
+                                          postID:
+                                          user.userID + (user.posts.length + 1).toString(),
                                           postURL: "None",
                                           type: "text",
                                           username: user.username,
@@ -295,6 +295,7 @@ class _AddPostState extends State<AddPost> {
                                           price: "-1",
                                           location: "",
                                           imageName: "",
+                                          dislikes: [],
                                         );
                                         PostService.publishPost(
                                             currentUser.uid, newPost);

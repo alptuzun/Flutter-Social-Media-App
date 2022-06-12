@@ -25,24 +25,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-  void addComment(Post post) {
-    setState(() {
-      // post.comments++;
-    });
-  }
-
-  void addLikes(Post post) {
-    setState(() {
-      // post.likes++;
-    });
-  }
-
-  void addDislikes(Post post) {
-    setState(() {
-      // post.likes--;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     analytics.logScreenView(screenClass: "HomeView", screenName: "Main_Screen");
@@ -133,7 +115,7 @@ class _HomeViewState extends State<HomeView> {
                         followingPosts
                             .map((post) => PostCard(
                                   post: Post.fromJson(post),
-                                  isOwner: false,
+                                  isOwner: post["userID"] == currentUser.userID,
                                   userID: user.uid,
                                   comment: () {},
                                   likes: () {
