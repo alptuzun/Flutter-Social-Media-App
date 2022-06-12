@@ -186,7 +186,34 @@ class _user_followingState extends State<user_following> {
                       ],
                     )
                   ]),
-
+                  GestureDetector(
+                    onTap: () {
+                      setState(()  {
+                        user_try_following(aUser);
+                      });
+                    },
+                    child: AnimatedContainer(
+                      height: 35,
+                      width: 110,
+                      duration: const Duration(milliseconds: 250),
+                      decoration: BoxDecoration(
+                          color: (followings.contains((snapshot.data! as dynamic).docs[index]['username'] ,) )
+                              ? Colors.blue[700]
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(
+                              color: Colors.transparent,
+                              // if statement
+                              width: 1)),
+                      child:  const Center(
+                        child:  Text(
+                          'Remove',
+                          style: TextStyle(
+                              color: Colors.red ),
+                        ),
+                      ) ,
+                    ),
+                  )
                 ],
               ));
         }
@@ -196,7 +223,7 @@ class _user_followingState extends State<user_following> {
   }
 
   void user_try_following(dynamic aUser) async {
-    await UserService.followUser(FirebaseAuth.instance.currentUser!.uid,aUser['userID'],);
+    await UserService.followUser(FirebaseAuth.instance.currentUser!.uid,aUser,);
     await updateFollowing();
   }
 

@@ -128,19 +128,20 @@ class _ExploreState extends State<Explore> {
             SliverStaggeredGrid.countBuilder(
               mainAxisSpacing: 1,
                 crossAxisSpacing: 1,
-                crossAxisCount: 2,
+                crossAxisCount: 3,
                 staggeredTileBuilder: (int index) {
                   int moddedIndex = index % 20;
                   int cXCellcount = moddedIndex == 11 ? 2 : 1;
 
-                  double mXCellCount = 2;
+                  double mXCellCount = 1;
                   if (moddedIndex == 2 || moddedIndex == 11) {
                     mXCellCount = 2;
                   }
                   return StaggeredTile.count(cXCellcount, mXCellCount);
                 },
+
                 itemBuilder: (BuildContext context, int index) {
-                return exploreTiles(post: Post(postURL: "", postID: "1", userID: "2", username: "yasinalbayrak", fullName: "Yasin Albayrak", postTime: DateTime.now(), type: "image"));
+                return exploreTiles(post: Post(postURL: 'https://picsum.photos/id/${1047 + index}/400/${index % 20 == 2 ? 805: 400}', postID: "1", userID: "2", username: "yasinalbayrak", fullName: "Yasin Albayrak", postTime: DateTime.now(), type: "image"));
                 },
                 itemCount: 38)
           ],

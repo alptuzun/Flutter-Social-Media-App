@@ -253,4 +253,25 @@ class UserService {
       ])
     });
   }
+
+  static remove_from_followers(String uid, aUser)async {
+
+    try {
+      DocumentSnapshot ds = await FirebaseFirestore.instance.collection('Users')
+          .doc(uid)
+          .get();
+      List following = (ds.data()! as dynamic)['followers'];
+
+
+        await FirebaseFirestore.instance.collection('Users').doc(
+            uid).update({
+          'followers': FieldValue.arrayRemove([aUser])
+        });
+
+
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

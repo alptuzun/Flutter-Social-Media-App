@@ -202,15 +202,14 @@ class _user_followersState extends State<user_followers> {
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(7),
                             border: Border.all(
-                                color: (followings.contains((snapshot.data! as dynamic).docs[index]['userID'] ))
-                                    ? Colors.transparent
-                                    : Colors.grey.shade700, // if statement
+                                color: Colors.transparent,
+                                     // if statement
                                 width: 1)),
-                        child:  Center(
+                        child:  const Center(
                           child:  Text(
-                            followings.contains((snapshot.data! as dynamic).docs[index]['userID'] ) ? "Unfollow" : "Follow",
+                              'Remove',
                             style: TextStyle(
-                                color: followings.contains((snapshot.data! as dynamic).docs[index]['userID'] ) ? Colors.white : Colors.blue),
+                                color: Colors.red ),
                           ),
                         ) ,
                       ),
@@ -224,7 +223,7 @@ class _user_followersState extends State<user_followers> {
   }
 
   void user_try_following(dynamic aUser) async {
-    await UserService.followUser(FirebaseAuth.instance.currentUser!.uid,aUser['userID'],);
+    await UserService.remove_from_followers(FirebaseAuth.instance.currentUser!.uid,aUser,);
     await updateFollowing();
   }
 
