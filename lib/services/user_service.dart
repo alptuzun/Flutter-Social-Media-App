@@ -75,10 +75,10 @@ class UserService {
     String followinguserid,
   ) async {
     followinguserid = followinguserid.replaceAll(' ', '');
-    if(uid != followinguserid){
+    if (uid != followinguserid) {
       try {
         DocumentSnapshot ds =
-        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+            await FirebaseFirestore.instance.collection('Users').doc(uid).get();
         List following = (ds.data()! as dynamic)['following'];
 
         if (following.contains(followinguserid)) {
@@ -93,7 +93,7 @@ class UserService {
           });
         } else {
           if ((ds.data() as dynamic)['private'] == 'true') {
-            //sent request
+            UserService.sendNotifications(uid, followinguserid, "follow");
           } else {
             await FirebaseFirestore.instance
                 .collection('Users')
@@ -101,7 +101,10 @@ class UserService {
                 .update({
               'followers': FieldValue.arrayUnion([uid])
             });
-            await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+            await FirebaseFirestore.instance
+                .collection('Users')
+                .doc(uid)
+                .update({
               'following': FieldValue.arrayUnion([followinguserid])
             });
           }
@@ -109,14 +112,7 @@ class UserService {
       } catch (e) {
         print(e.toString());
       }
-
-
-
-
-
-
     }
-
   }
 
   static getFollowings(String userID) async {
@@ -263,22 +259,15 @@ class UserService {
     });
   }
 
-  static remove_from_followers(String uid, aUser)async {
-
+  static remove_from_followers(String uid, aUser) async {
     try {
-      DocumentSnapshot ds = await FirebaseFirestore.instance.collection('Users')
-          .doc(uid)
-          .get();
+      DocumentSnapshot ds =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
       List following = (ds.data()! as dynamic)['followers'];
 
-
-        await FirebaseFirestore.instance.collection('Users').doc(
-            uid).update({
-          'followers': FieldValue.arrayRemove([aUser])
-        });
-
-
-
+      await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+        'followers': FieldValue.arrayRemove([aUser])
+      });
     } catch (e) {
       print(e.toString());
     }

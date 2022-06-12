@@ -1,18 +1,21 @@
 import 'package:cs310_group_28/services/user_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/notification.dart';
+import 'package:provider/provider.dart';
 
 class NotificationCard extends StatefulWidget {
-  const NotificationCard({Key? key, required this.notification }) : super(key: key);
+  const NotificationCard({Key? key, required this.notification})
+      : super(key: key);
   final MyNotification notification;
 
   @override
   State<NotificationCard> createState() => _NotificationCardState();
-
 }
 
 class _NotificationCardState extends State<NotificationCard> {
   String username = '';
+
   Future getUsername() async {
     final name = await UserService.getUsername(widget.notification.userID);
     setState(() {
@@ -21,14 +24,15 @@ class _NotificationCardState extends State<NotificationCard> {
   }
 
   @override
-  void initState(){
-   getUsername();
-   super.initState();
+  void initState() {
+    getUsername();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if(widget.notification.type == 'follow') {
+    final user = Provider.of<User?>(context);
+    if (widget.notification.type == 'follow') {
       return Card(
         margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
         child: Padding(
@@ -44,19 +48,16 @@ class _NotificationCardState extends State<NotificationCard> {
                 ),
               ),
               Text(
-                  "${widget.notification.date.day}.${widget.notification.date
-                      .month}.${widget.notification.date.year}",
+                  "${widget.notification.date.day}.${widget.notification.date.month}.${widget.notification.date.year}",
                   style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.normal,
-                  )
-              ),
+                  )),
             ],
           ),
         ),
       );
-    }
-    else if(widget.notification.type == 'like') {
+    } else if (widget.notification.type == 'like') {
       return Card(
         margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
         child: Padding(
@@ -76,14 +77,12 @@ class _NotificationCardState extends State<NotificationCard> {
                   style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.normal,
-                  )
-              ),
+                  )),
             ],
           ),
         ),
       );
-    }
-    else if(widget.notification.type == 'comment') {
+    } else if (widget.notification.type == 'comment') {
       return Card(
         margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
         child: Padding(
@@ -103,14 +102,12 @@ class _NotificationCardState extends State<NotificationCard> {
                   style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.normal,
-                  )
-              ),
+                  )),
             ],
           ),
         ),
       );
-    }
-    else if(widget.notification.type == 'dislike') {
+    } else if (widget.notification.type == 'dislike') {
       return Card(
         margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
         child: Padding(
@@ -130,14 +127,12 @@ class _NotificationCardState extends State<NotificationCard> {
                   style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.normal,
-                  )
-              ),
+                  )),
             ],
           ),
         ),
       );
-    }
-    else {
+    } else {
       return Card(
         margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
         child: Padding(
@@ -146,7 +141,7 @@ class _NotificationCardState extends State<NotificationCard> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "$username sent a message.",
+                "$username sent a follow request.",
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -157,13 +152,17 @@ class _NotificationCardState extends State<NotificationCard> {
                   style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.normal,
-                  )
-              ),
+                  )),
+              TextButton(
+                  onPressed: () async {
+                    UserService.followUser(
+                        user!.uid, widget.notification.userID);
+                  },
+                  child: Text("Accept Request"))
             ],
           ),
         ),
       );
     }
-
   }
 }

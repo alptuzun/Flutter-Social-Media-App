@@ -1,19 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
-import 'package:cs310_group_28/routes/user_profile.dart';
-import 'package:cs310_group_28/services/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:cs310_group_28/visuals/fade_animation.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/services/user_service.dart';
-
-import '../models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:cs310_group_28/models/user.dart';
 import 'explore_user_profile.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -62,9 +56,6 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       followings = user;
     });
-    print('Followings are:');
-    print(followings[1] ==
-        'X9nyMA5q6XePW6JH3320xLVZq6F3'); //== " X9nyMA5q6XePW6JH3320xLVZq6F3X9nyMA5q6XePW6JH3320xLVZq6F3"
   }
 
   Future updateFollowing() async {
@@ -227,7 +218,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 builder: (context) =>
                     ExploreUserProfile(userID: aUser.userID)))
             : Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PageNavigator()));
+            MaterialPageRoute(builder: (context) => const PageNavigator()));
         //Navigator.push(context,MaterialPageRoute(builder: (context) => const UserProfile()));
       },
       child: Container(
@@ -309,7 +300,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void user_try_following(dynamic aUser) async {
     await UserService.followUser(
       FirebaseAuth.instance.currentUser!.uid,
-      aUser['userID'],
+      aUser.userID,
     );
     await updateFollowing();
   }

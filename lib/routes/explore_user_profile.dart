@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
-import 'package:cs310_group_28/routes/marketplace.dart';
-import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/user_followers.dart';
 import 'package:cs310_group_28/routes/user_following.dart';
 import 'package:cs310_group_28/services/user_service.dart';
@@ -14,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class ExploreUserProfile extends StatefulWidget {
   const ExploreUserProfile({Key? key, required this.userID}) : super(key: key);
@@ -27,7 +24,6 @@ class ExploreUserProfile extends StatefulWidget {
 }
 
 class _ExploreUserProfileState extends State<ExploreUserProfile> {
-  static const List<String> sections = ["Posts", "Favorites", "Comments"];
   String currentSection = "Posts";
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   String username = "";
@@ -148,7 +144,6 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
   Widget build(BuildContext context) {
     analytics.logScreenView(
         screenClass: "UserProfile", screenName: "User's Profile Screen");
-    final user = Provider.of<User?>(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,

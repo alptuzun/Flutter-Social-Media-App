@@ -1,15 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cs310_group_28/models/comment.dart';
-import 'package:cs310_group_28/services/edit_post.dart';
-import 'package:cs310_group_28/services/post_service.dart';
-import 'package:cs310_group_28/services/user_service.dart';
-import 'package:cs310_group_28/visuals/screen_size.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:cs310_group_28/models/post.dart';
-import 'package:cs310_group_28/visuals/text_style.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
 /*
 class CommentCard extends StatefulWidget {
   final Comment userComment;

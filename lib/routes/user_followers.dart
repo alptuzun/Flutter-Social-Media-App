@@ -1,15 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-
-import '../models/user.dart';
-import '../models/user_search_model.dart';
-import '../services/user_service.dart';
-import '../visuals/colors.dart';
-import '../visuals/fade_animation.dart';
+import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/services/user_service.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
 import '../visuals/text_style.dart';
 import 'explore_user_profile.dart';
 

@@ -57,8 +57,6 @@ class _user_followingState extends State<user_following> {
     setState(() {
       followings = user;
     });
-    print('Followings are:');
-    print(followings[1]=='X9nyMA5q6XePW6JH3320xLVZq6F3' ); //== " X9nyMA5q6XePW6JH3320xLVZq6F3X9nyMA5q6XePW6JH3320xLVZq6F3"
   }
   Future updateFollowing() async{
     List list = await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
