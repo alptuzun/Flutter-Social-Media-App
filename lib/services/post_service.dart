@@ -33,6 +33,7 @@ class PostService {
         .collection('Posts')
         .doc(newPost.postID)
         .set(newPost.toFirestore());
+
   }
 
   static editPost(String userID, String postID, String text) async {
