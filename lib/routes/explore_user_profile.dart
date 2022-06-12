@@ -101,9 +101,29 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
       ),
     );
   }
-
+  Container priv( BuildContext context) {
+    return Container(
+      color: Colors.grey,
+      width: screenWidth(context),
+      child: SizedBox(
+        height: screenHeight(context) * 0.65,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const Icon(Icons.cancel, color: Colors.black38, size: 60),
+          Text("This user's account is private"),
+        ]),
+      ),
+    );
+  }
   Widget posts(MyUser currentUser, BuildContext context) {
+    if(currentUser.private == true  ){
+
+      return priv(context);
+    }
+    else{
+
+
     if (currentUser.posts.isNotEmpty) {
+
       List<Post> allPosts = [];
       for (int x = 0; x < currentUser.posts.length; x++) {
         Post newPost = Post.fromJson(currentUser.posts[x]);
@@ -121,7 +141,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                   dislikes: () {}))
               .toList());
     }
-    return notFound("posts", context);
+    return notFound("posts", context); }
   }
 
   @override
@@ -246,6 +266,49 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                                       currentUser.bio,
                                       style: Styles.appMainTextStyle,
                                     )),
+                              if (currentUser.bio.isNotEmpty)
+                                SizedBox(height: 5,),
+
+                              Center(
+                                child: FutureBuilder(
+                                  future: FirebaseFirestore.instance.collection('Users').where('userID',isEqualTo:FirebaseAuth.instance.currentUser!.uid ).get(),
+                                  builder: (context,snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(()  {
+                                          user_try_following(currentUser.userID);
+                                        });
+                                      },
+                                      child: AnimatedContainer(
+                                          height: 35,
+                                          width: 110,
+                                          duration: const Duration(milliseconds: 250),
+                                          decoration: BoxDecoration(
+                                              color: ( (snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID,) )
+                                              ? Colors.blue[700]
+                                              : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(7),
+                                          border: Border.all(
+                                              color: ((snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID))
+                                                  ? Colors.transparent
+                                                  : Colors.grey.shade700, // if statement
+                                              width: 1)),
+                                      child:  Center(
+                                        child:  Text(
+                                          (snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID) ? "Unfollow" : "Follow",
+                                          style: TextStyle(
+                                              color: (snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID) ? Colors.white : Colors.blue),
+                                        ),
+                                      ) ,
+                                    ),
+                                    );
+
+                                  }),
+                              )
                             ]),
                       ),
                     ),
@@ -288,4 +351,9 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
           },
         ));
   }
+  void user_try_following(dynamic aUser) async{
+    await UserService.followUser(FirebaseAuth.instance.currentUser!.uid,aUser,);
+
+  }
+
 }

@@ -76,16 +76,16 @@ class _UserProfileState extends State<UserProfile> {
         .collection("Users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .withConverter(
-          fromFirestore: MyUser.fromFirestore,
-          toFirestore: (MyUser currentUser, _) => currentUser.toFirestore(),
-        );
+      fromFirestore: MyUser.fromFirestore,
+      toFirestore: (MyUser currentUser, _) => currentUser.toFirestore(),
+    );
     final docSnap = await ref.get();
     currentUser = docSnap.data()!;
   }
 
   Future getUser() async {
     var user =
-        await UserService.getUsername(FirebaseAuth.instance.currentUser!.uid);
+    await UserService.getUsername(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       username = user;
     });
@@ -151,12 +151,12 @@ class _UserProfileState extends State<UserProfile> {
       return Column(
           children: allPosts
               .map((post) => PostCard(
-                  isOwner: true,
-                  userID: post.userID,
-                  realPost: post,
-                  comment: () {},
-                  likes: () {},
-                  dislikes: () {}))
+              isOwner: true,
+              userID: post.userID,
+              realPost: post,
+              comment: () {},
+              likes: () {},
+              dislikes: () {}))
               .toList());
     }
     return notFound("posts");
@@ -167,30 +167,19 @@ class _UserProfileState extends State<UserProfile> {
       return Column(
           children: currentUser.favorites
               .map((post) => PostCard(
-                  isOwner: true,
-                  userID: post.userID,
-                  realPost: post,
-                  comment: () {},
-                  likes: () {},
-                  dislikes: () {}))
+              isOwner: true,
+              userID: post.userID,
+              realPost: post,
+              comment: () {},
+              likes: () {},
+              dislikes: () {}))
               .toList());
     }
     return notFound("favorites");
   }
 
   Widget comments(MyUser currentUser) {
-    if (currentUser.comments.isNotEmpty) {
-      return Column(
-          children: currentUser.comments
-              .map((post) => PostCard(
-                  isOwner: true,
-                  userID: post.userID,
-                  realPost: post,
-                  comment: () {},
-                  likes: () {},
-                  dislikes: () {}))
-              .toList());
-    }
+
     return notFound("comments");
   }
 
@@ -220,7 +209,7 @@ class _UserProfileState extends State<UserProfile> {
               fontSize: 18,
               color: Colors.black,
               fontWeight:
-                  currentSection == label ? FontWeight.w600 : FontWeight.w400),
+              currentSection == label ? FontWeight.w600 : FontWeight.w400),
           textAlign: TextAlign.center,
         ),
       ),
@@ -238,30 +227,30 @@ class _UserProfileState extends State<UserProfile> {
         backgroundColor: Colors.white,
         leading: photoOP == false
             ? IconButton(
-                padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-                splashRadius: 27,
-                icon: const Icon(Icons.notifications_none_rounded),
-                color: Colors.grey,
-                iconSize: 40,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Notifications()));
-                },
-              )
+          padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+          splashRadius: 27,
+          icon: const Icon(Icons.notifications_none_rounded),
+          color: Colors.grey,
+          iconSize: 40,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const Notifications()));
+          },
+        )
             : IconButton(
-                padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-                splashRadius: 27,
-                icon: const Icon(Icons.arrow_back_ios_outlined),
-                color: Colors.grey,
-                iconSize: 40,
-                onPressed: () {
-                  setState(() {
-                    photoOP = false;
-                  });
-                },
-              ),
+          padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+          splashRadius: 27,
+          icon: const Icon(Icons.arrow_back_ios_outlined),
+          color: Colors.grey,
+          iconSize: 40,
+          onPressed: () {
+            setState(() {
+              photoOP = false;
+            });
+          },
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -286,264 +275,264 @@ class _UserProfileState extends State<UserProfile> {
       backgroundColor: const Color(0xCBFFFFFF),
       body: photoOP == false
           ? StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("Users")
-                  .snapshots()
-                  .asBroadcastStream(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> querySnapshot) {
-                if (!querySnapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                } else {
-                  return SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.4)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
-                                        child: Stack(children: [
-                                          InkWell(
-                                            onTap: () => showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                contentPadding: EdgeInsets.zero,
-                                                elevation: 0,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                content: CircleAvatar(
-                                                  radius:
-                                                      screenWidth(context) / 3,
-                                                  backgroundImage:
-                                                      CachedNetworkImageProvider(
-                                                          currentUser
-                                                              .profilePicture),
-                                                ),
-                                              ),
-                                            ),
-                                            child: CircleAvatar(
-                                              radius: 60,
-                                              backgroundImage:
-                                                  CachedNetworkImageProvider(
-                                                      currentUser
-                                                          .profilePicture),
-                                            ),
-                                          ),
-                                          Positioned(
-                                              bottom: 1,
-                                              right: 1,
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    width: 4,
-                                                    color: Colors.white,
-                                                  ),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(50)),
-                                                  color: Colors.white,
-                                                ),
-                                                child: Material(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(50)),
-                                                  child: InkWell(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                50)),
-                                                    splashColor: Colors.grey,
-                                                    onTap: () {
-                                                      setState(() {
-                                                        photoOP = true;
-                                                      });
-                                                    },
-                                                    child: const Icon(
-                                                      Icons.add_a_photo,
-                                                      color: Colors.blue,
-                                                    ),
-                                                  ),
-                                                ),
-                                              )),
-                                        ]),
-                                      ),
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            const Spacer(),
-                                            infoColumnFollows(
-                                                currentUser.posts.length,
-                                                "Posts"),
-                                            const Spacer(),
-                                            infoColumnFollows(
-                                                currentUser.followers.length,
-                                                "Followers"),
-                                            const Spacer(),
-                                            infoColumnFollows(
-                                                currentUser.following.length,
-                                                "Following"),
-                                            const Spacer(),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Text(currentUser.fullName,
-                                        textScaleFactor: 0.8,
-                                        style: Styles.boldTitleTextStyle),
-                                  ),
-                                  if (currentUser.bio.isNotEmpty)
-                                    Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5, horizontal: 15),
-                                        child: Text(
-                                          currentUser.bio,
-                                          style: Styles.appMainTextStyle,
-                                        )),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.5),
-                                              shape: BoxShape.circle),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const MessageBox()));
-                                              },
-                                              icon: const Icon(Icons.forum),
-                                              splashRadius: 31,
-                                              iconSize: 35,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                Colors.white.withOpacity(0.5),
-                                          ),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const MarketPlace()));
-                                              },
-                                              icon:
-                                                  const Icon(Icons.storefront),
-                                              splashRadius: 31,
-                                              iconSize: 35,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ]),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              children: [
-                                for (final sec in sections.asMap().entries) ...[
-                                  section(sec.value),
-                                  if (sec.key != sections.length - 1)
-                                    const VerticalDivider(
-                                      color: Colors.black38,
-                                      thickness: 2,
-                                      indent: 5,
-                                      endIndent: 5,
-                                    ),
-                                ]
-                              ],
-                            ),
-                          ),
-                        ),
-                        content(currentUser),
-                      ],
-                    ),
-                  );
-                }
-              },
-            )
-          : Center(
+        stream: FirebaseFirestore.instance
+            .collection("Users")
+            .snapshots()
+            .asBroadcastStream(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> querySnapshot) {
+          if (!querySnapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: screenWidth(context) / 100 * 80,
-                    height: (screenHeight(context) / 100) * 8,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment(0, -1),
-                          end: Alignment(0, 0),
-                          colors: [Colors.lightBlue, Colors.lightBlueAccent]),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.4)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(right: 10),
+                                  child: Stack(children: [
+                                    InkWell(
+                                      onTap: () => showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          contentPadding: EdgeInsets.zero,
+                                          elevation: 0,
+                                          backgroundColor:
+                                          Colors.transparent,
+                                          content: CircleAvatar(
+                                            radius:
+                                            screenWidth(context) / 3,
+                                            backgroundImage:
+                                            CachedNetworkImageProvider(
+                                                currentUser
+                                                    .profilePicture),
+                                          ),
+                                        ),
+                                      ),
+                                      child: CircleAvatar(
+                                        radius: 60,
+                                        backgroundImage:
+                                        CachedNetworkImageProvider(
+                                            currentUser
+                                                .profilePicture),
+                                      ),
+                                    ),
+                                    Positioned(
+                                        bottom: 1,
+                                        right: 1,
+                                        child: Container(
+                                          padding:
+                                          const EdgeInsets.all(2.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 4,
+                                              color: Colors.white,
+                                            ),
+                                            borderRadius:
+                                            const BorderRadius.all(
+                                                Radius.circular(50)),
+                                            color: Colors.white,
+                                          ),
+                                          child: Material(
+                                            borderRadius:
+                                            const BorderRadius.all(
+                                                Radius.circular(50)),
+                                            child: InkWell(
+                                              borderRadius:
+                                              const BorderRadius.all(
+                                                  Radius.circular(
+                                                      50)),
+                                              splashColor: Colors.grey,
+                                              onTap: () {
+                                                setState(() {
+                                                  photoOP = true;
+                                                });
+                                              },
+                                              child: const Icon(
+                                                Icons.add_a_photo,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          ),
+                                        )),
+                                  ]),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      const Spacer(),
+                                      infoColumnFollows(
+                                          currentUser.posts.length,
+                                          "Posts"),
+                                      const Spacer(),
+                                      infoColumnFollows(
+                                          currentUser.followers.length,
+                                          "Followers"),
+                                      const Spacer(),
+                                      infoColumnFollows(
+                                          currentUser.following.length,
+                                          "Following"),
+                                      const Spacer(),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              child: Text(currentUser.fullName,
+                                  textScaleFactor: 0.8,
+                                  style: Styles.boldTitleTextStyle),
+                            ),
+                            if (currentUser.bio.isNotEmpty)
+                              Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 15),
+                                  child: Text(
+                                    currentUser.bio,
+                                    style: Styles.appMainTextStyle,
+                                  )),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                        Colors.white.withOpacity(0.5),
+                                        shape: BoxShape.circle),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  const MessageBox()));
+                                        },
+                                        icon: const Icon(Icons.forum),
+                                        splashRadius: 31,
+                                        iconSize: 35,
+                                        color: Colors.grey),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:
+                                      Colors.white.withOpacity(0.5),
+                                    ),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  const MarketPlace()));
+                                        },
+                                        icon:
+                                        const Icon(Icons.storefront),
+                                        splashRadius: 31,
+                                        iconSize: 35,
+                                        color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ]),
                     ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await pickImage();
-                          if (image != null) {
-                            await UserService.uploadNewPic(user, image!);
-                            if (!mounted) {
-                              return;
-                            }
-                            Alerts.showAlert(context, "Profile Picture Update",
-                                "Your profile picture has been updated");
-                            image = null;
-                            photoOP = false;
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            shadowColor: Colors.transparent),
-                        child: Text(
-                          "Choose your picture",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                              fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: [
+                          for (final sec in sections.asMap().entries) ...[
+                            section(sec.value),
+                            if (sec.key != sections.length - 1)
+                              const VerticalDivider(
+                                color: Colors.black38,
+                                thickness: 2,
+                                indent: 5,
+                                endIndent: 5,
+                              ),
+                          ]
+                        ],
                       ),
                     ),
                   ),
+                  content(currentUser),
                 ],
               ),
+            );
+          }
+        },
+      )
+          : Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: screenWidth(context) / 100 * 80,
+              height: (screenHeight(context) / 100) * 8,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment(0, -1),
+                    end: Alignment(0, 0),
+                    colors: [Colors.lightBlue, Colors.lightBlueAccent]),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await pickImage();
+                    if (image != null) {
+                      await UserService.uploadNewPic(user, image!);
+                      if (!mounted) {
+                        return;
+                      }
+                      Alerts.showAlert(context, "Profile Picture Update",
+                          "Your profile picture has been updated");
+                      image = null;
+                      photoOP = false;
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      shadowColor: Colors.transparent),
+                  child: Text(
+                    "Choose your picture",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
             ),
+          ],
+        ),
+      ),
     );
   }
 }
