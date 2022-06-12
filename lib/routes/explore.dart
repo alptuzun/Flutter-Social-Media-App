@@ -1,9 +1,14 @@
+import 'package:cs310_group_28/functions/exploreTiles.dart';
 import 'package:cs310_group_28/routes/search.dart';
 import 'package:cs310_group_28/ui/search_card.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/post.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../functions/custome_explorebar.dart';
+import '../ui/postcard.dart';
+
 
 List<Post> sampleSearchPosts = [
   Post(
@@ -106,128 +111,45 @@ class Explore extends StatefulWidget {
 
   @override
   State<Explore> createState() => _ExploreState();
+  static String currValue = "Accounts";
 }
 
 class _ExploreState extends State<Explore> {
-  String currValue = "Accounts";
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xCBFFFFFF),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            backgroundColor: Colors.white,
-            actions: [
-              if (currValue == "Accounts")
-                const Icon(
-                  Icons.account_circle_outlined,
-                  color: Colors.black,
-                )
-              else if (currValue == "Locations")
-                const Icon(
-                  Icons.location_on_outlined,
-                  color: Colors.black,
-                )
-              else if (currValue == "Hashtags")
-                const Icon(
-                  Icons.tag,
-                  color: Colors.black,
-                ),
-              PopupMenuButton(
-                icon: const Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: Colors.black,
-                ),
-                iconSize: 40,
-                onSelected: (value) {
-                  currValue = value.toString();
-                  setState(() {});
+    return Container(
+      color:Colors.white,
+      child:  SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            CustomExploreAppBar(),
+            SliverStaggeredGrid.countBuilder(
+              mainAxisSpacing: 1,
+                crossAxisSpacing: 1,
+                crossAxisCount: 2,
+                staggeredTileBuilder: (int index) {
+                  int moddedIndex = index % 20;
+                  int cXCellcount = moddedIndex == 11 ? 2 : 1;
+
+                  double mXCellCount = 2;
+                  if (moddedIndex == 2 || moddedIndex == 11) {
+                    mXCellCount = 2;
+                  }
+                  return StaggeredTile.count(cXCellcount, mXCellCount);
                 },
-                itemBuilder: (context) {
-                  return [
-                    PopupMenuItem(
-                      height: screenHeight(context) / 100 * 5,
-                      value: 'Accounts',
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.account_circle_outlined,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                          Text("Accounts"),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      height: screenHeight(context) / 100 * 5,
-                      value: 'Locations',
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.location_on_outlined,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                          Text("Locations"),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      height: screenHeight(context) / 100 * 5,
-                      value: 'Hashtags',
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.tag,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                          Text("Hashtags"),
-                        ],
-                      ),
-                    ),
-                  ];
+                itemBuilder: (BuildContext context, int index) {
+                return exploreTiles(post: Post(postURL: "", postID: "1", userID: "2", username: "yasinalbayrak", fullName: "Yasin Albayrak", postTime: DateTime.now(), type: "image"));
                 },
-              ),
-              IconButton(
-                padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-                splashRadius: 27,
-                icon: const Icon(Icons.search_outlined),
-                color: AppColors.titleColor,
-                iconSize: 40,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SearchScreen()));
-                },
-              ),
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: sampleSearchPosts
-                      .map((post) => SearchCard(
-                            post: post,
-                          ))
-                      .toList(),
-                ),
-              ],
-            ),
-          )
-        ],
+                itemCount: 38)
+          ],
+        )
+
       ),
     );
+
   }
 }
+
+
