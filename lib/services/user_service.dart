@@ -116,6 +116,14 @@ class UserService {
     print(uname);
     return uname;
   }
+  static getFollowers(String userID) async {
+    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var data = ref.data() as Map<String, dynamic>;
+    var uname = data["followers"];
+    print("Printing uname (followers): ");
+    print(uname);
+    return uname;
+  }
   static getAllUsers() async {
     List<MyUser> myList = [];
     var documentSnapshot =
