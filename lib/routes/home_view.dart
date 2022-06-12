@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cs310_group_28/models/notification.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/routes/messages_screen.dart';
@@ -13,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:provider/provider.dart';
-import 'package:cs310_group_28/routes/notifications.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -116,7 +114,8 @@ class _HomeViewState extends State<HomeView> {
                       children: List.from(
                         followingPosts
                             .map((post) => PostCard(
-                                  post: Post.fromJson(post),
+                                  realPost: Post.fromJson(post),
+                                  jsonPost: post,
                                   isOwner: post["userID"] == currentUser.userID,
                                   userID: user.uid,
                                   comment: () {},

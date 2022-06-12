@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cs310_group_28/services/post_service.dart';
 import 'package:cs310_group_28/services/user_service.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
@@ -7,21 +8,23 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostCard extends StatefulWidget {
-  final Post post;
+  final Post realPost;
   final VoidCallback comment;
   final VoidCallback likes;
   final VoidCallback dislikes;
+  final dynamic jsonPost;
   final bool isOwner;
   final String userID;
 
   const PostCard(
       {Key? key,
-      required this.post,
+      required this.realPost,
       required this.comment,
       required this.likes,
       required this.dislikes,
       required this.isOwner,
-      required this.userID})
+      required this.userID,
+      this.jsonPost})
       : super(key: key);
 
   @override
@@ -32,7 +35,7 @@ class _PostCardState extends State<PostCard> {
   String userPfp = "";
 
   Future getAvatar() async {
-    final pFp = await UserService.getProfilePicture(widget.post.userID);
+    final pFp = await UserService.getProfilePicture(widget.realPost.userID);
     setState(() {
       userPfp = pFp;
     });
@@ -64,7 +67,7 @@ class _PostCardState extends State<PostCard> {
                   width: screenWidth(context, dividedBy: 100) * 2,
                 ),
                 Text(
-                  widget.post.fullName,
+                  widget.realPost.fullName,
                   style: Styles.userNameTextStyle,
                   textAlign: TextAlign.start,
                   textScaleFactor: 0.75,
@@ -73,7 +76,7 @@ class _PostCardState extends State<PostCard> {
                   width: screenWidth(context, dividedBy: 100),
                 ),
                 Text(
-                  "@${widget.post.username}",
+                  "@${widget.realPost.username}",
                   style: GoogleFonts.poppins(
                     color: Colors.black45,
                   ),
@@ -81,7 +84,7 @@ class _PostCardState extends State<PostCard> {
                 ),
                 const Spacer(),
                 Text(
-                  "${widget.post.postTime.day}-${widget.post.postTime.month}-${widget.post.postTime.year}",
+                  "${widget.realPost.postTime.day}-${widget.realPost.postTime.month}-${widget.realPost.postTime.year}",
                   style: GoogleFonts.poppins(
                     color: Colors.black45,
                   ),
@@ -89,20 +92,20 @@ class _PostCardState extends State<PostCard> {
                 ),
               ],
             ),
-            if (widget.post.type != "text")
+            if (widget.realPost.type != "text")
               Container(
                   padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
                   child: CachedNetworkImage(
-                    imageUrl: widget.post.postURL,
+                    imageUrl: widget.realPost.postURL,
                     alignment: Alignment.center,
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.contain,
                   )),
             Text(
-              widget.post.caption,
+              widget.realPost.caption,
               style: Styles.appMainTextStyle,
             ),
-            if (widget.post.caption.isNotEmpty)
+            if (widget.realPost.caption.isNotEmpty)
               SizedBox(
                 height: screenHeight(context, dividedBy: 100),
               ),
@@ -117,8 +120,14 @@ class _PostCardState extends State<PostCard> {
                       color: Colors.black,
                     ),
                     iconSize: 35,
-                    onSelected: (value) {
-
+                    onSelected: (value) async {
+                      if (value == "Edit") {
+                      } else {
+                        setState(() {
+                          PostService.deletePost(
+                              widget.userID, widget.jsonPost);
+                        });
+                      }
                     },
                     itemBuilder: (context) {
                       return [
@@ -171,7 +180,8 @@ class _PostCardState extends State<PostCard> {
                   flex: 6,
                 ),
                 Text(
-                    (widget.post.likes.length - widget.post.dislikes.length)
+                    (widget.realPost.likes.length -
+                            widget.realPost.dislikes.length)
                         .toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
@@ -189,7 +199,7 @@ class _PostCardState extends State<PostCard> {
                 const Spacer(
                   flex: 3,
                 ),
-                Text(widget.post.comments.length.toString(),
+                Text(widget.realPost.comments.length.toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(flex: 20),
               ],

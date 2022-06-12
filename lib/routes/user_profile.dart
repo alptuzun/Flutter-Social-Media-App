@@ -153,7 +153,7 @@ class _UserProfileState extends State<UserProfile> {
               .map((post) => PostCard(
                   isOwner: true,
                   userID: post.userID,
-                  post: post,
+                  realPost: post,
                   comment: () {},
                   likes: () {},
                   dislikes: () {}))
@@ -169,7 +169,7 @@ class _UserProfileState extends State<UserProfile> {
               .map((post) => PostCard(
                   isOwner: true,
                   userID: post.userID,
-                  post: post,
+                  realPost: post,
                   comment: () {},
                   likes: () {},
                   dislikes: () {}))
@@ -185,7 +185,7 @@ class _UserProfileState extends State<UserProfile> {
               .map((post) => PostCard(
                   isOwner: true,
                   userID: post.userID,
-                  post: post,
+                  realPost: post,
                   comment: () {},
                   likes: () {},
                   dislikes: () {}))

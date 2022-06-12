@@ -1,10 +1,7 @@
 import 'package:cs310_group_28/routes/search.dart';
-import 'package:cs310_group_28/ui/search_card.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:flutter/material.dart';
-import 'package:cs310_group_28/models/post.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cs310_group_28/routes/explore.dart';
 
 class CustomExploreAppBar extends StatefulWidget {

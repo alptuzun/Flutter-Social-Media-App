@@ -12,7 +12,7 @@ class NotificationCard extends StatefulWidget {
 }
 
 class _NotificationCardState extends State<NotificationCard> {
-  String username = 'user';
+  String username = '';
   Future getUsername() async {
     final name = await UserService.getUsername(widget.notification.userID);
     setState(() {

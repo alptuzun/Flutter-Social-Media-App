@@ -198,4 +198,5 @@ class PostService {
     });
     UserService.sendNotifications(userID, otherUserID, "comment");
   }
+
 }

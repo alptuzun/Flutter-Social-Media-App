@@ -113,7 +113,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
               .map((post) => PostCard(
                   isOwner: true,
                   userID: post.userID,
-                  post: post,
+                  realPost: post,
                   comment: () {},
                   likes: () {},
                   dislikes: () {}))

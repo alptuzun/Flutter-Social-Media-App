@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:cs310_group_28/models/post.dart';
 
-import '../models/post.dart';
-
-class exploreTiles extends StatelessWidget {
-  const exploreTiles ({ Key? key, required this.post}) : super (key:key);
+class ExploreTiles extends StatelessWidget {
+  const ExploreTiles ({ Key? key, required this.post}) : super (key:key);
   final Post post;
 
   @override
