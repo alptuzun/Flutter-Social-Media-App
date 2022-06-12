@@ -8,14 +8,16 @@ part of 'notification.dart';
 
 MyNotification _$MyNotificationFromJson(Map<String, dynamic> json) =>
     MyNotification(
-      text: json['text'] as String,
+      userID: json['userID'] as String,
+      type: json['type'] as String,
       date: DateTime.parse(json['date'] as String),
       isSeen: json['isSeen'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$MyNotificationToJson(MyNotification instance) =>
     <String, dynamic>{
-      'text': instance.text,
+      'userID': instance.userID,
+      'type': instance.type,
       'date': instance.date.toIso8601String(),
       'isSeen': instance.isSeen,
     };

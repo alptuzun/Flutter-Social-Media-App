@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs310_group_28/models/user.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/ui/notification_card.dart';
 import 'package:cs310_group_28/models/notification.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:provider/provider.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -16,19 +20,23 @@ class _NotificationsViewState extends State<Notifications> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   List<MyNotification> notifications = [
     MyNotification(
-      text: 'Alp commented on your post.',
+      userID: ,
+      type: 'comment',
       date: DateTime.now(),
     ),
     MyNotification(
-      text: 'Sermet followed you.',
+      userID: ,
+      type: 'follow',
       date: DateTime.now(),
     ),
     MyNotification(
-      text: 'Your friend Işıktan joined the App',
+      userID: ,
+      type: 'like',
       date: DateTime.now(),
     ),
     MyNotification(
-      text: 'Sıla wants to buy your item',
+      userID: ,
+      type: 'message',
       date: DateTime.now(),
     ),
   ];
@@ -51,6 +59,7 @@ class _NotificationsViewState extends State<Notifications> {
   Widget build(BuildContext context) {
     analytics.logScreenView(
         screenName: "Notification", screenClass: "Notifications");
+    final user = Provider.of<User?>(context);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -70,31 +79,32 @@ class _NotificationsViewState extends State<Notifications> {
             'Notifications',
             style: Styles.appBarTitleTextStyle,
           )),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  SizedBox(
-                    width: 8,
-                  ),
-                ],
-              ),
-              Column(
-                children: notifications
-                    .map((notifications) => NotificationCard(
-                          notification: notifications,
-                        ))
-                    .toList(),
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection("Users").snapshots().asBroadcastStream(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              List<dynamic> userList = snapshot.data!.docs
+                  .where((QueryDocumentSnapshot<Object?> element) {
+                return element["userID"] == user!.uid;
+              }).toList();
+              MyUser myUser =
+              MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
+              return SingleChildScrollView(
+                child: SafeArea(
+                  child: Column(
+                      children: myUser.notifications.reversed
+                          .map((newNotification) => NotificationCard(
+                          myNotification:
+                          AppNotification.fromJson(newNotification), notification: null,))
+                          .toList()),
+                ),
+              );
+            }
+          }),
+
     );
   }
 }

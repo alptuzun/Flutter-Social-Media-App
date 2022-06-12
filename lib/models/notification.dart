@@ -5,12 +5,14 @@ part 'notification.g.dart';
 
 @JsonSerializable()
 class MyNotification {
-  String text;
+  String userID;
+  String type;
   DateTime date;
   bool isSeen;
 
   MyNotification({
-    required this.text,
+    required this.userID,
+    required this.type,
     required this.date,
     this.isSeen = false,
   });
@@ -21,7 +23,8 @@ class MyNotification {
       ) {
     final data = snapshot.data();
     return MyNotification(
-      text: data?['text'],
+      userID: data?['userID'],
+      type: data?['type'],
       date: data?['date'],
       isSeen: data?['isSeen']
     );
@@ -29,7 +32,8 @@ class MyNotification {
 
   Map<String, dynamic> toFirestore() {
     return {
-      'text': text,
+      'userID': userID,
+      'type': type,
       "date": date,
       "isSeen": isSeen,
     };
