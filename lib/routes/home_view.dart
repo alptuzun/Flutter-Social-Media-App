@@ -11,7 +11,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -25,24 +24,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
-  void addComment(Post post) {
-    setState(() {
-      // post.comments++;
-    });
-  }
-
-  void addLikes(Post post) {
-    setState(() {
-      // post.likes++;
-    });
-  }
-
-  void addDislikes(Post post) {
-    setState(() {
-      // post.likes--;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

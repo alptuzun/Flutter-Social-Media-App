@@ -134,7 +134,7 @@ class _PostCardState extends State<PostCard> {
                 const Spacer(
                   flex: 2,
                 ),
-                Text(widget.post.likes.length.toString(),
+                Text((widget.post.likes.length - widget.post.dislikes.length).toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
                   flex: 7,
