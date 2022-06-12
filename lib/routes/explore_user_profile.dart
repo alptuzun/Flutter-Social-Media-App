@@ -265,9 +265,9 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Expanded(
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                                 "Posts",
                                 style: GoogleFonts.poppins(
