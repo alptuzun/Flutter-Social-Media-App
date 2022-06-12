@@ -11,6 +11,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -133,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
                         followingPosts
                             .map((post) => PostCard(
                                   post: Post.fromJson(post),
-                                  isOwner: false,
+                                  isOwner: post["userID"] == currentUser.userID,
                                   userID: user.uid,
                                   comment: () {},
                                   likes: () {
