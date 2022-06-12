@@ -47,7 +47,75 @@ class UserService {
       "notifications": []
     });
   }
+  static Future<bool> isfollowing(
+      {required String uid,
+        required String followinguserid,}
+      )async{
+    followinguserid = followinguserid.replaceAll(' ', '');
+    try{
+      DocumentSnapshot ds =await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+      List followers = (ds.data()! as dynamic)['following'];
 
+      if(followers.contains(followinguserid))
+      {
+        return true;
+      }
+      else{
+        return false;
+
+      }
+    }catch(e){
+      print(e.toString());
+    }
+    return false;
+
+  }
+  static Future<void> followUser(
+      String uid,
+      String followinguserid,
+      )async {
+    followinguserid = followinguserid.replaceAll(' ', '');
+    try {
+      DocumentSnapshot ds = await FirebaseFirestore.instance.collection('Users')
+          .doc(uid)
+          .get();
+      List following = (ds.data()! as dynamic)['following'];
+
+      if (following.contains(followinguserid)) {
+        await FirebaseFirestore.instance.collection('Users').doc(
+            followinguserid).update({
+          'followers': FieldValue.arrayRemove([uid])
+        });
+        await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+          'following': FieldValue.arrayRemove([followinguserid])
+        });
+      }
+      else {
+        if ((ds.data() as dynamic)['private'] == 'true') {
+          //sent request
+        }
+        else {
+          await FirebaseFirestore.instance.collection('Users').doc(
+              followinguserid).update({
+            'followers': FieldValue.arrayUnion([uid])
+          });
+          await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+            'following': FieldValue.arrayUnion([followinguserid])
+          });
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+  static getFollowings(String userID) async {
+    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var data = ref.data() as Map<String, dynamic>;
+    var uname = data["following"];
+    print("Printing uname (following): ");
+    print(uname);
+    return uname;
+  }
   static getAllUsers() async {
     List<MyUser> myList = [];
     var documentSnapshot =
