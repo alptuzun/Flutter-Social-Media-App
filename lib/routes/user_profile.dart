@@ -24,6 +24,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+
+
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 
@@ -100,12 +102,12 @@ class _UserProfileState extends State<UserProfile> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const UserFollowers()));
+                        builder: (context) => const user_followers()));
               } else if (text == "Following") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SearchListCard()));
+                        builder: (context) => const user_following()));
               }
             },
             child: Text(text,

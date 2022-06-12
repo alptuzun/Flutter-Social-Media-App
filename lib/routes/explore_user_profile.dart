@@ -62,12 +62,12 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const UserFollowers()));
+                        builder: (context) => const user_followers()));
               } else if (text == "Following") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SearchListCard()));
+                        builder: (context) => const user_following()));
               }
             },
             child: Text(text,

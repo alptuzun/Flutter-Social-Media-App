@@ -13,14 +13,14 @@ import '../visuals/fade_animation.dart';
 import '../visuals/text_style.dart';
 import 'explore_user_profile.dart';
 
-class SearchListCard extends StatefulWidget {
-  const SearchListCard({Key? key}) : super(key: key);
+class user_followers extends StatefulWidget {
+  const user_followers({Key? key}) : super(key: key);
 
   @override
-  State<SearchListCard> createState() => _SearchListCardState();
+  State<user_followers> createState() => _user_followersState();
 }
 
-class _SearchListCardState extends State<SearchListCard> {
+class _user_followersState extends State<user_followers> {
   List<MyUser> _foundUsers = [];
   List<MyUser> list_of_users = [];
   //List followers = [];
