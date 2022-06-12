@@ -45,7 +45,7 @@ class _user_followersState extends State<user_followers> {
   }
   isfollows(dynamic user_id) async {
 
-    var result = await UserService.isfollowing( uid: FirebaseAuth.instance.currentUser!.uid, followinguserid: user_id);
+    var result = await UserService.isFollowing( uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
     setState(() {
       isFollowing = result;
     });

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs310_group_28/models/notification.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,56 +48,56 @@ class UserService {
       "notifications": []
     });
   }
-  static Future<bool> isfollowing(
-      {required String uid,
-        required String followinguserid,}
-      )async{
-    followinguserid = followinguserid.replaceAll(' ', '');
-    try{
-      DocumentSnapshot ds =await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+
+  static Future<bool> isFollowing({
+    required String uid,
+    required String followingUserID,
+  }) async {
+    followingUserID = followingUserID.replaceAll(' ', '');
+    try {
+      DocumentSnapshot ds =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
       List followers = (ds.data()! as dynamic)['following'];
 
-      if(followers.contains(followinguserid))
-      {
+      if (followers.contains(followingUserID)) {
         return true;
-      }
-      else{
+      } else {
         return false;
-
       }
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
     return false;
-
   }
+
   static Future<void> followUser(
-      String uid,
-      String followinguserid,
-      )async {
+    String uid,
+    String followinguserid,
+  ) async {
     followinguserid = followinguserid.replaceAll(' ', '');
     try {
-      DocumentSnapshot ds = await FirebaseFirestore.instance.collection('Users')
-          .doc(uid)
-          .get();
+      DocumentSnapshot ds =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
       List following = (ds.data()! as dynamic)['following'];
 
       if (following.contains(followinguserid)) {
-        await FirebaseFirestore.instance.collection('Users').doc(
-            followinguserid).update({
+        await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(followinguserid)
+            .update({
           'followers': FieldValue.arrayRemove([uid])
         });
         await FirebaseFirestore.instance.collection('Users').doc(uid).update({
           'following': FieldValue.arrayRemove([followinguserid])
         });
-      }
-      else {
+      } else {
         if ((ds.data() as dynamic)['private'] == 'true') {
           //sent request
-        }
-        else {
-          await FirebaseFirestore.instance.collection('Users').doc(
-              followinguserid).update({
+        } else {
+          await FirebaseFirestore.instance
+              .collection('Users')
+              .doc(followinguserid)
+              .update({
             'followers': FieldValue.arrayUnion([uid])
           });
           await FirebaseFirestore.instance.collection('Users').doc(uid).update({
@@ -108,22 +109,23 @@ class UserService {
       print(e.toString());
     }
   }
+
   static getFollowings(String userID) async {
-    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var ref =
+        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
     var data = ref.data() as Map<String, dynamic>;
     var uname = data["following"];
-    print("Printing uname (following): ");
-    print(uname);
     return uname;
   }
+
   static getFollowers(String userID) async {
-    var ref = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    var ref =
+        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
     var data = ref.data() as Map<String, dynamic>;
     var uname = data["followers"];
-    print("Printing uname (followers): ");
-    print(uname);
     return uname;
   }
+
   static getAllUsers() async {
     List<MyUser> myList = [];
     var documentSnapshot =
@@ -240,5 +242,15 @@ class UserService {
     var doc =
         await FirebaseFirestore.instance.collection('Users').doc(userID).get();
     return doc.get("profilePicture");
+  }
+
+  static sendNotifications(
+      String userID, String receiverID, String type) async {
+    FirebaseFirestore.instance.collection('Users').doc(receiverID).update({
+      "notifications": FieldValue.arrayUnion([
+        MyNotification(userID: userID, type: type, date: DateTime.now())
+            .toJson()
+      ])
+    });
   }
 }

@@ -18,43 +18,6 @@ class Notifications extends StatefulWidget {
 
 class _NotificationsViewState extends State<Notifications> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  List<MyNotification> notifications = [
-    MyNotification(
-      userID: ,
-      type: 'comment',
-      date: DateTime.now(),
-    ),
-    MyNotification(
-      userID: ,
-      type: 'follow',
-      date: DateTime.now(),
-    ),
-    MyNotification(
-      userID: ,
-      type: 'like',
-      date: DateTime.now(),
-    ),
-    MyNotification(
-      userID: ,
-      type: 'message',
-      date: DateTime.now(),
-    ),
-  ];
-
-  int notificationCount = 0;
-
-  void deleteNotification(MyNotification notification) {
-    setState(() {
-      notifications.remove(notification);
-    });
-  }
-
-
-  void buttonClicked() {
-    setState(() {
-      notificationCount++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +44,10 @@ class _NotificationsViewState extends State<Notifications> {
             style: Styles.appBarTitleTextStyle,
           )),
       body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("Users").snapshots().asBroadcastStream(),
+          stream: FirebaseFirestore.instance
+              .collection("Users")
+              .snapshots()
+              .asBroadcastStream(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -92,20 +58,19 @@ class _NotificationsViewState extends State<Notifications> {
                 return element["userID"] == user!.uid;
               }).toList();
               MyUser myUser =
-              MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
+                  MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
               return SingleChildScrollView(
                 child: SafeArea(
                   child: Column(
                       children: myUser.notifications.reversed
                           .map((newNotification) => NotificationCard(
-                          myNotification:
-                          AppNotification.fromJson(newNotification), notification: null,))
+                              notification:
+                                  MyNotification.fromJson(newNotification)))
                           .toList()),
                 ),
               );
             }
           }),
-
     );
   }
 }

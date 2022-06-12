@@ -109,79 +109,54 @@ class _PostCardState extends State<PostCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (widget.isOwner == true) Spacer(),
                 if (widget.isOwner == true)
                   PopupMenuButton(
                     padding: EdgeInsets.zero,
                     icon: const Icon(
                       Icons.arrow_drop_down_outlined,
                       color: Colors.black,
-                      size: 20,
                     ),
-                    iconSize: 20,
-                    onSelected: (value) {},
+                    iconSize: 35,
+                    onSelected: (value) {
+
+                    },
                     itemBuilder: (context) {
                       return [
                         PopupMenuItem(
-                          height: screenHeight(context) / 100 * 5,
-                          value: 'Accounts',
+                          height: screenHeight(context) / 100 * 4,
+                          value: 'Edit',
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              Icon(
-                                Icons.account_circle_outlined,
-                                color: Colors.black,
-                                size: 20,
-                              ),
-                              Text("Accounts"),
+                              Text("Edit"),
                             ],
                           ),
                         ),
                         PopupMenuItem(
-                          height: screenHeight(context) / 100 * 5,
-                          value: 'Locations',
+                          height: screenHeight(context) / 100 * 4,
+                          value: 'Delete',
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: Colors.black,
-                                size: 20,
-                              ),
-                              Text("Locations"),
-                            ],
-                          ),
-                        ),
-                        PopupMenuItem(
-                          height: screenHeight(context) / 100 * 5,
-                          value: 'Hashtags',
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.tag,
-                                color: Colors.black,
-                                size: 20,
-                              ),
-                              Text("Hashtags"),
+                              Text("Delete"),
                             ],
                           ),
                         ),
                       ];
                     },
                   ),
-                const Spacer(flex: 60),
+                const Spacer(flex: 30),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
                   icon: const Icon(Icons.arrow_upward_rounded),
                   onPressed: widget.likes,
                   iconSize: screenWidth(context, dividedBy: 20),
-                  splashRadius: 14,
+                  splashRadius: 18,
                   color: Colors.green,
                 ),
                 const Spacer(
-                  flex: 6,
+                  flex: 8,
                 ),
                 IconButton(
                   constraints: const BoxConstraints(),
@@ -189,7 +164,7 @@ class _PostCardState extends State<PostCard> {
                   icon: const Icon(Icons.arrow_downward_rounded),
                   onPressed: widget.dislikes,
                   iconSize: screenWidth(context, dividedBy: 20),
-                  splashRadius: 14,
+                  splashRadius: 18,
                   color: Colors.red,
                 ),
                 const Spacer(
@@ -208,7 +183,7 @@ class _PostCardState extends State<PostCard> {
                   icon: const Icon(Icons.mode_comment_outlined),
                   onPressed: widget.comment,
                   iconSize: screenWidth(context, dividedBy: 20),
-                  splashRadius: 14,
+                  splashRadius: 18,
                   color: Colors.blue,
                 ),
                 const Spacer(

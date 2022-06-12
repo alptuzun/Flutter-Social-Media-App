@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/comment.dart';
 import 'package:cs310_group_28/models/post.dart';
+import 'package:cs310_group_28/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -81,10 +82,10 @@ class PostService {
         .delete();
   }
 
-  static likePost(String userId, String otherUserId, String postId) async {
+  static likePost(String userID, String otherUserID, String postId) async {
     var docRef = await FirebaseFirestore.instance
         .collection('Users')
-        .doc(otherUserId)
+        .doc(otherUserID)
         .get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
@@ -95,84 +96,93 @@ class PostService {
         break;
       }
     }
-    if (!thePost["likes"].contains(userId)) {
-      thePost["likes"] = thePost["likes"] + [userId];
+    if (!thePost["likes"].contains(userID)) {
+      thePost["likes"] = thePost["likes"] + [userID];
       posts[i] = thePost;
       FirebaseFirestore.instance
           .collection('Users')
-          .doc(otherUserId)
+          .doc(otherUserID)
           .update({"posts": posts});
-      //UserServices().pushNotifications(userId, otherUserId, "likedPost");
+      if (userID != otherUserID) {
+        UserService.sendNotifications(userID, otherUserID, "like");
+      }
     } else {
-      thePost["likes"].remove(userId);
+      thePost["likes"].remove(userID);
       posts[i] = thePost;
       FirebaseFirestore.instance
           .collection('Users')
-          .doc(otherUserId)
+          .doc(otherUserID)
           .update({"posts": posts});
     }
     var docRefPost =
         await FirebaseFirestore.instance.collection('Posts').doc(postId).get();
-    if (!docRefPost["likes"].contains(userId)) {
+    if (!docRefPost["likes"].contains(userID)) {
       FirebaseFirestore.instance.collection('Posts').doc(postId).update({
-        "likes": FieldValue.arrayUnion([userId])
+        "likes": FieldValue.arrayUnion([userID])
       });
     } else {
       FirebaseFirestore.instance.collection('Posts').doc(postId).update({
-        "likes": FieldValue.arrayRemove([userId])
+        "likes": FieldValue.arrayRemove([userID])
       });
     }
   }
 
-  static dislikePost(String userId, String otherUserId, String postId) async {
+  static dislikePost(String userID, String otherUserID, String postID) async {
     var docRef = await FirebaseFirestore.instance
         .collection('Users')
-        .doc(otherUserId)
+        .doc(otherUserID)
         .get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
     int i = 0;
     for (; i < posts.length; i++) {
-      if (postId == posts[i]["postID"]) {
+      if (postID == posts[i]["postID"]) {
         thePost = posts[i];
         break;
       }
     }
-    if (!thePost["dislikes"].contains(userId)) {
-      thePost["dislikes"] = thePost["dislikes"] + [userId];
+    if (!thePost["dislikes"].contains(userID)) {
+      thePost["dislikes"] = thePost["dislikes"] + [userID];
       posts[i] = thePost;
       FirebaseFirestore.instance
-          .collection('Users').doc(otherUserId).update({"posts": posts});
+          .collection('Users')
+          .doc(otherUserID)
+          .update({"posts": posts});
+      if (userID != otherUserID) {
+        UserService.sendNotifications(userID, otherUserID, "dislike");
+      }
     } else {
-      thePost["dislikes"].remove(userId);
+      thePost["dislikes"].remove(userID);
       posts[i] = thePost;
       FirebaseFirestore.instance
-          .collection('Users').doc(otherUserId).update({"posts": posts});
+          .collection('Users')
+          .doc(otherUserID)
+          .update({"posts": posts});
     }
-    var docRefPost = await FirebaseFirestore.instance
-        .collection('Posts').doc(postId).get();
-    if (!docRefPost["dislikes"].contains(userId)) {
-      FirebaseFirestore.instance
-          .collection('Posts').doc(postId).update({
-        "dislikes": FieldValue.arrayUnion([userId])
+    var docRefPost =
+        await FirebaseFirestore.instance.collection('Posts').doc(postID).get();
+    if (!docRefPost["dislikes"].contains(userID)) {
+      FirebaseFirestore.instance.collection('Posts').doc(postID).update({
+        "dislikes": FieldValue.arrayUnion([userID])
       });
     } else {
-      FirebaseFirestore.instance
-          .collection('Posts').doc(postId).update({
-        "dislikes": FieldValue.arrayRemove([userId])
+      FirebaseFirestore.instance.collection('Posts').doc(postID).update({
+        "dislikes": FieldValue.arrayRemove([userID])
       });
     }
   }
 
   static Future commentToPost(
-      String userId, String otherUserId, String postId, Comment comment) async {
+      String userID, String otherUserID, String postID, Comment comment) async {
     var docRef = await FirebaseFirestore.instance
-        .collection('Users').doc(otherUserId).get();
+        .collection('Users')
+        .doc(otherUserID)
+        .get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
     int i = 0;
     for (; i < posts.length; i++) {
-      if (postId == posts[i]["postID"]) {
+      if (postID == posts[i]["postID"]) {
         thePost = posts[i];
         break;
       }
@@ -180,12 +190,12 @@ class PostService {
     thePost["comments"] = thePost["comments"] + [comment.toJson()];
     posts[i] = thePost;
     FirebaseFirestore.instance
-        .collection('Users').doc(otherUserId).update({"posts": posts});
-    FirebaseFirestore.instance
-        .collection('Posts').doc(postId).update({
+        .collection('Users')
+        .doc(otherUserID)
+        .update({"posts": posts});
+    FirebaseFirestore.instance.collection('Posts').doc(postID).update({
       "comments": FieldValue.arrayUnion([comment.toJson()])
     });
-    //UserServices().pushNotifications(userId, otherUserId, "commentedToPost");
+    UserService.sendNotifications(userID, otherUserID, "comment");
   }
-
 }

@@ -11,8 +11,6 @@ import 'package:cs310_group_28/services/user_service.dart';
 
 import '../models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'explore_user_profile.dart';
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
   static const String routeName = "/explore_SearchScreen";
@@ -46,7 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
   isfollows(dynamic user_id) async {
 
-    var result = await UserService.isfollowing( uid: FirebaseAuth.instance.currentUser!.uid, followinguserid: user_id);
+    var result = await UserService.isFollowing( uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
     setState(() {
       isFollowing = result;
     });
@@ -250,82 +248,75 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   userPart({required dynamic aUser}) {
-    return  InkWell(
-      splashColor: const Color(0xEEC60744),
-      onTap: (){
-        Navigator.push(context,MaterialPageRoute(
-            builder: (context) =>  ExploreUserProfile(userID: aUser['userID'])));
-        },
-      child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(children: [
-                SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundImage:
-                        CachedNetworkImageProvider(aUser['profilePicture']),
-                      ),
-                    )),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(aUser['fullName'],
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 15, 15, 15),
-                            fontWeight: FontWeight.w700)),
-                    const SizedBox(
-                      height: 5,
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(children: [
+              SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage:
+                      CachedNetworkImageProvider(aUser['profilePicture']),
                     ),
-                    Text(aUser['username'],
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 90, 90, 90))),
-                  ],
-                )
-              ]),
-              GestureDetector(
-                onTap: () {
-                  setState(()  {
-                    user_try_following(aUser);
-                  });
-                },
-                child: AnimatedContainer(
-                  height: 35,
-                  width: 110,
-                  duration: const Duration(milliseconds: 250),
-                  decoration: BoxDecoration(
-                      color: (followings.contains(aUser['userID'],) )
-                          ? Colors.blue[700]
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(
-                          color: (followings.contains(aUser['userID']))
-                              ? Colors.transparent
-                              : Colors.grey.shade700, // if statement
-                          width: 1)),
-                  child:  Center(
-                    child:  Text(
-                      followings.contains(aUser['userID']) ? "Unfollow" : "Follow",
-                      style: TextStyle(
-                          color: followings.contains(aUser['userID']) ? Colors.white : Colors.blue),
-                    ),
-                  ) ,
-                ),
+                  )),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(aUser['fullName'],
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 15, 15, 15),
+                          fontWeight: FontWeight.w700)),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(aUser['username'],
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 90, 90, 90))),
+                ],
               )
-            ],
-          )),
-    );
+            ]),
+            GestureDetector(
+              onTap: () {
+                setState(()  {
+                  user_try_following(aUser);
+                });
+              },
+              child: AnimatedContainer(
+                height: 35,
+                width: 110,
+                duration: const Duration(milliseconds: 250),
+                decoration: BoxDecoration(
+                    color: (followings.contains(aUser['userID'],) )
+                        ? Colors.blue[700]
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(
+                        color: (followings.contains(aUser['userID']))
+                            ? Colors.transparent
+                            : Colors.grey.shade700, // if statement
+                        width: 1)),
+                child:  Center(
+                  child:  Text(
+                    followings.contains(aUser['userID']) ? "Unfollow" : "Follow",
+                    style: TextStyle(
+                        color: followings.contains(aUser['userID']) ? Colors.white : Colors.blue),
+                  ),
+                ) ,
+              ),
+            )
+          ],
+        ));
   }
 
-  void user_try_following(dynamic aUser) async {
+  void user_try_following(dynamic aUser) async{
     await UserService.followUser(FirebaseAuth.instance.currentUser!.uid,aUser['userID'],);
     await updateFollowing();
   }
