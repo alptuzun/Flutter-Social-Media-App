@@ -75,39 +75,48 @@ class UserService {
     String followinguserid,
   ) async {
     followinguserid = followinguserid.replaceAll(' ', '');
-    try {
-      DocumentSnapshot ds =
-          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-      List following = (ds.data()! as dynamic)['following'];
+    if(uid != followinguserid){
+      try {
+        DocumentSnapshot ds =
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+        List following = (ds.data()! as dynamic)['following'];
 
-      if (following.contains(followinguserid)) {
-        await FirebaseFirestore.instance
-            .collection('Users')
-            .doc(followinguserid)
-            .update({
-          'followers': FieldValue.arrayRemove([uid])
-        });
-        await FirebaseFirestore.instance.collection('Users').doc(uid).update({
-          'following': FieldValue.arrayRemove([followinguserid])
-        });
-      } else {
-        if ((ds.data() as dynamic)['private'] == 'true') {
-          //sent request
-        } else {
+        if (following.contains(followinguserid)) {
           await FirebaseFirestore.instance
               .collection('Users')
               .doc(followinguserid)
               .update({
-            'followers': FieldValue.arrayUnion([uid])
+            'followers': FieldValue.arrayRemove([uid])
           });
           await FirebaseFirestore.instance.collection('Users').doc(uid).update({
-            'following': FieldValue.arrayUnion([followinguserid])
+            'following': FieldValue.arrayRemove([followinguserid])
           });
+        } else {
+          if ((ds.data() as dynamic)['private'] == 'true') {
+            //sent request
+          } else {
+            await FirebaseFirestore.instance
+                .collection('Users')
+                .doc(followinguserid)
+                .update({
+              'followers': FieldValue.arrayUnion([uid])
+            });
+            await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+              'following': FieldValue.arrayUnion([followinguserid])
+            });
+          }
         }
+      } catch (e) {
+        print(e.toString());
       }
-    } catch (e) {
-      print(e.toString());
+
+
+
+
+
+
     }
+
   }
 
   static getFollowings(String userID) async {

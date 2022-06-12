@@ -6,12 +6,14 @@ import 'package:cs310_group_28/routes/marketplace.dart';
 import 'package:cs310_group_28/routes/user_profile.dart';
 
 class PageNavigator extends StatefulWidget {
+
+
   const PageNavigator({Key? key}) : super(key: key);
 
   static const String routeName = "/page_navigator";
 
   @override
-  State<PageNavigator> createState() => _PageNavigatorState();
+  State<PageNavigator> createState() => _PageNavigatorState( );
 }
 
 class _PageNavigatorState extends State<PageNavigator> {
@@ -21,7 +23,7 @@ class _PageNavigatorState extends State<PageNavigator> {
     const MarketPlace(),
     const UserProfile()
   ];
-  int _currIdx = 0;
+  int _currIdx = 3;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   void _onItemTapped(int index) {
