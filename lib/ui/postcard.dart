@@ -55,11 +55,11 @@ class _PostCardState extends State<PostCard> {
           children: [
             Row(
               children: [
-                if(userPfp.isNotEmpty)
-                CircleAvatar(
-                  radius: 15,
-                  backgroundImage: CachedNetworkImageProvider(userPfp),
-                ),
+                if (userPfp.isNotEmpty)
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundImage: CachedNetworkImageProvider(userPfp),
+                  ),
                 SizedBox(
                   width: screenWidth(context, dividedBy: 100) * 2,
                 ),
@@ -109,7 +109,68 @@ class _PostCardState extends State<PostCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(flex: 20),
+                if (widget.isOwner == true) Spacer(),
+                if (widget.isOwner == true)
+                  PopupMenuButton(
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(
+                      Icons.arrow_drop_down_outlined,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    iconSize: 20,
+                    onSelected: (value) {},
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem(
+                          height: screenHeight(context) / 100 * 5,
+                          value: 'Accounts',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.account_circle_outlined,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                              Text("Accounts"),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          height: screenHeight(context) / 100 * 5,
+                          value: 'Locations',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.location_on_outlined,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                              Text("Locations"),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          height: screenHeight(context) / 100 * 5,
+                          value: 'Hashtags',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.tag,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                              Text("Hashtags"),
+                            ],
+                          ),
+                        ),
+                      ];
+                    },
+                  ),
+                const Spacer(flex: 60),
                 IconButton(
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
@@ -120,7 +181,7 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.green,
                 ),
                 const Spacer(
-                  flex: 2,
+                  flex: 6,
                 ),
                 IconButton(
                   constraints: const BoxConstraints(),
@@ -132,12 +193,14 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.red,
                 ),
                 const Spacer(
-                  flex: 2,
+                  flex: 6,
                 ),
-                Text((widget.post.likes.length - widget.post.dislikes.length).toString(),
+                Text(
+                    (widget.post.likes.length - widget.post.dislikes.length)
+                        .toString(),
                     style: Styles.appMainTextStyle),
                 const Spacer(
-                  flex: 7,
+                  flex: 21,
                 ),
                 IconButton(
                   constraints: const BoxConstraints(),
@@ -149,7 +212,7 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.blue,
                 ),
                 const Spacer(
-                  flex: 1,
+                  flex: 3,
                 ),
                 Text(widget.post.comments.length.toString(),
                     style: Styles.appMainTextStyle),
