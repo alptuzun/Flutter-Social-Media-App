@@ -14,7 +14,7 @@ class ExploreTiles extends StatelessWidget {
           //color: Colors.purpleAccent,
           child: Image.network(
             post.mediaURL!,
-            fit: BoxFit.fill
+            fit: BoxFit.cover
           )),
     );
   }
