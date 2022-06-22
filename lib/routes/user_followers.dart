@@ -31,36 +31,35 @@ class _user_followersState extends State<user_followers> {
   }
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     prt();
     getUsersFollowers();
-    print(followings);
     //handleFollowUser();
   }
-  isfollows(dynamic user_id) async {
 
-    var result = await UserService.isFollowing( uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
+  isfollows(dynamic user_id) async {
+    var result = await UserService.isFollowing(
+        uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
     setState(() {
       isFollowing = result;
     });
-
   }
+
   Future getUsersFollowers() async {
     var user =
-    await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
+        await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       followings = user;
     });
-    print('Followings are:');
-    print(followings[1]=='X9nyMA5q6XePW6JH3320xLVZq6F3' ); //== " X9nyMA5q6XePW6JH3320xLVZq6F3X9nyMA5q6XePW6JH3320xLVZq6F3"
   }
-  Future updateFollowing() async{
-    List list = await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
+
+  Future updateFollowing() async {
+    List list =
+        await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       followings = list;
     });
-
   }
 
   Future prt() async {
@@ -69,13 +68,13 @@ class _user_followersState extends State<user_followers> {
       _foundUsers = users;
       list_of_users = users;
     });
-
   }
+
   onSearch(String search) {
     setState(() {
-      _foundUsers =
-          list_of_users.where((element) => element.fullName.toLowerCase().contains(search))
-              .toList();
+      _foundUsers = list_of_users
+          .where((element) => element.fullName.toLowerCase().contains(search))
+          .toList();
     });
   }
 
@@ -84,6 +83,7 @@ class _user_followersState extends State<user_followers> {
       _foundUsers.removeAt(whichUser);
     });
   }
+
   bool usershowing = false;
 
   @override
@@ -105,25 +105,26 @@ class _user_followersState extends State<user_followers> {
               }),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title:  Center(child: Text('Followers',style: Styles.appBarTitleTextStyle,) ),
+          title: Text(
+            'Followers',
+            style: Styles.appBarTitleTextStyle,
+          ),
+          centerTitle: true,
         ),
         body: FutureBuilder(
-          future: UserService.getFollowers(FirebaseAuth.instance.currentUser!.uid),
-
-          builder: (context,snapshot){
-            if(!snapshot.hasData){
-              return const Center(child: CircularProgressIndicator());
+          future:
+              UserService.getFollowers(FirebaseAuth.instance.currentUser!.uid),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: Text("User has no followers."));
             }
             return Container(
-
               color: const Color.fromARGB(255, 245, 245, 245),
-
               child: ListView.builder(
-                itemCount: (snapshot.data! as dynamic).length ,
+                itemCount: (snapshot.data! as dynamic).length,
                 itemBuilder: (ctx, index) {
-
-                  return
-                    userPart(aUser: (snapshot.data! as dynamic)[index],index: 0);
+                  return userPart(
+                      aUser: (snapshot.data! as dynamic)[index], index: 0);
                 },
               ),
             );
@@ -134,16 +135,21 @@ class _user_followersState extends State<user_followers> {
   }
 
   userPart({required dynamic aUser, required int index}) {
-    return  InkWell(
+    return InkWell(
       splashColor: const Color(0xEEC60744),
-      onTap: (){
-        Navigator.push(context,MaterialPageRoute(
-            builder: (context) =>  ExploreUserProfile(userID: aUser)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExploreUserProfile(userID: aUser)));
       },
       child: FutureBuilder(
-          future: FirebaseFirestore.instance.collection('Users').where('userID',isEqualTo: aUser ).get(),
-          builder: (context,snapshot){
-            if(!snapshot.hasData){
+          future: FirebaseFirestore.instance
+              .collection('Users')
+              .where('userID', isEqualTo: aUser)
+              .get(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
             return Container(
@@ -160,22 +166,27 @@ class _user_followersState extends State<user_followers> {
                             borderRadius: BorderRadius.circular(50),
                             child: CircleAvatar(
                               radius: 60,
-                              backgroundImage:
-                              CachedNetworkImageProvider((snapshot.data! as dynamic).docs[index]['profilePicture'] ),
+                              backgroundImage: CachedNetworkImageProvider(
+                                  (snapshot.data! as dynamic).docs[index]
+                                      ['profilePicture']),
                             ),
                           )),
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text((snapshot.data! as dynamic).docs[index]['username'] ,
+                          Text(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 15, 15, 15),
                                   fontWeight: FontWeight.w700)),
                           const SizedBox(
                             height: 5,
                           ),
-                          Text((snapshot.data! as dynamic).docs[index]['username'] ,
+                          Text(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 90, 90, 90))),
                         ],
@@ -183,7 +194,7 @@ class _user_followersState extends State<user_followers> {
                     ]),
                     GestureDetector(
                       onTap: () {
-                        setState(()  {
+                        setState(() {
                           user_try_following(aUser);
                         });
                       },
@@ -192,33 +203,36 @@ class _user_followersState extends State<user_followers> {
                         width: 110,
                         duration: const Duration(milliseconds: 250),
                         decoration: BoxDecoration(
-                            color: (followings.contains((snapshot.data! as dynamic).docs[index]['username'] ,) )
+                            color: (followings.contains(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
+                            ))
                                 ? Colors.blue[700]
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(7),
                             border: Border.all(
                                 color: Colors.transparent,
-                                     // if statement
+                                // if statement
                                 width: 1)),
-                        child:  const Center(
-                          child:  Text(
-                              'Remove',
-                            style: TextStyle(
-                                color: Colors.red ),
+                        child: const Center(
+                          child: Text(
+                            'Remove',
+                            style: TextStyle(color: Colors.red),
                           ),
-                        ) ,
+                        ),
                       ),
                     )
                   ],
                 ));
-          }
-
-      ),
+          }),
     );
   }
 
   void user_try_following(dynamic aUser) async {
-    await UserService.remove_from_followers(FirebaseAuth.instance.currentUser!.uid,aUser,);
+    await UserService.unFollow(
+      FirebaseAuth.instance.currentUser!.uid,
+      aUser,
+    );
     await updateFollowing();
   }
 

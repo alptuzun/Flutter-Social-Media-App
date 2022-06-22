@@ -20,12 +20,12 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   List<MyUser> _foundUsers = [];
-  List<MyUser> list_of_users = [];
+  List<MyUser> listOfUsers = [];
 
   //List followers = [];
   List followings = [];
   bool isFollowing = false;
-  final TextEditingController searchcontrol = TextEditingController();
+  final TextEditingController searchControl = TextEditingController();
 
   @override
   void dispose() {
@@ -42,9 +42,9 @@ class _SearchScreenState extends State<SearchScreen> {
     //handleFollowUser();
   }
 
-  isfollows(dynamic user_id) async {
+  isfollows(dynamic userId) async {
     var result = await UserService.isFollowing(
-        uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
+        uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: userId);
     setState(() {
       isFollowing = result;
     });
@@ -52,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future getUsersFollowers() async {
     var user =
-    await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
+        await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       followings = user;
     });
@@ -60,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future updateFollowing() async {
     List list =
-    await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
+        await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       followings = list;
     });
@@ -70,13 +70,13 @@ class _SearchScreenState extends State<SearchScreen> {
     List<MyUser> users = await UserService.getAllUsers();
     setState(() {
       _foundUsers = users;
-      list_of_users = users;
+      listOfUsers = users;
     });
   }
 
   onSearch(String search) {
     setState(() {
-      _foundUsers = list_of_users
+      _foundUsers = listOfUsers
           .where((element) => element.username.toLowerCase().contains(search))
           .toList();
     });
@@ -112,7 +112,7 @@ class _SearchScreenState extends State<SearchScreen> {
               title: SizedBox(
                 height: 40,
                 child: TextField(
-                  controller: searchcontrol,
+                  controller: searchControl,
                   onChanged: (val) => onSearch(val),
                   decoration: InputDecoration(
                       filled: true,
@@ -148,11 +148,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     return (element["username"]
                         .toString()
                         .toLowerCase()
-                        .contains(searchcontrol.text.trim().toLowerCase()));
+                        .contains(searchControl.text.trim().toLowerCase()));
                   }).toList();
                   List<MyUser> users = [];
                   for (dynamic newUser in queryUserList) {
-                    MyUser user = MyUser.fromJson(newUser.data() as Map<String, dynamic>);
+                    MyUser user =
+                        MyUser.fromJson(newUser.data() as Map<String, dynamic>);
                     users.add(user);
                   }
                   return Container(
@@ -160,45 +161,43 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: ListView.builder(
                       itemCount: users.length,
                       itemBuilder: (ctx, index) {
-                        return
-                          FadeAnimation(
-                              delay: 0.05 * index,
-                              child: Slidable(
-                                child: userPart(
-                                    aUser: users[index]),
-                                actionPane: const SlidableStrechActionPane(),
-                                actionExtentRatio: 0.25,
-                                actions: const [
-                                  IconSlideAction(
-                                    caption: "Archive",
-                                    color: Color.fromARGB(255, 236, 236, 236),
-                                    iconWidget: Icon(
-                                      Icons.archive,
-                                      color: Colors.black,
-                                    ),
+                        return FadeAnimation(
+                            delay: 0.05 * index,
+                            child: Slidable(
+                              child: userPart(aUser: users[index]),
+                              actionPane: const SlidableStrechActionPane(),
+                              actionExtentRatio: 0.25,
+                              actions: const [
+                                IconSlideAction(
+                                  caption: "Archive",
+                                  color: Color.fromARGB(255, 236, 236, 236),
+                                  iconWidget: Icon(
+                                    Icons.archive,
+                                    color: Colors.black,
                                   ),
-                                  IconSlideAction(
-                                    caption: 'Share',
-                                    color: Color.fromARGB(255, 236, 236, 236),
-                                    iconWidget: Icon(
-                                      Icons.share,
-                                      color: Colors.black,
-                                    ),
-                                    onTap: null,
+                                ),
+                                IconSlideAction(
+                                  caption: 'Share',
+                                  color: Color.fromARGB(255, 236, 236, 236),
+                                  iconWidget: Icon(
+                                    Icons.share,
+                                    color: Colors.black,
                                   ),
-                                ],
-                                secondaryActions: [
-                                  IconSlideAction(
-                                    caption: 'Remove',
-                                    color: Colors.red,
-                                    iconWidget: const Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                    ),
-                                    onTap: () => userRemoveWithIndex(index),
+                                  onTap: null,
+                                ),
+                              ],
+                              secondaryActions: [
+                                IconSlideAction(
+                                  caption: 'Remove',
+                                  color: Colors.red,
+                                  iconWidget: const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
                                   ),
-                                ],
-                              ));
+                                  onTap: () => userRemoveWithIndex(index),
+                                ),
+                              ],
+                            ));
                       },
                     ),
                   );
@@ -213,12 +212,12 @@ class _SearchScreenState extends State<SearchScreen> {
       onTap: () {
         (aUser.userID != FirebaseAuth.instance.currentUser!.uid)
             ? Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    ExploreUserProfile(userID: aUser.userID)))
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ExploreUserProfile(userID: aUser.userID)))
             : Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const PageNavigator()));
+                MaterialPageRoute(builder: (context) => const PageNavigator()));
         //Navigator.push(context,MaterialPageRoute(builder: (context) => const UserProfile()));
       },
       child: Container(
@@ -236,7 +235,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: CircleAvatar(
                         radius: 60,
                         backgroundImage:
-                        CachedNetworkImageProvider(aUser.profilePicture),
+                            CachedNetworkImageProvider(aUser.profilePicture),
                       ),
                     )),
                 const SizedBox(width: 10),
@@ -305,7 +304,7 @@ class _SearchScreenState extends State<SearchScreen> {
     await updateFollowing();
   }
 }
-        /*FutureBuilder(
+/*FutureBuilder(
           future: FirebaseFirestore.instance.collection('Users').where('username',isGreaterThanOrEqualTo:searchcontrol.text ).get(),
           builder: (context,snapshot){
             if(!snapshot.hasData){

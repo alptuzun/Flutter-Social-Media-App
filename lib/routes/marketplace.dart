@@ -6,56 +6,7 @@ import 'package:cs310_group_28/models/post.dart';
 import 'messages_screen.dart';
 import 'notifications.dart';
 
-List<Post> sampleMarkets = [
-  Post(
-      postURL: "",
-      type: "market",
-      postID: "1",
-      postTime: DateTime.now(),
-      userID: "2",
-      username: "silaozinan",
-      fullName: "Sıla Özinan",
-      caption: "fridge for sale",
-      location: "Sabancı University",
-      imageName: 'assets/images/fridge.jpg',
-      price: "2000 TL"),
-  Post(
-      postURL: "",
-      type: "market",
-      postID: "1",
-      postTime: DateTime.now(),
-      userID: "2",
-      username: "aliozgunakyuz",
-      fullName: "Ali Özgün Akyüz",
-      caption: "couch (only used for one semester)",
-      // likes: 488,
-      // comments: 27,
-      imageName: 'assets/images/couch.jpg',
-      price: "1000 TL"),
-  Post(
-      postURL: "",
-      type: "market",
-      postID: "1",
-      postTime: DateTime.now(),
-      userID: "2",
-      username: "sermetozgu",
-      fullName: "Sermet Özgü",
-      caption: "I'm selling TLL101 books",
-      location: "Sabancı University",
-      imageName: 'assets/images/books.jpg',
-      price: "150 TL"),
-  Post(
-      postURL: "",
-      type: "market",
-      postID: "1",
-      postTime: DateTime.now(),
-      userID: "2",
-      username: "yasinalbayrak",
-      fullName: "Yasin Albayrak",
-      caption: "Anyone want to buy a bike?",
-      imageName: "assets/images/bike.jpg",
-      price: "90 €")
-];
+List<Post> sampleMarkets = [];
 
 class MarketPlace extends StatefulWidget {
   const MarketPlace({Key? key}) : super(key: key);

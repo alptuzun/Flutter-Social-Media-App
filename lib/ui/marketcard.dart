@@ -20,93 +20,93 @@ class MarketCard extends StatelessWidget {
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  post.fullName,
-                  style: Styles.userNameTextStyle,
-                  textAlign: TextAlign.start,
-                  textScaleFactor: 0.75,
-                ),
-                SizedBox(
-                  width: screenWidth(context, dividedBy: 100),
-                ),
-                Text(
-                  "@${post.username}",
-                  style: GoogleFonts.poppins(
-                    color: Colors.black45,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                const Spacer(),
-                Text(
-                  "${post.postTime.day}-${post.postTime.month}-${post.postTime.year}",
-                  style: GoogleFonts.poppins(
-                    color: Colors.black45,
-                  ),
-                  textAlign: TextAlign.end,
-                ),
-              ],
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
-              child: Image(
-                image: AssetImage(post.imageName.toString()),
-                alignment: Alignment.center,
-                isAntiAlias: true,
-                fit: BoxFit.contain,
-                filterQuality: FilterQuality.high,
-              ),
-            ),
-            Text(
-              post.caption,
-              style: Styles.appMainTextStyle,
-            ),
-            SizedBox(
-              height: screenHeight(context, dividedBy: 100),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                Icon(Icons.money,
-                    color: Colors.green,
-                    size: screenWidth(
-                      context,
-                      dividedBy: 16,
-                    )
-                    //constraints: const BoxConstraints(),
-                    //padding: EdgeInsets.zero,
-                    ),
-                const Spacer(
-                  flex: 2,
-                ),
-                  Text(
-                    post.price,
-                    style: Styles.appMainTextStyle,
-                  ),
-                const Spacer(
-                  flex: 52,
-                ),
-                IconButton(
-                  constraints: const BoxConstraints(),
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(Icons.shopping_cart_rounded),
-                  onPressed: addToBasket,
-                  iconSize: screenWidth(context, dividedBy: 20),
-                  splashRadius: 14,
-                  color: Colors.blue,
-                ),
-                const Spacer(),
-              ],
-            )
-          ],
-        ),
-      ),
+      // child: Padding(
+      //   padding: const EdgeInsets.all(10),
+      //   child: Column(
+      //     children: [
+      //       Row(
+      //         children: [
+      //           Text(
+      //             post.fullName,
+      //             style: Styles.userNameTextStyle,
+      //             textAlign: TextAlign.start,
+      //             textScaleFactor: 0.75,
+      //           ),
+      //           SizedBox(
+      //             width: screenWidth(context, dividedBy: 100),
+      //           ),
+      //           Text(
+      //             "@${post.username}",
+      //             style: GoogleFonts.poppins(
+      //               color: Colors.black45,
+      //             ),
+      //             textAlign: TextAlign.start,
+      //           ),
+      //           const Spacer(),
+      //           Text(
+      //             "${post.postTime.day}-${post.postTime.month}-${post.postTime.year}",
+      //             style: GoogleFonts.poppins(
+      //               color: Colors.black45,
+      //             ),
+      //             textAlign: TextAlign.end,
+      //           ),
+      //         ],
+      //       ),
+      //       Container(
+      //         padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
+      //         child: Image(
+      //           image: AssetImage(post.imageName.toString()),
+      //           alignment: Alignment.center,
+      //           isAntiAlias: true,
+      //           fit: BoxFit.contain,
+      //           filterQuality: FilterQuality.high,
+      //         ),
+      //       ),
+      //       Text(
+      //         post.caption,
+      //         style: Styles.appMainTextStyle,
+      //       ),
+      //       SizedBox(
+      //         height: screenHeight(context, dividedBy: 100),
+      //       ),
+      //       Row(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [
+      //           const Spacer(),
+      //           Icon(Icons.money,
+      //               color: Colors.green,
+      //               size: screenWidth(
+      //                 context,
+      //                 dividedBy: 16,
+      //               )
+      //               //constraints: const BoxConstraints(),
+      //               //padding: EdgeInsets.zero,
+      //               ),
+      //           const Spacer(
+      //             flex: 2,
+      //           ),
+      //             Text(
+      //               post.price,
+      //               style: Styles.appMainTextStyle,
+      //             ),
+      //           const Spacer(
+      //             flex: 52,
+      //           ),
+      //           IconButton(
+      //             constraints: const BoxConstraints(),
+      //             padding: EdgeInsets.zero,
+      //             icon: const Icon(Icons.shopping_cart_rounded),
+      //             onPressed: addToBasket,
+      //             iconSize: screenWidth(context, dividedBy: 20),
+      //             splashRadius: 14,
+      //             color: Colors.blue,
+      //           ),
+      //           const Spacer(),
+      //         ],
+      //       )
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

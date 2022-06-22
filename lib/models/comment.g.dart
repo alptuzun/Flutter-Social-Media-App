@@ -7,13 +7,15 @@ part of 'comment.dart';
 // **************************************************************************
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
-      time: DateTime.parse(json['time'] as String),
+      comment: json['comment'] as String,
       userID: json['userID'] as String,
-      content: json['content'] as String,
+      postID: json['postID'] as String,
+      time: DateTime.parse(json['time'] as String),
     );
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
+      'comment': instance.comment,
       'userID': instance.userID,
-      'content': instance.content,
+      'postID': instance.postID,
       'time': instance.time.toIso8601String(),
     };

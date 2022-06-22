@@ -15,6 +15,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class AddPost extends StatefulWidget {
@@ -30,23 +31,32 @@ class _AddPostState extends State<AddPost> {
   File? video;
   ImagePicker picker = ImagePicker();
   String caption = "";
+  static final List<List<String>> tags = [
+    ["Theatre", "🎭"],
+    ["Chess", "♔"],
+    ["Film Producing", "🎬"],
+    ["Philosophy", "🤔"],
+    ["Cycling", "🚵‍"],
+    ["Gastronomy", "🌮"],
+    ["Psychology", "👩‍"],
+    ["Golf", "⛳️"],
+    ["Diving", "🤿"],
+    ["Music", "🎸"],
+    ["Gender", "🏳️‍🌈"]
+  ];
+  List<bool> tagsSelected = List<bool>.filled(tags.length, false);
 
-  Future pickImage() async {
-    try {
-      XFile? galleryImage = await picker.pickImage(source: ImageSource.gallery);
-      if (galleryImage != null) {
-        var imageRoute = File(galleryImage.path);
-        setState(() {
-          image = imageRoute;
-          Navigator.of(context).pop();
-        });
+  List<String> _getSelectedTags() {
+    List<String> res = <String>[];
+    for (int i = 0; i < tagsSelected.length; i++) {
+      if (tagsSelected[i]) {
+        res.add(tags[i][0]);
       }
-    } catch (e) {
-      FirebaseCrashlytics.instance.log(e.toString());
     }
+    return res;
   }
 
-  Future loadCamera() async {
+  Future<void> loadCamera(context) async {
     final cameras = await availableCameras();
     final firstCamera = cameras[1];
     if (!mounted) {
@@ -58,7 +68,7 @@ class _AddPostState extends State<AddPost> {
             builder: (context) => TakePictureScreen(camera: firstCamera)));
   }
 
-  Future pickVideo() async {
+  Future<void> pickVideo(context) async {
     try {
       XFile? galleryVideo = await picker.pickVideo(source: ImageSource.gallery);
       if (galleryVideo != null) {
@@ -72,13 +82,115 @@ class _AddPostState extends State<AddPost> {
     }
   }
 
+  Future<List<dynamic>> getUser(String userID) async {
+    MyUser user = await UserService.getUser(userID);
+    List<Post> posts = await user.posts;
+    return [user, posts];
+  }
+
+  Future<void> pickImage(context) async {
+    try {
+      XFile? galleryImage = await picker.pickImage(source: ImageSource.gallery);
+      if (galleryImage != null) {
+        var imageRoute = File(galleryImage.path);
+        setState(() {
+          image = imageRoute;
+        });
+      }
+    } catch (e) {
+      FirebaseCrashlytics.instance.log(e.toString());
+    }
+  }
+
+  Widget mediaPicker({required BuildContext context, required String userID}) {
+    return Container(
+      width: screenWidth(context),
+      height: 60,
+      color: Colors.blueAccent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      loadCamera(context);
+                    },
+                    child: const Icon(
+                      Icons.add_a_photo_outlined,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      pickImage(context);
+                    },
+                    child: const Icon(
+                      Icons.image_outlined,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      pickVideo(context);
+                    },
+                    child: const Icon(
+                      Icons.video_camera_back_outlined,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            TextButton(
+              style: ButtonStyle(
+                overlayColor:
+                    MaterialStateColor.resolveWith((states) => Colors.white30),
+              ),
+              onPressed: () async {
+                Post newPost = Post(
+                    postTime: DateTime.now(),
+                    userID: userID,
+                    caption: caption,
+                    tags: _getSelectedTags());
+                String postID = await PostService.publishPost(newPost);
+                if ((image ?? video) != null) {
+                  await PostService.uploadToFirebaseImage(
+                      userID, (image ?? video)!, postID);
+                }
+                Navigator.pop(context);
+              },
+              child: const Text(
+                "Post",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<User?>(context);
+
     return FutureBuilder(
-      future: UserService.returnRef().doc(currentUser!.uid).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      future: getUser(currentUser!.uid),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
           return const Scaffold(
             body: Center(
@@ -88,367 +200,125 @@ class _AddPostState extends State<AddPost> {
             )),
           );
         } else {
-          MyUser user =
-              MyUser.fromJson(snapshot.data!.data() as Map<String, dynamic>);
-          if (image != null || video != null || caption.isNotEmpty) {
-            return Scaffold(
-                appBar: AppBar(
-                  leading: IconButton(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                      splashRadius: 27,
-                      icon: const Icon(
-                        Icons.arrow_back_ios_rounded,
-                        size: 34,
-                      ),
-                      color: AppColors.titleColor,
-                      onPressed: () {
-                        if (video == null || image == null || caption == "@") {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          setState(() {
-                            image = null;
-                            video = null;
-                            caption = "";
-                          });
-                        } else {
-                          Navigator.pop(context);
-                        }
-                      }),
-                  backgroundColor: Colors.white,
-                  title: Text(
-                    "Add Photos & Video or Post",
-                    style: Styles.appBarTitleTextStyle,
+          MyUser user = snapshot.data![0];
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                  splashRadius: 27,
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 34,
                   ),
-                  centerTitle: true,
-                ),
-                backgroundColor: const Color(0xCBFFFFFF),
-                body: image != null
-                    ? Center(
+                  color: AppColors.titleColor,
+                  onPressed: () {
+                    Navigator.pop(context); // pop the context
+                  }),
+              backgroundColor: Colors.white,
+              title: Text(
+                "Add Photos & Video or Post",
+                style: Styles.appBarTitleTextStyle,
+              ),
+              centerTitle: true,
+            ),
+            backgroundColor: const Color(0xCBFFFFFF),
+            body: SafeArea(
+              child: Container(
+                  color: Colors.white,
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverFillRemaining(
+                        hasScrollBody: false,
                         child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  screenHeight(context) * 0.017),
-                              child: Image.file(
-                                image!,
-                                width: screenWidth(context) * 0.95,
-                                height: screenHeight(context) * 0.35,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 2, horizontal: 5),
-                              child: Material(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
-                                child: TextField(
-                                  keyboardType: TextInputType.multiline,
-                                  minLines: 1,
-                                  maxLines: 3,
-                                  style: Styles.appMainTextStyle,
-                                  decoration: InputDecoration(
-                                    hintStyle: Styles.appMainTextStyle,
-                                    border: const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(50)),
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 20, left: 8, right: 8),
+                                child: Column(
+                                  children: [
+                                    if ((image ?? video) != null)
+                                      SizedBox(
+                                          width: screenWidth(context,
+                                              dividedBy: 5 / 4),
+                                          child: Image.file(
+                                              image != null ? image! : video!)),
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 8),
+                                      alignment: Alignment.center,
+                                      child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(children: [
+                                            for (int i = 0;
+                                                i < tags.length;
+                                                i++)
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0),
+                                                child: InputChip(
+                                                  label: Text(tags[i][0]),
+                                                  labelStyle: const TextStyle(
+                                                      fontSize: 16),
+                                                  avatar: Text(
+                                                    tags[i][1],
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  elevation: 3,
+                                                  backgroundColor:
+                                                      Colors.white70,
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  selected: tagsSelected[i],
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      tagsSelected[i] =
+                                                          !tagsSelected[i];
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                          ])),
                                     ),
-                                    hintText: "Enter your caption",
-                                  ),
-                                  onChanged: (text) {
-                                    caption = text;
-                                  },
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: (screenWidth(context) / 100) * 45,
-                              height: (screenHeight(context) / 100) * 5.5,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                    begin: Alignment(0, -1),
-                                    end: Alignment(0, 0),
-                                    colors: [
-                                      Colors.lightBlue,
-                                      Colors.lightBlueAccent
-                                    ]),
-                                borderRadius: BorderRadius.circular(35),
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(20),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    String url =
-                                        await PostService.uploadToFirebaseImage(
-                                            currentUser,
-                                            image!,
-                                            (user.posts.length + 1).toString());
-                                    Post newPost = Post(
-                                      postTime: DateTime.now(),
-                                      postID:
-                                      user.userID + (user.posts.length + 1).toString(),
-                                      postURL: url,
-                                      type: "image",
-                                      username: user.username,
-                                      fullName: user.fullName,
-                                      userID: currentUser.uid,
-                                      caption: caption,
-                                      likes: [],
-                                      comments: [],
-                                      price: "-1",
-                                      location: "",
-                                      imageName: "",
-                                      dislikes: [],
-                                    );
-                                    PostService.publishPost(
-                                        currentUser.uid, newPost);
-                                    setState(() {
-                                      image = null;
-                                      caption = "";
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20))),
-                                  child: Text(
-                                    "Post",
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]))
-                    : video != null
-                        ? const Center(
-                            child: Text("Your video is ready to upload!"))
-                        : Center(
-                            child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 2, horizontal: 5),
-                                  child: Material(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: TextField(
-                                      keyboardType: TextInputType.multiline,
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      minLines: 6,
-                                      maxLines: 6,
-                                      textAlign: TextAlign.center,
-                                      style: Styles.appMainTextStyle,
-                                      decoration: InputDecoration(
-                                        hintStyle: Styles.appMainTextStyle,
-                                        border: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(50)),
-                                        ),
-                                        hintText: "Enter your post text",
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 8,
+                                        bottom: 10,
                                       ),
-                                      onChanged: (text) {
-                                        caption = text;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: (screenWidth(context) / 100) * 45,
-                                  height: (screenHeight(context) / 100) * 5.5,
-                                  decoration: BoxDecoration(
-                                    gradient: const LinearGradient(
-                                        begin: Alignment(0, -1),
-                                        end: Alignment(0, 0),
-                                        colors: [
-                                          Colors.lightBlue,
-                                          Colors.lightBlueAccent
-                                        ]),
-                                    borderRadius: BorderRadius.circular(35),
-                                  ),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        Post newPost = Post(
-                                          postTime: DateTime.now(),
-                                          postID:
-                                          user.userID + (user.posts.length + 1).toString(),
-                                          postURL: "None",
-                                          type: "text",
-                                          username: user.username,
-                                          fullName: user.fullName,
-                                          userID: currentUser.uid,
-                                          caption: caption,
-                                          likes: [],
-                                          comments: [],
-                                          price: "-1",
-                                          location: "",
-                                          imageName: "",
-                                          dislikes: [],
-                                        );
-                                        PostService.publishPost(
-                                            currentUser.uid, newPost);
-                                        setState(() {
-                                          caption = "";
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.transparent,
-                                          shadowColor: Colors.transparent,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20))),
-                                      child: Text(
-                                        "Post",
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white),
+                                      child: TextField(
+                                        autofocus: true,
+                                        minLines: 1,
+                                        maxLines: 4,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            caption = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            isDense: true,
+                                            hintText: "Add your caption",
+                                            hintStyle: GoogleFonts.poppins(
+                                                fontSize: 14),
+                                            border: InputBorder.none),
+                                        autocorrect: false,
+                                        textInputAction: TextInputAction.send,
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ])));
-          } else {
-            return Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                    splashRadius: 27,
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 34,
-                    ),
-                    color: AppColors.titleColor,
-                    onPressed: () {
-                      Navigator.pop(context); // pop the context
-                    }),
-                backgroundColor: Colors.white,
-                title: Text(
-                  "Add Photos & Video or Post",
-                  style: Styles.appBarTitleTextStyle,
-                ),
-                centerTitle: true,
-              ),
-              backgroundColor: const Color(0xCBFFFFFF),
-              body: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Spacer(
-                      flex: 5,
-                    ),
-                    Container(
-                      width: screenWidth(context) / 100 * 80,
-                      height: (screenHeight(context) / 100) * 8,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment(0, -1),
-                            end: Alignment(0, 0),
-                            colors: [Colors.lightBlue, Colors.lightBlueAccent]),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Alerts.showOptions(
-                                context,
-                                "Add an Image",
-                                "Please select an option",
-                                " Choose a picture ",
-                                " Take a picture ",
-                                pickImage,
-                                loadCamera);
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              shadowColor: Colors.transparent),
-                          child: Text(
-                            "Add an Image",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
+                              ),
+                            ),
+                            mediaPicker(
+                                context: context, userID: currentUser.uid),
+                          ],
                         ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: screenWidth(context) / 100 * 80,
-                      height: (screenHeight(context) / 100) * 8,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment(0, -1),
-                            end: Alignment(0, 0),
-                            colors: [Colors.lightBlue, Colors.lightBlueAccent]),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: ElevatedButton(
-                          onPressed: pickVideo,
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              shadowColor: Colors.transparent),
-                          child: Text(
-                            "Add a Video",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: screenWidth(context) / 100 * 80,
-                      height: (screenHeight(context) / 100) * 8,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment(0, -1),
-                            end: Alignment(0, 0),
-                            colors: [Colors.lightBlue, Colors.lightBlueAccent]),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              caption = "@";
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              shadowColor: Colors.transparent),
-                          child: Text(
-                            "Add a Text Post",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Spacer(
-                      flex: 5,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
+                      )
+                    ],
+                  )),
+            ),
+          );
         }
       },
     );

@@ -36,34 +36,35 @@ class _user_followingState extends State<user_following> {
   }
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     prt();
     getUsersFollowers();
-    print(followings);
     //handleFollowUser();
   }
-  isfollows(dynamic user_id) async {
 
-    var result = await UserService.isFollowing( uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
+  isfollows(dynamic user_id) async {
+    var result = await UserService.isFollowing(
+        uid: FirebaseAuth.instance.currentUser!.uid, followingUserID: user_id);
     setState(() {
       isFollowing = result;
     });
-
   }
+
   Future getUsersFollowers() async {
     var user =
-    await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
+        await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       followings = user;
     });
   }
-  Future updateFollowing() async{
-    List list = await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
+
+  Future updateFollowing() async {
+    List list =
+        await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       followings = list;
     });
-
   }
 
   Future prt() async {
@@ -72,13 +73,13 @@ class _user_followingState extends State<user_following> {
       _foundUsers = users;
       list_of_users = users;
     });
-
   }
+
   onSearch(String search) {
     setState(() {
-      _foundUsers =
-          list_of_users.where((element) => element.fullName.toLowerCase().contains(search))
-              .toList();
+      _foundUsers = list_of_users
+          .where((element) => element.fullName.toLowerCase().contains(search))
+          .toList();
     });
   }
 
@@ -87,6 +88,7 @@ class _user_followingState extends State<user_following> {
       _foundUsers.removeAt(whichUser);
     });
   }
+
   bool usershowing = false;
 
   @override
@@ -108,25 +110,26 @@ class _user_followingState extends State<user_following> {
               }),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title:  Center(child: Text('Followings',style: Styles.appBarTitleTextStyle,) ),
+          title: Text(
+            'Following',
+            style: Styles.appBarTitleTextStyle,
+          ),
+          centerTitle: true,
         ),
         body: FutureBuilder(
-          future: UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid),
-
-          builder: (context,snapshot){
-            if(!snapshot.hasData){
-              return const Center(child: CircularProgressIndicator());
+          future:
+              UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: Text("User doesn't follow anyone."));
             }
             return Container(
-
               color: const Color.fromARGB(255, 245, 245, 245),
-
               child: ListView.builder(
-                itemCount: (snapshot.data! as dynamic).length ,
+                itemCount: (snapshot.data! as dynamic).length,
                 itemBuilder: (ctx, index) {
-
-                  return
-                    userPart(aUser: (snapshot.data! as dynamic)[index],index: 0);
+                  return userPart(
+                      aUser: (snapshot.data! as dynamic)[index], index: 0);
                 },
               ),
             );
@@ -137,91 +140,104 @@ class _user_followingState extends State<user_following> {
   }
 
   userPart({required dynamic aUser, required int index}) {
-    return  InkWell(
+    return InkWell(
       splashColor: const Color(0xEEC60744),
-      onTap: (){
-        Navigator.push(context,MaterialPageRoute(
-            builder: (context) =>  ExploreUserProfile(userID: aUser)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExploreUserProfile(userID: aUser)));
       },
       child: FutureBuilder(
-        future: FirebaseFirestore.instance.collection('Users').where('userID',isEqualTo: aUser ).get(),
-        builder: (context,snapshot){
-          if(!snapshot.hasData){
-            return const Center(child: CircularProgressIndicator());
-          }
-          return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.only(top: 10, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(children: [
-                    SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: CircleAvatar(
-                            radius: 60,
-                            backgroundImage:
-                            CachedNetworkImageProvider((snapshot.data! as dynamic).docs[index]['profilePicture'] ),
+          future: FirebaseFirestore.instance
+              .collection('Users')
+              .where('userID', isEqualTo: aUser)
+              .get(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(children: [
+                      SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundImage: CachedNetworkImageProvider(
+                                  (snapshot.data! as dynamic).docs[index]
+                                      ['profilePicture']),
+                            ),
+                          )),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 15, 15, 15),
+                                  fontWeight: FontWeight.w700)),
+                          const SizedBox(
+                            height: 5,
                           ),
-                        )),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text((snapshot.data! as dynamic).docs[index]['username'] ,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 15, 15, 15),
-                                fontWeight: FontWeight.w700)),
-                        const SizedBox(
-                          height: 5,
+                          Text(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 90, 90, 90))),
+                        ],
+                      )
+                    ]),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          user_try_following(aUser);
+                        });
+                      },
+                      child: AnimatedContainer(
+                        height: 35,
+                        width: 110,
+                        duration: const Duration(milliseconds: 250),
+                        decoration: BoxDecoration(
+                            color: (followings.contains(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
+                            ))
+                                ? Colors.blue[700]
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(
+                                color: Colors.transparent,
+                                // if statement
+                                width: 1)),
+                        child: const Center(
+                          child: Text(
+                            'Remove',
+                            style: TextStyle(color: Colors.red),
+                          ),
                         ),
-                        Text((snapshot.data! as dynamic).docs[index]['username'] ,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 90, 90, 90))),
-                      ],
+                      ),
                     )
-                  ]),
-                  GestureDetector(
-                    onTap: () {
-                      setState(()  {
-                        user_try_following(aUser);
-                      });
-                    },
-                    child: AnimatedContainer(
-                      height: 35,
-                      width: 110,
-                      duration: const Duration(milliseconds: 250),
-                      decoration: BoxDecoration(
-                          color: (followings.contains((snapshot.data! as dynamic).docs[index]['username'] ,) )
-                              ? Colors.blue[700]
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
-                              color: Colors.transparent,
-                              // if statement
-                              width: 1)),
-                      child:  const Center(
-                        child:  Text(
-                          'Remove',
-                          style: TextStyle(
-                              color: Colors.red ),
-                        ),
-                      ) ,
-                    ),
-                  )
-                ],
-              ));
-        }
-
-      ),
+                  ],
+                ));
+          }),
     );
   }
 
   void user_try_following(dynamic aUser) async {
-    await UserService.followUser(FirebaseAuth.instance.currentUser!.uid,aUser,);
+    await UserService.followUser(
+      FirebaseAuth.instance.currentUser!.uid,
+      aUser,
+    );
     await updateFollowing();
   }
 

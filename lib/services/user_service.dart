@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/notification.dart';
-import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
 class UserService {
-  static void addPost(MyUser user, Post p) {
-    user.posts.add(p);
-  }
-
   static void setPrivate(MyUser user, bool val, String userID) {
     final CollectionReference usersRef =
         FirebaseFirestore.instance.collection("Users");
@@ -40,11 +35,6 @@ class UserService {
       "phone": "",
       "profilePicture":
           "https://firebasestorage.googleapis.com/v0/b/cs310-group-28.appspot.com/o/blank_pfp.png?alt=media&token=5d0aef19-82e7-4519-b545-7360e8b1a249",
-      "posts": [],
-      "favorites": [],
-      "comments": [],
-      "following": [],
-      "followers": [],
       "notifications": []
     });
   }
@@ -61,8 +51,6 @@ class UserService {
 
       if (followers.contains(followingUserID)) {
         return true;
-      } else {
-        return false;
       }
     } catch (e) {
       print(e.toString());
@@ -72,97 +60,71 @@ class UserService {
 
   static Future<void> followUser(
     String uid,
-    String followinguserid,
+    String uidToFollow,
   ) async {
-    followinguserid = followinguserid.replaceAll(' ', '');
-    if (uid != followinguserid) {
+    uidToFollow = uidToFollow.replaceAll(' ', '');
+    if (uid != uidToFollow) {
       try {
-        DocumentSnapshot ds =
-            await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-        List following = (ds.data()! as dynamic)['following'];
-
-        if (following.contains(followinguserid)) {
+        var ref = await FirebaseFirestore.instance
+            .collection('UserFollowsUser')
+            .doc("$uid-$uidToFollow")
+            .get();
+        if (!ref.exists) {
           await FirebaseFirestore.instance
-              .collection('Users')
-              .doc(followinguserid)
-              .update({
-            'followers': FieldValue.arrayRemove([uid])
-          });
-          await FirebaseFirestore.instance.collection('Users').doc(uid).update({
-            'following': FieldValue.arrayRemove([followinguserid])
-          });
-        } else {
-          if ((ds.data() as dynamic)['private'] == 'true') {
-            UserService.sendNotifications(uid, followinguserid, "follow");
-          } else {
-            await FirebaseFirestore.instance
-                .collection('Users')
-                .doc(followinguserid)
-                .update({
-              'followers': FieldValue.arrayUnion([uid])
-            });
-            await FirebaseFirestore.instance
-                .collection('Users')
-                .doc(uid)
-                .update({
-              'following': FieldValue.arrayUnion([followinguserid])
-            });
-          }
+              .collection('UserFollowsUser')
+              .doc("$uid-$uidToFollow")
+              .set({"follower": uid, "followedUser": uidToFollow});
         }
       } catch (e) {
-        print(e.toString());
+        print(e);
       }
     }
   }
 
   static getFollowings(String userID) async {
-    var ref =
-        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
-    var data = ref.data() as Map<String, dynamic>;
-    var uname = data["following"];
-    return uname;
+    var data = await FirebaseFirestore.instance
+        .collection('UserFollowsUser')
+        .where("follower", isEqualTo: userID)
+        .get();
+    List<MyUser> users = <MyUser>[];
+    for (int i = 0; i < data.docs.length; i++) {
+      var currentUser = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(data.docs[i].data()["userID"])
+          .get();
+      if (currentUser.exists) {
+        users.add(MyUser.fromFirestore(currentUser, null));
+      }
+    }
+    return users;
   }
 
   static getFollowers(String userID) async {
-    var ref =
-        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
-    var data = ref.data() as Map<String, dynamic>;
-    var uname = data["followers"];
-    return uname;
+    var data = await FirebaseFirestore.instance
+        .collection('UserFollowsUser')
+        .where("followedUser", isEqualTo: userID)
+        .get();
+    List<MyUser> users = <MyUser>[];
+    for (int i = 0; i < data.docs.length; i++) {
+      var currentUser = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(data.docs[i].data()["userID"])
+          .get();
+      if (currentUser.exists) {
+        users.add(MyUser.fromFirestore(currentUser, null));
+      }
+    }
+    return users;
   }
 
   static getAllUsers() async {
     List<MyUser> myList = [];
     var documentSnapshot =
         await FirebaseFirestore.instance.collection("Users").get();
-    var allUsers = documentSnapshot.docs.map((doc) => doc.data()).toList();
+    var allUsers = documentSnapshot.docs.map((doc) => doc).toList();
     int userCount = await usersLength();
     for (int i = 0; i < userCount; i++) {
-      MyUser users = MyUser(
-        userID: allUsers[i]["userID"],
-        username: allUsers[i]['username'],
-        fullName: allUsers[i]['fullName'],
-        email: allUsers[i]['email'],
-        bio: allUsers[i]['bio'] ?? "",
-        phone: allUsers[i]['phone'] ?? "",
-        profilePicture: allUsers[i]["profilePicture"] ?? "",
-        private: allUsers[i]['private'],
-        comments: allUsers[i]['comments'] is Iterable
-            ? List.from(allUsers[i]['comments'])
-            : [],
-        posts: allUsers[i]['posts'] is Iterable
-            ? List.from(allUsers[i]['posts'])
-            : [],
-        following: allUsers[i]['following'] is Iterable
-            ? List.from(allUsers[i]['following'])
-            : [],
-        followers: allUsers[i]['followers'] is Iterable
-            ? List.from(allUsers[i]['followers'])
-            : [],
-        favorites: allUsers[i]['favorites'] is Iterable
-            ? List.from(allUsers[i]['favorites'])
-            : [],
-      );
+      MyUser users = MyUser.fromFirestore(allUsers[i], null);
       myList.add(users);
     }
     return myList;
@@ -177,12 +139,11 @@ class UserService {
 
   static returnRef() => FirebaseFirestore.instance.collection("Users");
 
-  static getUsername(String userID) async {
+  static Future<MyUser> getUser(String userID) async {
     var ref =
         await FirebaseFirestore.instance.collection('Users').doc(userID).get();
-    var data = ref.data() as Map<String, dynamic>;
-    var uname = data["username"];
-    return uname;
+    MyUser user = MyUser.fromFirestore(ref, null);
+    return user;
   }
 
   static editBio(String userID, String newBio) async {
@@ -259,15 +220,32 @@ class UserService {
     });
   }
 
-  static remove_from_followers(String uid, aUser) async {
-    try {
-      DocumentSnapshot ds =
-          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-      List following = (ds.data()! as dynamic)['followers'];
+  static unFollow(String uid, String uidToUnfollow) async {
+    uidToUnfollow = uidToUnfollow.replaceAll(' ', '');
+    if (uid != uidToUnfollow) {
+      try {
+        var ref = await FirebaseFirestore.instance
+            .collection('UserFollowsUser')
+            .doc("$uid-$uidToUnfollow")
+            .get();
+        if (ref.exists) {
+          await FirebaseFirestore.instance
+              .collection('UserFollowsUser')
+              .doc("$uid-$uidToUnfollow")
+              .delete();
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 
-      await FirebaseFirestore.instance.collection('Users').doc(uid).update({
-        'followers': FieldValue.arrayRemove([aUser])
-      });
+  static setInterests(String uid, List<String> interests) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(uid)
+          .update({"interests": interests});
     } catch (e) {
       print(e.toString());
     }

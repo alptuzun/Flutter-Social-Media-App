@@ -56,7 +56,7 @@ class _EditPostState extends State<EditPost> {
               borderRadius:
                   BorderRadius.circular(screenHeight(context) * 0.017),
               child: CachedNetworkImage(
-                imageUrl: widget.editedPost.postURL,
+                imageUrl: widget.editedPost.mediaURL!,
                 width: screenWidth(context) * 0.95,
                 height: screenHeight(context) * 0.35,
                 fit: BoxFit.cover,
@@ -101,7 +101,7 @@ class _EditPostState extends State<EditPost> {
                 child: ElevatedButton(
                   onPressed: () async {
                     await PostService.editPost(
-                        user!.uid, widget.editedPost.postID, newCaption);
+                        user!.uid, widget.editedPost.postID!, newCaption);
                     if (!mounted) {
                       return;
                     }

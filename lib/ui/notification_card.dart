@@ -14,12 +14,13 @@ class NotificationCard extends StatefulWidget {
 }
 
 class _NotificationCardState extends State<NotificationCard> {
-  String username = '';
+  String _username = '';
 
   Future getUsername() async {
-    final name = await UserService.getUsername(widget.notification.userID);
+    final user = await UserService.getUser(widget.notification.userID);
+    final username = user.username;
     setState(() {
-      username = name;
+      _username = username;
     });
   }
 
@@ -41,7 +42,7 @@ class _NotificationCardState extends State<NotificationCard> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "$username followed you.",
+                "$_username followed you.",
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -66,7 +67,7 @@ class _NotificationCardState extends State<NotificationCard> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "$username liked your post.",
+                "$_username liked your post.",
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -91,7 +92,7 @@ class _NotificationCardState extends State<NotificationCard> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "$username commented to your post.",
+                "$_username commented to your post.",
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -116,7 +117,7 @@ class _NotificationCardState extends State<NotificationCard> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "$username disliked your post.",
+                "$_username disliked your post.",
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -141,7 +142,7 @@ class _NotificationCardState extends State<NotificationCard> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "$username sent a follow request.",
+                "$_username sent a follow request.",
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,

@@ -29,6 +29,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
   String username = "";
   MyUser currentUser =
       MyUser(username: "", fullName: "", email: "", userID: "");
+  late List<Post> _posts;
 
   getUserInfo() async {
     final ref = FirebaseFirestore.instance
@@ -43,9 +44,16 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
   }
 
   Future getUser() async {
-    var user = await UserService.getUsername(widget.userID);
+    var user = await UserService.getUser(widget.userID);
     setState(() {
-      username = user;
+      username = user.username;
+    });
+  }
+
+  Future<void> getPosts() async {
+    List<Post> posts = await currentUser.posts;
+    setState(() {
+      _posts = posts;
     });
   }
 
@@ -81,6 +89,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
   void initState() {
     getUser();
     getUserInfo();
+    getPosts();
     super.initState();
   }
 
@@ -97,47 +106,40 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
       ),
     );
   }
-  Container priv( BuildContext context) {
+
+  Container priv(BuildContext context) {
     return Container(
       color: Colors.grey,
       width: screenWidth(context),
       child: SizedBox(
         height: screenHeight(context) * 0.65,
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Icon(Icons.cancel, color: Colors.black38, size: 60),
-          Text("This user's account is private"),
-        ]),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Icon(Icons.cancel, color: Colors.black38, size: 60),
+              Text("This user's account is private"),
+            ]),
       ),
     );
   }
+
   Widget posts(MyUser currentUser, BuildContext context) {
-    if(currentUser.private == true  ){
-
+    if (currentUser.private == true) {
       return priv(context);
-    }
-    else{
-
-
-    if (currentUser.posts.isNotEmpty) {
-
-      List<Post> allPosts = [];
-      for (int x = 0; x < currentUser.posts.length; x++) {
-        Post newPost = Post.fromJson(currentUser.posts[x]);
-        allPosts.add(newPost);
+    } else {
+      if (_posts.isNotEmpty) {
+        return Column(
+            children: _posts.reversed
+                .map((post) => PostCard(
+                    isOwner: false,
+                    userID: post.userID,
+                    realPost: post,
+                    likes: () {},
+                    dislikes: () {}))
+                .toList());
       }
-      allPosts = List.from(allPosts.reversed);
-      return Column(
-          children: allPosts
-              .map((post) => PostCard(
-                  isOwner: false,
-                  userID: post.userID,
-                  realPost: post,
-                  comment: () {},
-                  likes: () {},
-                  dislikes: () {}))
-              .toList());
+      return notFound("posts", context);
     }
-    return notFound("posts", context); }
   }
 
   @override
@@ -231,15 +233,11 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                                       children: [
                                         const Spacer(),
                                         infoColumnFollows(
-                                            currentUser.posts.length, "Posts"),
+                                            _posts.length, "Posts"),
                                         const Spacer(),
-                                        infoColumnFollows(
-                                            currentUser.followers.length,
-                                            "Followers"),
+                                        infoColumnFollows(0, "Followers"),
                                         const Spacer(),
-                                        infoColumnFollows(
-                                            currentUser.following.length,
-                                            "Following"),
+                                        infoColumnFollows(0, "Following"),
                                         const Spacer(),
                                       ],
                                     ),
@@ -262,47 +260,76 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                                       style: Styles.appMainTextStyle,
                                     )),
                               if (currentUser.bio.isNotEmpty)
-                                SizedBox(height: 5,),
-
+                                const SizedBox(
+                                  height: 5,
+                                ),
                               Center(
                                 child: FutureBuilder(
-                                  future: FirebaseFirestore.instance.collection('Users').where('userID',isEqualTo:FirebaseAuth.instance.currentUser!.uid ).get(),
-                                  builder: (context,snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return const Center(
-                                          child: CircularProgressIndicator());
-                                    }
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(()  {
-                                          user_try_following(currentUser.userID);
-                                        });
-                                      },
-                                      child: AnimatedContainer(
+                                    future: FirebaseFirestore.instance
+                                        .collection('Users')
+                                        .where('userID',
+                                            isEqualTo: FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                        .get(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            user_try_following(
+                                                currentUser.userID);
+                                          });
+                                        },
+                                        child: AnimatedContainer(
                                           height: 35,
                                           width: 110,
-                                          duration: const Duration(milliseconds: 250),
+                                          duration:
+                                              const Duration(milliseconds: 250),
                                           decoration: BoxDecoration(
-                                              color: ( (snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID,) )
-                                              ? Colors.blue[700]
-                                              : Colors.transparent,
-                                          borderRadius: BorderRadius.circular(7),
-                                          border: Border.all(
-                                              color: ((snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID))
-                                                  ? Colors.transparent
-                                                  : Colors.grey.shade700, // if statement
-                                              width: 1)),
-                                      child:  Center(
-                                        child:  Text(
-                                          (snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID) ? "Unfollow" : "Follow",
-                                          style: TextStyle(
-                                              color: (snapshot.data! as dynamic).docs[0]['following'].contains(currentUser.userID) ? Colors.white : Colors.blue),
+                                              color:
+                                                  ((snapshot.data! as dynamic)
+                                                          .docs[0]['following']
+                                                          .contains(
+                                                            currentUser.userID,
+                                                          ))
+                                                      ? Colors.blue[700]
+                                                      : Colors.transparent,
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              border: Border.all(
+                                                  color: ((snapshot.data!
+                                                              as dynamic)
+                                                          .docs[0]['following']
+                                                          .contains(currentUser
+                                                              .userID))
+                                                      ? Colors.transparent
+                                                      : Colors.grey
+                                                          .shade700, // if statement
+                                                  width: 1)),
+                                          child: Center(
+                                            child: Text(
+                                              (snapshot.data! as dynamic)
+                                                      .docs[0]['following']
+                                                      .contains(
+                                                          currentUser.userID)
+                                                  ? "Unfollow"
+                                                  : "Follow",
+                                              style: TextStyle(
+                                                  color: (snapshot.data!
+                                                              as dynamic)
+                                                          .docs[0]['following']
+                                                          .contains(currentUser
+                                                              .userID)
+                                                      ? Colors.white
+                                                      : Colors.blue),
+                                            ),
+                                          ),
                                         ),
-                                      ) ,
-                                    ),
-                                    );
-
-                                  }),
+                                      );
+                                    }),
                               )
                             ]),
                       ),
@@ -327,13 +354,13 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                                "Posts",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                                textAlign: TextAlign.center,
-                              ),
+                              "Posts",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ],
@@ -346,9 +373,11 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
           },
         ));
   }
-  void user_try_following(dynamic aUser) async{
-    await UserService.followUser(FirebaseAuth.instance.currentUser!.uid,aUser,);
 
+  void user_try_following(dynamic aUser) async {
+    await UserService.followUser(
+      FirebaseAuth.instance.currentUser!.uid,
+      aUser,
+    );
   }
-
 }

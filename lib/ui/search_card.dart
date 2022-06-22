@@ -30,7 +30,7 @@ class SearchCard extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Image(
-                          image: AssetImage(post.imageName.toString()),
+                          image: AssetImage(""),
                           alignment: Alignment.center,
                           isAntiAlias: true,
                           fit: BoxFit.contain,
@@ -63,7 +63,7 @@ class SearchCard extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Image(
-                          image: AssetImage(post.imageName.toString()),
+                          image: AssetImage(""),
                           alignment: Alignment.center,
                           isAntiAlias: true,
                           fit: BoxFit.contain,

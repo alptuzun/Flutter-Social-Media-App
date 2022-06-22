@@ -1,19 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/services/user_service.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'comment.g.dart';
 
 @JsonSerializable()
 class Comment {
+  String? commentID;
   String userID;
-  String content;
+  String postID;
+  String comment;
   DateTime time;
 
-  Comment({
-    required this.time,
-    required this.userID,
-    required this.content,
-  });
+  Comment(
+      {required this.userID,
+      required this.postID,
+      required this.comment,
+      required this.time,
+      this.commentID});
 
   factory Comment.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -21,22 +26,28 @@ class Comment {
   ) {
     final data = snapshot.data();
     return Comment(
-      userID: data?["userID"],
-      content: data?['content'],
-      time: DateTime.parse(data?['time'] as String),
-    );
+        userID: data?["userID"],
+        postID: data?["postID"],
+        time: DateTime.parse(data?['time'] as String),
+        comment: data?["comment"],
+        commentID: snapshot.reference.id);
   }
 
   Map<String, dynamic> toFirestore() {
     return {
       "userID": userID,
-      "content": content,
+      "postID": postID,
+      "comment": comment,
       "time": time.toIso8601String(),
     };
   }
 
-  factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
+  factory Comment.fromJson(Map<String, dynamic> json) =>
+      _$CommentFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommentToJson(this);
 
+  Future<MyUser> get user async {
+    return await UserService.getUser(userID);
+  }
 }

@@ -14,6 +14,10 @@ import 'package:cs310_group_28/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cs310_group_28/services/shared_preferences.dart';
 
+import '../visuals/styled_button.dart';
+import '../visuals/styled_password_field.dart';
+import '../visuals/styled_text_field.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -102,235 +106,77 @@ class _LoginState extends State<Login> {
               height: screenHeight(context, dividedBy: 2.75),
             ),
             SizedBox(
-              height: (screenHeight(context) / 100) * 16,
+              height: (screenHeight(context, dividedBy: 20)),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 30),
+              child: InputChip(
+                label: const Text("Sign in with Google"),
+                labelStyle: const TextStyle(fontSize: 16),
+                avatar: const CircleAvatar(
+                    backgroundImage:
+                        AssetImage("assets/images/google_icon.png")),
+                onPressed: () async {
+                  await loginWithGoogle();
+                },
+                elevation: 3,
+                backgroundColor: Colors.white70,
+                padding: const EdgeInsets.all(10),
+              ),
             ),
             Form(
               key: _formKey,
               child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    margin: EdgeInsets.zero,
-                    width: screenWidth(context, dividedBy: 1.1),
-                    height: screenHeight(context, dividedBy: 9.5),
-                    child: Material(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(30),
-                      child: TextFormField(
-                        onFieldSubmitted: (value) async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            await loginUser();
-                          } else {
-                            if (value == "") {
-                              Alerts.showAlert(context, 'Login Error',
-                                  'Please enter your email');
-                            } else {
-                              Alerts.showAlert(context, 'Login Error',
-                                  'Your credentials are invalid');
-                            }
-                          }
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          label: SizedBox(
-                            height: (screenHeight(context) / 100) * 4,
-                            width: screenWidth(context, dividedBy: 1.1),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.email),
-                                SizedBox(
-                                  width: screenWidth(context, dividedBy: 50),
-                                ),
-                                Text(
-                                  'Login with username or email',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelStyle: Styles.appBarTitleTextStyle,
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value != null) {
-                            if (value.isEmpty) {
-                              return 'Cannot leave email or username empty';
-                            } else if (!EmailValidator.validate(value)) {
-                              return 'Please enter a valid email address';
-                            }
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          email = value ?? '';
-                        },
-                      ),
-                    ),
+                  StyledTextField(
+                    inputType: TextInputType.emailAddress,
+                    icon: Icons.email,
+                    placeholder: "Email Address",
+                    validator: (value) {
+                      if (value != null) {
+                        if (value.isEmpty) {
+                          return 'Cannot leave email or username empty';
+                        } else if (!EmailValidator.validate(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    margin: EdgeInsets.zero,
-                    width: screenWidth(context, dividedBy: 1.1),
-                    height: screenHeight(context, dividedBy: 9.5),
-                    child: Material(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(30),
-                      shadowColor: Colors.black45,
-                      child: TextFormField(
-                        onFieldSubmitted: (value) async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            await loginUser();
-                          } else {
-                            if (value == "") {
-                              Alerts.showAlert(context, 'Login Error',
-                                  'Please enter your password');
-                            } else {
-                              Alerts.showAlert(context, 'Login Error',
-                                  'Your credentials are invalid');
-                            }
-                          }
-                        },
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        enableInteractiveSelection: false,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          label: SizedBox(
-                            height: (screenHeight(context) / 100) * 4,
-                            width: screenWidth(context, dividedBy: 1.1),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.password),
-                                SizedBox(
-                                  width: screenWidth(context, dividedBy: 50),
-                                ),
-                                Text(
-                                  'Password',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(fontSize: 13),
-                                ),
-                              ],
-                            ),
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelStyle: Styles.appBarTitleTextStyle,
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value != null) {
-                            if (value.isEmpty) {
-                              return 'Cannot leave password empty';
-                            }
-                            if (value.length < 6) {
-                              return 'Password too short';
-                            }
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          pass = value ?? '';
-                        },
-                      ),
-                    ),
-                  ),
+                  StyledPasswordField(onChanged: (value) {
+                    setState(() {
+                      pass = value;
+                    });
+                  }, validator: (value) {
+                    if (value != null) {
+                      if (value.isEmpty) {
+                        return 'Cannot leave password empty';
+                      }
+                      if (value.length < 6) {
+                        return 'Password too short';
+                      }
+                    }
+                    return null;
+                  }),
                   SizedBox(
                     height: (screenHeight(context) / 110),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: (screenWidth(context) / 100) * 45,
-                        height: (screenHeight(context) / 100) * 5.5,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                              begin: Alignment(0, -1),
-                              end: Alignment(0, 0),
-                              colors: [
-                                Colors.lightBlue,
-                                Colors.lightBlueAccent
-                              ]),
-                          borderRadius: BorderRadius.circular(35),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(20),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                await loginUser();
-                              } else {
-                                Alerts.showAlert(context, 'Login Error',
-                                    'Your credentials are invalid');
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            child: Text(
-                              "Log In",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: (screenWidth(context) / 100) * 45,
-                        height: (screenHeight(context) / 100) * 5.5,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black45),
-                          borderRadius: BorderRadius.circular(35),
-                        ),
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await loginWithGoogle();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SizedBox(
-                                  child: Image.asset(
-                                      "assets/images/google_icon.png"),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  StyledButton(
+                    label: "login",
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        await loginUser();
+                      } else {
+                        Alerts.showAlert(context, 'Login Error',
+                            'Your credentials are invalid');
+                      }
+                    },
                   ),
                 ],
               ),

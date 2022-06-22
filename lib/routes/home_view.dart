@@ -9,6 +9,9 @@ import 'package:cs310_group_28/ui/postcard.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +27,18 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  List<Post> posts = <Post>[];
+
+  Future<Map<String, dynamic>> getData(String userID) async {
+    Map<String, dynamic> data = {};
+    var userInfo =
+        await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+    data["user"] =
+        MyUser.fromJson((userInfo.data() ?? Map<String, dynamic>.identity()));
+    data["followers"] = await data["user"].followers;
+    data["following"] = await data["user"].following;
+    return data;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +78,10 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       backgroundColor: const Color(0xCBFFFFFF),
-      body: FutureBuilder<DocumentSnapshot>(
-        future:
-            FirebaseFirestore.instance.collection('Users').doc(user!.uid).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: getData(user!.uid),
+        builder: (BuildContext context,
+            AsyncSnapshot<Map<String, dynamic>> snapshot) {
           if (snapshot.hasError) {
             return Center(
               child: Column(
@@ -84,59 +98,70 @@ class _HomeViewState extends State<HomeView> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData &&
               snapshot.data != null &&
-              snapshot.data!.data() != null) {
-            MyUser currentUser = MyUser.fromJson((snapshot.data!.data() ??
-                Map<String, dynamic>.identity()) as Map<String, dynamic>);
-            return StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('Users')
-                  .snapshots()
-                  .asBroadcastStream(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> querySnapshot) {
-                if (!querySnapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                } else {
-                  List<dynamic> postsList = querySnapshot.data!.docs
-                      .map((data) => (data["posts"]))
-                      .toList();
+              snapshot.data != null) {
+            return StreamBuilder<List<Post>>(
+                stream: FirebaseFirestore.instance
+                    .collection('Posts')
+                    .snapshots()
+                    .map((event) => List<Post>.from(
+                        event.docs.map((doc) => Post.fromFirestore(doc, null))))
+                    .asBroadcastStream(),
+                builder: (BuildContext context, s) {
+                  if (!s.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    for (var currentPost in s.data!) {
+                      if (!posts
+                              .map((p) => p.postID)
+                              .contains(currentPost.postID) &&
+                          (snapshot.data!["following"]
+                                  .contains(currentPost.userID) ||
+                              currentPost.userID == user.uid)) {
+                        posts.add(currentPost);
+                        posts.sort((p1, p2) {
+                          int valP1 = 0;
+                          int valP2 = 0;
+                          snapshot.data!["user"].interests.forEach((interest) {
+                            if (p1.tags.contains(interest)) valP1 += 1;
 
-                  List<dynamic> followingPosts = [];
-                  for (int j = 0; j < postsList.length; j++) {
-                    for (int k = 0; k < postsList[j].length; k++) {
-                      followingPosts += [postsList[j][k]];
+                            if (p2.tags.contains(interest)) valP2 += 1;
+                          });
+                          if (snapshot.data!["followers"].contains(p1.userID)) {
+                            valP1 += 1;
+                          }
+                          if (snapshot.data!["followers"].contains(p2.userID)) {
+                            valP2 += 1;
+                          }
+                          if (p1.mediaURL != null) valP1++;
+                          if (p2.mediaURL != null) valP2++;
+                          return valP1.compareTo(valP2);
+                        });
+                      }
                     }
-                  }
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: List.from(
-                        followingPosts
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: List.from(posts
                             .map((post) => PostCard(
-                                  realPost: Post.fromJson(post),
-                                  jsonPost: post,
-                                  isOwner: post["userID"] == currentUser.userID,
+                                  realPost: post,
+                                  isOwner: post.userID ==
+                                      snapshot.data!["user"].userID,
                                   userID: user.uid,
-                                  comment: () {},
                                   likes: () {
-                                    PostService.likePost(user.uid,
-                                        post["userID"], post["postID"]);
-
+                                    PostService.likePost(
+                                        user.uid, post.postID!);
                                   },
                                   dislikes: () {
-                                    PostService.dislikePost(user.uid,
-                                        post["userID"], post["postID"]);
+                                    PostService.dislikePost(
+                                        user.uid, post.postID!);
                                   },
                                 ))
-                            .toList()
-                            .reversed,
+                            .toList()),
                       ),
-                    ),
-                  );
-                }
-              },
-            );
+                    );
+                  }
+                });
           }
           return const Center(child: CircularProgressIndicator());
         },
