@@ -27,6 +27,7 @@ import 'package:provider/provider.dart';
 
 class UserProfile extends StatefulWidget {
   final bool currentUserProfile;
+
   const UserProfile({Key? key, this.currentUserProfile = true})
       : super(key: key);
 
@@ -44,6 +45,7 @@ class _UserProfileState extends State<UserProfile> {
   bool photoOP = false;
   ImagePicker picker = ImagePicker();
   File? image;
+
   Future<void> pickImage() async {
     try {
       XFile? galleryImage = await picker.pickImage(source: ImageSource.gallery);

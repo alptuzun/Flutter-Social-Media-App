@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/comment.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/services/user_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class PostService {

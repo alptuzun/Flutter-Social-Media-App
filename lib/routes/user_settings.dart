@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cs310_group_28/routes/welcome.dart';
 import 'package:cs310_group_28/services/auth.dart';
+import 'package:cs310_group_28/services/shared_preferences.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:email_validator/email_validator.dart';
@@ -372,6 +373,7 @@ class _UserSettingsState extends State<UserSettings> {
                         if (!mounted) {
                           return;
                         }
+                        MySharedPreferences.instance.setBooleanValue("loggedIn", false);
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => Welcome()),

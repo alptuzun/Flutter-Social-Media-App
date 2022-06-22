@@ -159,7 +159,7 @@ class _NotificationCardState extends State<NotificationCard> {
                     UserService.followUser(
                         user!.uid, widget.notification.userID);
                   },
-                  child: Text("Accept Request"))
+                  child: const Text("Accept Request"))
             ],
           ),
         ),

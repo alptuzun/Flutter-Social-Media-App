@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
 import 'package:cs310_group_28/services/camera.dart';
 import 'package:cs310_group_28/services/post_service.dart';
 import 'package:cs310_group_28/services/user_service.dart';
-import 'package:cs310_group_28/visuals/alerts.dart';
 import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -15,7 +13,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class AddPost extends StatefulWidget {

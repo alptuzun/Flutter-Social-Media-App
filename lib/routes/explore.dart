@@ -6,15 +6,11 @@ import 'package:cs310_group_28/models/post.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cs310_group_28/functions/custome_explorebar.dart';
 import 'package:provider/provider.dart';
-
-import '../models/user.dart';
-import '../services/post_service.dart';
-import '../ui/postcard.dart';
-import '../visuals/text_style.dart';
+import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/visuals/text_style.dart';
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
-
   static const routeName = '/explore';
 
   @override
@@ -43,15 +39,17 @@ class _ExploreState extends State<Explore> {
         builder: (BuildContext context,
             AsyncSnapshot<Map<String, dynamic>> snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Column(
-                children: [
-                  const CircularProgressIndicator(),
-                  Text(
-                    "Oops, Something went very wrong right now",
-                    style: Styles.appMainTextStyle,
-                  ),
-                ],
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  children: [
+                    const CircularProgressIndicator(),
+                    Text(
+                      "Oops, Something went very wrong right now",
+                      style: Styles.appMainTextStyle,
+                    ),
+                  ],
+                ),
               ),
             );
           }
@@ -68,7 +66,7 @@ class _ExploreState extends State<Explore> {
                   .asBroadcastStream(),
               builder: (BuildContext context, s) {
                 if (!s.hasData) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Scaffold(body: Center(child: CircularProgressIndicator()));
                 } else {
                   for (var currentPost in s.data!) {
                     if (!posts
@@ -96,38 +94,40 @@ class _ExploreState extends State<Explore> {
                       });
                     }
                   }
-                  return Container(
-                    color: Colors.white,
-                    child: SafeArea(
-                        child: CustomScrollView(
-                      slivers: [
-                        const CustomExploreAppBar(),
-                        SliverStaggeredGrid.countBuilder(
-                            mainAxisSpacing: 1,
-                            crossAxisSpacing: 1,
-                            crossAxisCount: 3,
-                            staggeredTileBuilder: (int index) {
-                              int moddedIndex = index % 20;
-                              int cXCellcount = moddedIndex == 11 ? 2 : 1;
-                              double mXCellCount = 1;
-                              if (moddedIndex == 2 || moddedIndex == 11) {
-                                mXCellCount = 2;
-                              }
-                              return StaggeredTile.count(
-                                  cXCellcount, mXCellCount);
-                            },
-                            itemBuilder: (BuildContext context, int index) {
-                              return ExploreTiles(post: posts[index]);
-                            },
-                            itemCount: posts.length)
-                      ],
-                    )),
+                  return Scaffold(
+                    body: Container(
+                      color: Colors.white,
+                      child: SafeArea(
+                          child: CustomScrollView(
+                        slivers: [
+                          const CustomExploreAppBar(),
+                          SliverStaggeredGrid.countBuilder(
+                              mainAxisSpacing: 1,
+                              crossAxisSpacing: 1,
+                              crossAxisCount: 3,
+                              staggeredTileBuilder: (int index) {
+                                int moddedIndex = index % 20;
+                                int cXCellcount = moddedIndex == 11 ? 2 : 1;
+                                double mXCellCount = 1;
+                                if (moddedIndex == 2 || moddedIndex == 11) {
+                                  mXCellCount = 2;
+                                }
+                                return StaggeredTile.count(
+                                    cXCellcount, mXCellCount);
+                              },
+                              itemBuilder: (BuildContext context, int index) {
+                                return ExploreTiles(post: posts[index]);
+                              },
+                              itemCount: posts.length)
+                        ],
+                      )),
+                    ),
                   );
                 }
               },
             );
           }
-          return const Center(child: CircularProgressIndicator());
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         });
   }
 }

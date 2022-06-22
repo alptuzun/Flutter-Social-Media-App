@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -82,7 +80,7 @@ class AuthService {
           'Facebook token userID : ${result.accessToken!.grantedPermissions}');
       final graphResponse = await http.get(Uri.parse(
           'https://graph.facebook.com/'
-          'v2.12/me?fields=name,first_name,last_name,email&access_token=${token}'));
+          'v2.12/me?fields=name,first_name,last_name,email&access_token=$token'));
 
       final profile = jsonDecode(graphResponse.body);
       print("Profile is equal to $profile");

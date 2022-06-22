@@ -29,7 +29,7 @@ class SearchCard extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image(
+                        child: const Image(
                           image: AssetImage(""),
                           alignment: Alignment.center,
                           isAntiAlias: true,
@@ -62,7 +62,7 @@ class SearchCard extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image(
+                        child: const Image(
                           image: AssetImage(""),
                           alignment: Alignment.center,
                           isAntiAlias: true,
