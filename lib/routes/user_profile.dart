@@ -145,7 +145,7 @@ class _UserProfileState extends State<UserProfile> {
           children: posts
               .map((post) => PostCard(
                   isOwner: true,
-                  userID: post.userID,
+                  userID: FirebaseAuth.instance.currentUser!.uid,
                   realPost: post,
                   likes: () {
                     PostService.likePost(currentUser.userID, post.postID!);

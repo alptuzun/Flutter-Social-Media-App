@@ -141,13 +141,15 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
             children: posts.reversed
                 .map((post) => PostCard(
                     isOwner: false,
-                    userID: post.userID,
+                    userID: FirebaseAuth.instance.currentUser!.uid,
                     realPost: post,
                     likes: () {
-                      PostService.likePost(currentUser.userID, post.postID!);
+                      PostService.likePost(
+                          FirebaseAuth.instance.currentUser!.uid, post.postID!);
                     },
                     dislikes: () {
-                      PostService.dislikePost(currentUser.userID, post.postID!);
+                      PostService.dislikePost(
+                          FirebaseAuth.instance.currentUser!.uid, post.postID!);
                     }))
                 .toList());
       }
@@ -155,9 +157,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
     }
   }
 
-
-  Widget content(
-      MyUser currentUser, List<Post> userPosts) {
+  Widget content(MyUser currentUser, List<Post> userPosts) {
     List<Widget> choices = [
       posts(currentUser, context, userPosts),
     ];
@@ -181,7 +181,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
               fontSize: 18,
               color: Colors.black,
               fontWeight:
-              currentSection == label ? FontWeight.w600 : FontWeight.w400),
+                  currentSection == label ? FontWeight.w600 : FontWeight.w400),
           textAlign: TextAlign.center,
         ),
       ),
@@ -209,224 +209,212 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
             );
           }
           return Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-                  splashRadius: 27,
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 34,
-                  ),
-                  color: AppColors.titleColor,
-                  onPressed: () {
-                    Navigator.pop(context); // pop the context
-                  }),
-              elevation: 0,
-              backgroundColor: Colors.white,
-              centerTitle: true,
-              title: Text(
-                snapshot.data["currentUser"].username ?? "",
-                style: Styles.appBarTitleTextStyle,
+              appBar: AppBar(
+                leading: IconButton(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                    splashRadius: 27,
+                    icon: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      size: 34,
+                    ),
+                    color: AppColors.titleColor,
+                    onPressed: () {
+                      Navigator.pop(context); // pop the context
+                    }),
+                elevation: 0,
+                backgroundColor: Colors.white,
+                centerTitle: true,
+                title: Text(
+                  snapshot.data["currentUser"].username ?? "",
+                  style: Styles.appBarTitleTextStyle,
+                ),
               ),
-            ),
-            backgroundColor: const Color(0xCBFFFFFF),
-            body: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("Users")
-                  .snapshots()
-                  .asBroadcastStream(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> querySnapshot) {
-                if (!querySnapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                } else {
-                  return SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.4)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 10),
-                                        child: InkWell(
-                                          onTap: () => showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                AlertDialog(
-                                                  contentPadding:
-                                                  EdgeInsets.zero,
-                                                  elevation: 0,
-                                                  backgroundColor:
-                                                  Colors.transparent,
-                                                  content: CircleAvatar(
-                                                    radius: screenWidth(
-                                                        context) /
-                                                        3,
-                                                    backgroundImage:
-                                                    CachedNetworkImageProvider(snapshot
-                                                        .data[
-                                                    "currentUser"]
-                                                        .profilePicture),
-                                                  ),
+              backgroundColor: const Color(0xCBFFFFFF),
+              body: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Users")
+                    .snapshots()
+                    .asBroadcastStream(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                  if (!querySnapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.4)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: InkWell(
+                                            onTap: () => showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                contentPadding: EdgeInsets.zero,
+                                                elevation: 0,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                content: CircleAvatar(
+                                                  radius:
+                                                      screenWidth(context) / 3,
+                                                  backgroundImage:
+                                                      CachedNetworkImageProvider(
+                                                          snapshot
+                                                              .data[
+                                                                  "currentUser"]
+                                                              .profilePicture),
                                                 ),
+                                              ),
+                                            ),
+                                            child: CircleAvatar(
+                                              radius: 60,
+                                              backgroundImage:
+                                                  CachedNetworkImageProvider(
+                                                      snapshot
+                                                          .data["currentUser"]
+                                                          .profilePicture),
+                                            ),
                                           ),
-                                          child: CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage:
-                                            CachedNetworkImageProvider(
-                                                snapshot
-                                                    .data[
-                                                "currentUser"]
-                                                    .profilePicture),
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              const Spacer(),
+                                              infoColumnFollows(
+                                                  snapshot.data["posts"].length,
+                                                  "Posts"),
+                                              const Spacer(),
+                                              infoColumnFollows(
+                                                  snapshot
+                                                      .data["followers"].length,
+                                                  "Followers"),
+                                              const Spacer(),
+                                              infoColumnFollows(
+                                                  snapshot
+                                                      .data["following"].length,
+                                                  "Following"),
+                                              const Spacer(),
+                                            ],
                                           ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceAround,
-                                          children: [
-                                            const Spacer(),
-                                            infoColumnFollows(
-                                                snapshot
-                                                    .data["posts"].length,
-                                                "Posts"),
-                                            const Spacer(),
-                                            infoColumnFollows(
-                                                snapshot.data["followers"]
-                                                    .length,
-                                                "Followers"),
-                                            const Spacer(),
-                                            infoColumnFollows(
-                                                snapshot.data["following"]
-                                                    .length,
-                                                "Following"),
-                                            const Spacer(),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Text(
-                                        snapshot
-                                            .data["currentUser"].fullName,
-                                        textScaleFactor: 0.8,
-                                        style: Styles.boldTitleTextStyle),
-                                  ),
-                                  if (snapshot
-                                      .data["currentUser"].bio.isNotEmpty)
-                                    Padding(
-                                        padding:
-                                        const EdgeInsets.symmetric(
-                                            vertical: 5,
-                                            horizontal: 15),
-                                        child: Text(
-                                          snapshot
-                                              .data["currentUser"].bio,
-                                          style: Styles.appMainTextStyle,
-                                        )),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white
-                                                  .withOpacity(0.5),
-                                              shape: BoxShape.circle),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                        const MessageBox()));
-                                              },
-                                              icon:
-                                              const Icon(Icons.forum),
-                                              splashRadius: 31,
-                                              iconSize: 35,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white
-                                                .withOpacity(0.5),
-                                          ),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                        const MarketPlace()));
-                                              },
-                                              icon: const Icon(
-                                                  Icons.storefront),
-                                              splashRadius: 31,
-                                              iconSize: 35,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ]),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0),
-                            child: Row(
-                              children: [
-                                for (final sec
-                                in sections.asMap().entries) ...[
-                                  section(sec.value),
-                                  if (sec.key != sections.length - 1)
-                                    const VerticalDivider(
-                                      color: Colors.black38,
-                                      thickness: 2,
-                                      indent: 5,
-                                      endIndent: 5,
+                                        )
+                                      ],
                                     ),
-                                ]
-                              ],
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      child: Text(
+                                          snapshot.data["currentUser"].fullName,
+                                          textScaleFactor: 0.8,
+                                          style: Styles.boldTitleTextStyle),
+                                    ),
+                                    if (snapshot
+                                        .data["currentUser"].bio.isNotEmpty)
+                                      Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 15),
+                                          child: Text(
+                                            snapshot.data["currentUser"].bio,
+                                            style: Styles.appMainTextStyle,
+                                          )),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.5),
+                                                shape: BoxShape.circle),
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MessageBox()));
+                                                },
+                                                icon: const Icon(Icons.forum),
+                                                splashRadius: 31,
+                                                iconSize: 35,
+                                                color: Colors.grey),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(5),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color:
+                                                  Colors.white.withOpacity(0.5),
+                                            ),
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MarketPlace()));
+                                                },
+                                                icon: const Icon(
+                                                    Icons.storefront),
+                                                splashRadius: 31,
+                                                iconSize: 35,
+                                                color: Colors.grey),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ]),
                             ),
                           ),
-                        ),
-                        content(
+                          SizedBox(
+                            height: 40,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                children: [
+                                  for (final sec
+                                      in sections.asMap().entries) ...[
+                                    section(sec.value),
+                                    if (sec.key != sections.length - 1)
+                                      const VerticalDivider(
+                                        color: Colors.black38,
+                                        thickness: 2,
+                                        indent: 5,
+                                        endIndent: 5,
+                                      ),
+                                  ]
+                                ],
+                              ),
+                            ),
+                          ),
+                          content(
                             snapshot.data["currentUser"],
-                            snapshot.data["posts"],)
-                      ],
-                    ),
-                  );
-                }
-              },
-            )
-          );
+                            snapshot.data["posts"],
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ));
         });
   }
 

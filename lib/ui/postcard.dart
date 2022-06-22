@@ -227,7 +227,7 @@ class _PostCardState extends State<PostCard> {
                             MaterialPageRoute(
                                 builder: (context) => PostCommentsView(
                                       comments: comments,
-                                      userID: snapshot.data["user"].userID,
+                                      userID: widget.userID,
                                       postID: widget.realPost.postID!,
                                     ))),
                         iconSize: screenWidth(context, dividedBy: 20),
