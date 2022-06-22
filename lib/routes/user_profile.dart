@@ -136,9 +136,10 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget posts(MyUser currentUser, List<Post> posts) {
+    posts.sort((p1, p2) => p2.postTime.compareTo(p1.postTime));
     if (posts.isNotEmpty) {
       return Column(
-          children: posts.reversed
+          children: posts
               .map((post) => PostCard(
                   isOwner: true,
                   userID: post.userID,
