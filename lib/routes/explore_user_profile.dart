@@ -17,6 +17,8 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../visuals/colors.dart';
+
 class ExploreUserProfile extends StatefulWidget {
   const ExploreUserProfile({Key? key, required this.userID}) : super(key: key);
 
@@ -208,6 +210,17 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
           }
           return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                  splashRadius: 27,
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 34,
+                  ),
+                  color: AppColors.titleColor,
+                  onPressed: () {
+                    Navigator.pop(context); // pop the context
+                  }),
               elevation: 0,
               backgroundColor: Colors.white,
               centerTitle: true,
