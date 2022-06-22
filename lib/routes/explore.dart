@@ -74,9 +74,6 @@ class _ExploreState extends State<Explore> {
                     if (!posts
                             .map((p) => p.postID)
                             .contains(currentPost.postID) &&
-                        (snapshot.data!["following"]
-                                .contains(currentPost.userID) ||
-                            currentPost.userID == user.uid) &&
                         currentPost.mediaURL != null) {
                       posts.add(currentPost);
                       posts.sort((p1, p2) {
