@@ -16,6 +16,8 @@ import 'package:cs310_group_28/visuals/styled_password_field.dart';
 import 'package:cs310_group_28/visuals/styled_text_field.dart';
 import 'package:cs310_group_28/visuals/alerts.dart';
 
+import '../services/shared_preferences.dart';
+
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
@@ -29,7 +31,7 @@ class _RegisterState extends State<Register> {
   String email = "";
   String username = "";
   String password = "";
-  late String uid;
+  String uid = "";
   final validCharacters = RegExp(r'^[a-zA-Z0-9_]+$');
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
@@ -138,7 +140,47 @@ class _RegisterState extends State<Register> {
       return false;
     }
   }
+  Future<bool> loginWithGoogle() async {
+    dynamic result = await _auth.signInWithGoogle();
+    if (!mounted) {
+      return false;
+    }
+    if (result is String) {
+      return false;
+    } else if (result is User) {
+      analytics.logLogin(loginMethod: "Google Login");
+      MySharedPreferences.instance.setBooleanValue("loggedIn", true);
+      uid = result.uid;
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+  }
 
+
+
+  Future<bool> loginWithFacebook() async {
+    //ConnectionWaiter.loadingScreen(context);
+    dynamic result = await _auth.signInWithFacebook();
+    if (!mounted) {
+      return false;
+    }
+    if (result is String) {
+      Alerts.showAlert(context, 'Login Error', result);
+    } else if (result is User) {
+      analytics.logLogin(loginMethod: "Facebook Login");
+      MySharedPreferences.instance.setBooleanValue("loggedIn", true);
+      uid = result.uid;
+
+
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+
+  }
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController();
@@ -159,12 +201,71 @@ class _RegisterState extends State<Register> {
                 height: screenHeight(context, dividedBy: 2.75),
               ),
               SizedBox(
-                height: screenHeight(context, dividedBy: 50),
+                height: screenHeight(context, dividedBy: 300),
               ),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
+                    Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 5),
+                          child: InputChip(
+                            label: const Text("Sign in with Google"),
+                            labelStyle: const TextStyle(fontSize: 16),
+                            avatar: const CircleAvatar(
+                                backgroundImage:
+                                AssetImage("assets/images/google_icon.png")),
+                            onPressed: () async {
+
+                              bool success = await loginWithGoogle();
+                              if (success) {
+                                controller.nextPage(
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut);
+                              }
+                              else {
+                                Alerts.showAlert(context, 'Signup Error',
+                                    'Error to Login Facebook');
+                              }
+                            },
+                            elevation: 3,
+                            backgroundColor: Colors.white70,
+                            padding: const EdgeInsets.all(5),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 2),
+                          child: InputChip(
+                            label: const Text("Sign in with Facebook",style: TextStyle(color: Colors.white),),
+                            labelStyle: const TextStyle(fontSize: 16),
+                            avatar: const CircleAvatar(
+                                backgroundImage:
+                                AssetImage("assets/images/facebook_icon.png")),
+                            onPressed: ()async {
+
+                                bool success = await loginWithFacebook();
+                                if (success) {
+                                  controller.nextPage(
+                                      duration: const Duration(milliseconds: 500),
+                                      curve: Curves.easeInOut);
+                                }
+                                else {
+                                Alerts.showAlert(context, 'Signup Error',
+                                    'Error to Login Facebook');
+                              }
+                            } ,
+                            elevation: 3,
+                            backgroundColor: Colors.blueAccent.shade200,
+                            padding: const EdgeInsets.all(10),
+                          ),
+                        ),
+                      ],
+                    ),
+
+
+
                     StyledTextField(
                         icon: Icons.account_box_sharp,
                         placeholder: 'Full Name',
@@ -319,10 +420,14 @@ class _RegisterState extends State<Register> {
             StyledButton(
                 label: "Continue",
                 onPressed: () {
+
                   UserService.setInterests(uid, _getSelectedInterests());
                   Navigator.pushNamedAndRemoveUntil(
                       context, PageNavigator.routeName, (route) => false);
-                })
+                }
+
+
+                )
           ],
         ),
       ))

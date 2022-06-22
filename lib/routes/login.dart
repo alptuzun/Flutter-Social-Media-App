@@ -1,9 +1,15 @@
+import 'dart:convert';
+
+import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/routes/reset_pass.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:email_validator/email_validator.dart';
@@ -17,6 +23,10 @@ import 'package:cs310_group_28/services/shared_preferences.dart';
 import '../visuals/styled_button.dart';
 import '../visuals/styled_password_field.dart';
 import '../visuals/styled_text_field.dart';
+
+//facebook login try
+
+
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -80,7 +90,7 @@ class _LoginState extends State<Login> {
     if (result is String) {
       Alerts.showAlert(context, 'Login Error', result);
     } else if (result is User) {
-      analytics.logLogin(loginMethod: "Anonymously");
+      analytics.logLogin(loginMethod: "Google Login");
       Navigator.pushNamedAndRemoveUntil(
           context, PageNavigator.routeName, (route) => false);
     } else {
@@ -88,6 +98,26 @@ class _LoginState extends State<Login> {
     }
   }
 
+
+
+  Future loginWithFacebook() async {
+    //ConnectionWaiter.loadingScreen(context);
+    dynamic result = await _auth.signInWithFacebook();
+    if (!mounted) {
+      return;
+    }
+    if (result is String) {
+      Alerts.showAlert(context, 'Login Error', result);
+    } else if (result is User) {
+      analytics.logLogin(loginMethod: "Facebook Login");
+      MySharedPreferences.instance.setBooleanValue("loggedIn", true);
+      Navigator.pushNamedAndRemoveUntil(
+          context, PageNavigator.routeName, (route) => false);
+    } else {
+      Alerts.showAlert(context, 'Login Error', result.toString());
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,21 +138,44 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: (screenHeight(context, dividedBy: 20)),
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 30),
-              child: InputChip(
-                label: const Text("Sign in with Google"),
-                labelStyle: const TextStyle(fontSize: 16),
-                avatar: const CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/images/google_icon.png")),
-                onPressed: () async {
-                  await loginWithGoogle();
-                },
-                elevation: 3,
-                backgroundColor: Colors.white70,
-                padding: const EdgeInsets.all(10),
-              ),
+            Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 5),
+                  child: InputChip(
+                    label: const Text("Log in with Google"),
+                    labelStyle: const TextStyle(fontSize: 16),
+                    avatar: const CircleAvatar(
+                        backgroundImage:
+                            AssetImage("assets/images/google_icon.png")),
+                    onPressed: () async {
+                      await loginWithGoogle();
+                    },
+                    elevation: 3,
+                    backgroundColor: Colors.white70,
+                    padding: const EdgeInsets.all(10),
+                  ),
+                ),
+
+
+                Container(
+                  margin: const EdgeInsets.only(bottom: 30),
+                  child: InputChip(
+                    label: const Text("Log in with Facebook",style: TextStyle(color: Colors.white),),
+                    labelStyle: const TextStyle(fontSize: 16),
+                    avatar: const CircleAvatar(
+                        backgroundImage:
+                        AssetImage("assets/images/facebook_icon.png")),
+                    onPressed: () {
+                      loginWithFacebook();
+                    },
+                    elevation: 3,
+                    backgroundColor: Colors.blueAccent.shade200,
+                    padding: const EdgeInsets.all(10),
+                  ),
+                ),
+
+              ],
             ),
             Form(
               key: _formKey,
@@ -252,4 +305,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+
+
 }
