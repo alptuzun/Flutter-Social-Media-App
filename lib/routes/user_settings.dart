@@ -329,6 +329,43 @@ class _UserSettingsState extends State<UserSettings> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
+                    //-------------------------------------------------------
+                    GestureDetector(
+                      onTap: () async {
+
+                        if (!mounted) {
+                          return;
+                        }
+                        Alerts.showOptions(context, 'Deleting The Account',
+                            'Are you sure to delete this account?',
+                            'Delete',
+                            'Cancel', (){ delete(); }, (){ cancel(); });
+
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                radius: screenWidth(context) / 100 * 5,
+                                backgroundImage: CachedNetworkImageProvider(
+                                    widget.user.profilePicture),
+                              ),
+                            ),
+                            Text(
+                              "Delete the Account",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    //-------------------------------------------------------------------------
                     GestureDetector(
                       onTap: () async {
                         await _auth.signOut();
@@ -579,4 +616,17 @@ class _UserSettingsState extends State<UserSettings> {
             ),
     );
   }
+  void cancel()
+  {
+    Navigator.of(context).pop();
+  }
+  void delete() async
+  {
+    await _auth.deleteUserAccount();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Welcome()),
+            (r) => false);
+  }
+
 }

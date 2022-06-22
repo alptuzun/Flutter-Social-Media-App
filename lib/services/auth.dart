@@ -137,4 +137,24 @@ class AuthService {
         return e.toString();
     }
   }
+
+  Future deleteUserAccount (String uid) async{ // use only when there is a current user!
+    if(_auth.currentUser != null){
+      //_auth.currentUser;
+      await signOut();
+      await FirebaseFirestore.instance.collection('Users').doc(uid).delete();
+
+
+    }
+    else
+      {
+       print('could not delete the account..');
+      }
+
+
+  }
+  Future deactivateUserAccount () async{ // use only when there is a current user!
+    //todo implementation
+  }
+
 }

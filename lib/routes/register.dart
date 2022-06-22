@@ -155,7 +155,7 @@ class _RegisterState extends State<Register> {
     } else {
       return false;
     }
-    return false;
+    //return false;
   }
 
 
@@ -425,6 +425,7 @@ class _RegisterState extends State<Register> {
                   Navigator.pushNamedAndRemoveUntil(
                       context, PageNavigator.routeName, (route) => false);
                 }
+
 
 
                 )

@@ -239,7 +239,12 @@ class UserService {
       }
     }
   }
+  static deleteUser(String uid) async{
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid).delete();
 
+  }
   static setInterests(String uid, List<String> interests) async {
     try {
       await FirebaseFirestore.instance
@@ -250,4 +255,6 @@ class UserService {
       print(e.toString());
     }
   }
+
+
 }
