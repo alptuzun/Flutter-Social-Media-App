@@ -84,8 +84,9 @@ class _UserProfileState extends State<UserProfile> {
     var currentUser = postsRef.data()!;
     List<Post> posts = await currentUser.posts;
     List<Post> favoritePosts = await currentUser.favorites;
-    List<MyUser> followers = await currentUser.followers;
-    List<MyUser> following = await currentUser.following;
+    List<MyUser> followers = await UserService.getFollowers(currentUser.userID);
+    List<MyUser> following =
+        await UserService.getFollowings(currentUser.userID);
     return {
       "currentUser": currentUser,
       "posts": posts,

@@ -81,7 +81,7 @@ class UserService {
     }
   }
 
-  static getFollowings(String userID) async {
+  static Future<List<MyUser>> getFollowings(String userID) async {
     var data = await FirebaseFirestore.instance
         .collection('UserFollowsUser')
         .where("follower", isEqualTo: userID)
@@ -90,7 +90,7 @@ class UserService {
     for (int i = 0; i < data.docs.length; i++) {
       var currentUser = await FirebaseFirestore.instance
           .collection('Users')
-          .doc(data.docs[i].data()["userID"])
+          .doc(data.docs[i].data()["followedUser"])
           .get();
       if (currentUser.exists) {
         users.add(MyUser.fromFirestore(currentUser, null));
@@ -99,7 +99,7 @@ class UserService {
     return users;
   }
 
-  static getFollowers(String userID) async {
+  static Future<List<MyUser>> getFollowers(String userID) async {
     var data = await FirebaseFirestore.instance
         .collection('UserFollowsUser')
         .where("followedUser", isEqualTo: userID)
@@ -108,7 +108,7 @@ class UserService {
     for (int i = 0; i < data.docs.length; i++) {
       var currentUser = await FirebaseFirestore.instance
           .collection('Users')
-          .doc(data.docs[i].data()["userID"])
+          .doc(data.docs[i].data()["follower"])
           .get();
       if (currentUser.exists) {
         users.add(MyUser.fromFirestore(currentUser, null));
@@ -228,6 +228,7 @@ class UserService {
             .collection('UserFollowsUser')
             .doc("$uid-$uidToUnfollow")
             .get();
+        print(ref);
         if (ref.exists) {
           await FirebaseFirestore.instance
               .collection('UserFollowsUser')
@@ -239,12 +240,11 @@ class UserService {
       }
     }
   }
-  static deleteUser(String uid) async{
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(uid).delete();
 
+  static deleteUser(String uid) async {
+    await FirebaseFirestore.instance.collection('Users').doc(uid).delete();
   }
+
   static setInterests(String uid, List<String> interests) async {
     try {
       await FirebaseFirestore.instance
@@ -256,5 +256,11 @@ class UserService {
     }
   }
 
-
+  static Future<bool> userFollowsUser(String uid, String uidToCheck) async {
+    var ref = await FirebaseFirestore.instance
+        .collection('UserFollowsUser')
+        .doc("$uid-$uidToCheck")
+        .get();
+    return ref.exists;
+  }
 }
