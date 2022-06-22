@@ -226,6 +226,9 @@ class _RegisterState extends State<Register> {
                                     curve: Curves.easeInOut);
                               }
                               else {
+                                if(!mounted) {
+                                  return;
+                                }
                                 Alerts.showAlert(context, 'Signup Error',
                                     'Error to Login Facebook');
                               }
@@ -252,6 +255,9 @@ class _RegisterState extends State<Register> {
                                       curve: Curves.easeInOut);
                                 }
                                 else {
+                                  if(!mounted) {
+                                    return;
+                                  }
                                 Alerts.showAlert(context, 'Signup Error',
                                     'Error to Login Facebook');
                               }

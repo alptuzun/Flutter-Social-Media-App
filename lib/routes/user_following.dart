@@ -7,14 +7,14 @@ import '../visuals/colors.dart';
 import '../visuals/text_style.dart';
 import 'explore_user_profile.dart';
 
-class user_following extends StatefulWidget {
-  const user_following({Key? key}) : super(key: key);
+class UserFollowing extends StatefulWidget {
+  const UserFollowing({Key? key}) : super(key: key);
 
   @override
-  State<user_following> createState() => _user_followingState();
+  State<UserFollowing> createState() => _UserFollowingState();
 }
 
-class _user_followingState extends State<user_following> {
+class _UserFollowingState extends State<UserFollowing> {
   List<MyUser> following = [];
   final TextEditingController searchControl = TextEditingController();
 

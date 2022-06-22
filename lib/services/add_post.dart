@@ -168,6 +168,9 @@ class _AddPostState extends State<AddPost> {
                   await PostService.uploadToFirebaseImage(
                       userID, (image ?? video)!, postID);
                 }
+                if(!mounted) {
+                  return;
+                }
                 Navigator.pop(context);
               },
               child: const Text(

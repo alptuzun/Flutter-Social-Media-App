@@ -75,12 +75,12 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_followers()));
+                        builder: (context) => const UserFollowers()));
               } else if (text == "Following") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_following()));
+                        builder: (context) => const UserFollowing()));
               }
             },
             child: Text(text,
@@ -374,7 +374,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
         });
   }
 
-  void user_try_following(dynamic aUser) async {
+  void tryFollowing(dynamic aUser) async {
     await UserService.followUser(
       FirebaseAuth.instance.currentUser!.uid,
       aUser,
