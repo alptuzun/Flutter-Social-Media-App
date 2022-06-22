@@ -114,9 +114,8 @@ class _HomeViewState extends State<HomeView> {
                       if (!posts
                               .map((p) => p.postID)
                               .contains(currentPost.postID) &&
-                          (snapshot.data!["following"]
-                                  .contains(currentPost.userID) ||
-                              currentPost.userID == user.uid)) {
+                          snapshot.data!["following"]
+                              .contains(currentPost.userID)) {
                         posts.add(currentPost);
                         posts.sort((p1, p2) {
                           int valP1 = 0;

@@ -63,7 +63,8 @@ class _MyAppState extends State<MyApp> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-          FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+          FlutterError.onError =
+              FirebaseCrashlytics.instance.recordFlutterFatalError;
           analytics.logAppOpen();
           return StreamProvider<User?>.value(
             value: AuthService().user,
@@ -82,7 +83,8 @@ class _MyAppState extends State<MyApp> {
             ),
           );
         }
-        return const MaterialApp(home: Splash(loadingText: "FireBase App is currently loading"));
+        return const MaterialApp(
+            home: Splash(loadingText: "FireBase App is currently loading"));
       },
     );
   }

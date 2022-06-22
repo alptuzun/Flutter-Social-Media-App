@@ -71,7 +71,8 @@ class Welcome extends StatelessWidget {
                       ),
                       width: size.width,
                       height: size.height / 2,
-                      child: Lottie.asset("assets/images/an.json", animate: true),
+                      child:
+                          Lottie.asset("assets/images/an.json", animate: true),
                     ),
                   ),
                   Container(
@@ -190,8 +191,7 @@ class Welcome extends StatelessWidget {
           ),
         ),
       );
-    }
-    else {
+    } else {
       return const PageNavigator();
     }
   }
