@@ -6,7 +6,7 @@
 
     <uses-feature android:name="android.hardware.sensor.compass"
         android:required="true" />
-    //hello i am here
+
    <application
         android:label="UniLyfe"
         android:name="${applicationName}"
