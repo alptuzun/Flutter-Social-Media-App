@@ -12,12 +12,10 @@ class ExploreTiles extends StatelessWidget {
       child: Container(
           color: Colors.pink,
           //color: Colors.purpleAccent,
-          child: Stack(children: [
-            Image.network(
-              post.mediaURL!,
-              fit: BoxFit.fill,
-            )
-          ])),
+          child: Image.network(
+            post.mediaURL!,
+            fit: BoxFit.fill
+          )),
     );
   }
 }
