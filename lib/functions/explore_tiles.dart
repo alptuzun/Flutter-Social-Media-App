@@ -11,7 +11,6 @@ class ExploreTiles extends StatelessWidget {
       padding: const EdgeInsets.all(0.5),
       child: Container(
           color: Colors.pink,
-          //color: Colors.purpleAccent,
           child: Image.network(
             post.mediaURL!,
             fit: BoxFit.cover

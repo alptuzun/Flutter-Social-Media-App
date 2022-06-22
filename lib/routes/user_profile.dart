@@ -490,7 +490,7 @@ class _UserProfileState extends State<UserProfile> {
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) =>
-                                                                  const MarketPlace()));
+                                                                  const MarketPlace(leading: true)));
                                                     },
                                                     icon: const Icon(
                                                         Icons.storefront),

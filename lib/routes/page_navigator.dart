@@ -20,7 +20,7 @@ class _PageNavigatorState extends State<PageNavigator> {
   final List <Widget> _pages = [
     const HomeView(),
     const Explore(),
-    const MarketPlace(),
+    const MarketPlace(leading: false),
     const UserProfile()
   ];
   int _currIdx = 3;

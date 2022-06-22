@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
-import 'package:cs310_group_28/routes/marketplace.dart';
-import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/user_followers.dart';
 import 'package:cs310_group_28/routes/user_following.dart';
 import 'package:cs310_group_28/services/post_service.dart';
@@ -16,8 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import '../visuals/colors.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
 
 class ExploreUserProfile extends StatefulWidget {
   const ExploreUserProfile({Key? key, required this.userID}) : super(key: key);
@@ -339,59 +336,6 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                                               .data["currentUser"].bio,
                                           style: Styles.appMainTextStyle,
                                         )),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white
-                                                  .withOpacity(0.5),
-                                              shape: BoxShape.circle),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                        const MessageBox()));
-                                              },
-                                              icon:
-                                              const Icon(Icons.forum),
-                                              splashRadius: 31,
-                                              iconSize: 35,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white
-                                                .withOpacity(0.5),
-                                          ),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                        const MarketPlace()));
-                                              },
-                                              icon: const Icon(
-                                                  Icons.storefront),
-                                              splashRadius: 31,
-                                              iconSize: 35,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ]),
                           ),
                         ),
