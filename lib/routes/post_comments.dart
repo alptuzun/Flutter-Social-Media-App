@@ -86,6 +86,7 @@ class _PostCommentsViewState extends State<PostCommentsView> {
           comment: _currentComment!);
       setState(() {
         widget.comments.add(newComment);
+        widget.comments.sort((c1, c2) => c2.time.compareTo(c1.time));
       });
 
       await PostService.commentToPost(newComment, widget.userID);
@@ -134,7 +135,7 @@ class _PostCommentsViewState extends State<PostCommentsView> {
                       onPressed: handlePostSend, child: const Text("Post")),
                 ],
               ),
-              ...widget.comments.reversed
+              ...widget.comments
                   .map((c) => SingleCommentView(comment: c))
                   .toList()
             ],
