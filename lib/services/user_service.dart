@@ -43,15 +43,12 @@ class UserService {
     required String uid,
     required String followingUserID,
   }) async {
-    followingUserID = followingUserID.replaceAll(' ', '');
+    final String search = uid + '-' + followingUserID;
     try {
-      DocumentSnapshot ds =
-          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-      List followers = (ds.data()! as dynamic)['following'];
+      var ds = await FirebaseFirestore.instance.collection('UserFollowsUser').doc(search).get();
 
-      if (followers.contains(followingUserID)) {
-        return true;
-      }
+      return ds.exists ? true : false;
+
     } catch (e) {
       print(e.toString());
     }
@@ -129,7 +126,12 @@ class UserService {
     }
     return myList;
   }
-
+  static userFollowsUserLength() async {
+    var querySnapshot =
+    await FirebaseFirestore.instance.collection("UsersFollowsUser").get();
+    final int  userFollowsUserLength = querySnapshot.docs.length;
+    return  userFollowsUserLength;
+  }
   static usersLength() async {
     var querySnapshot =
         await FirebaseFirestore.instance.collection("Users").get();
