@@ -629,6 +629,8 @@ class _UserSettingsState extends State<UserSettings> {
   }
 
   void delete() async {
+    await MySharedPreferences.instance.setBooleanValue("loggedIn", false);
+    await FirebaseAuth.instance.signOut();
     await UserService.deleteUser(FirebaseAuth.instance.currentUser!.uid);
     if (!mounted) {
       return;
