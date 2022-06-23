@@ -45,10 +45,12 @@ class UserService {
   }) async {
     final String search = uid + '-' + followingUserID;
     try {
-      var ds = await FirebaseFirestore.instance.collection('UserFollowsUser').doc(search).get();
+      var ds = await FirebaseFirestore.instance
+          .collection('UserFollowsUser')
+          .doc(search)
+          .get();
 
       return ds.exists ? true : false;
-
     } catch (e) {
       print(e.toString());
     }
@@ -128,12 +130,14 @@ class UserService {
     }
     return myList;
   }
+
   static userFollowsUserLength() async {
     var querySnapshot =
-    await FirebaseFirestore.instance.collection("UsersFollowsUser").get();
-    final int  userFollowsUserLength = querySnapshot.docs.length;
-    return  userFollowsUserLength;
+        await FirebaseFirestore.instance.collection("UsersFollowsUser").get();
+    final int userFollowsUserLength = querySnapshot.docs.length;
+    return userFollowsUserLength;
   }
+
   static usersLength() async {
     var querySnapshot =
         await FirebaseFirestore.instance.collection("Users").get();
@@ -246,6 +250,54 @@ class UserService {
 
   static deleteUser(String uid) async {
     await FirebaseFirestore.instance.collection('Users').doc(uid).delete();
+    var likedPosts = await FirebaseFirestore.instance
+        .collection("UserLikedPost")
+        .where("userID", isEqualTo: uid)
+        .get();
+    for (var likedPost in likedPosts.docs) {
+      await likedPost.reference.delete();
+    }
+    var followedUsers = await FirebaseFirestore.instance
+        .collection("UserLikedPost")
+        .where("follower", isEqualTo: uid)
+        .get();
+    for (var followedUser in followedUsers.docs) {
+      await followedUser.reference.delete();
+    }
+    var followers = await FirebaseFirestore.instance
+        .collection("UserLikedPost")
+        .where("followedUser", isEqualTo: uid)
+        .get();
+    for (var follower in followers.docs) {
+      await follower.reference.delete();
+    }
+    var posts = await FirebaseFirestore.instance
+        .collection("Posts")
+        .where("userID", isEqualTo: uid)
+        .get();
+    for (var post in posts.docs) {
+      if (post.data()["mediaURL"] != null) {
+        await FirebaseStorage.instance
+            .ref("userPosts/$uid/${post.reference}")
+            .delete();
+      }
+      await post.reference.delete();
+    }
+    var messages = await FirebaseFirestore.instance
+        .collection("Posts")
+        .where("userIDs", arrayContains: uid)
+        .get();
+
+    for (var message in messages.docs) {
+      await message.reference.delete();
+    }
+    var comments = await FirebaseFirestore.instance
+        .collection("Comments")
+        .where("userID", isEqualTo: uid)
+        .get();
+    for (var comment in comments.docs) {
+      await comment.reference.delete();
+    }
   }
 
   static setInterests(String uid, List<String> interests) async {

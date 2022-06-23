@@ -1,4 +1,5 @@
 import 'package:cs310_group_28/services/user_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -82,7 +83,7 @@ class _PostCommentsViewState extends State<PostCommentsView> {
       Comment newComment = Comment(
           postID: widget.postID,
           time: DateTime.now(),
-          userID: widget.userID,
+          userID: FirebaseAuth.instance.currentUser!.uid,
           comment: _currentComment!);
       setState(() {
         widget.comments.add(newComment);
