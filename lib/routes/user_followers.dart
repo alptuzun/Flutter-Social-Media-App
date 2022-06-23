@@ -156,7 +156,8 @@ class _UserFollowersState extends State<UserFollowers> {
                                         await UserService.followUser(
                                             FirebaseAuth
                                                 .instance.currentUser!.uid,
-                                            followers[index].userID);
+                                            followers[index].userID,
+                                            false);
                                       }
                                     },
                                     child: AnimatedContainer(

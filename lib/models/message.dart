@@ -7,52 +7,44 @@ part 'message.g.dart';
 class Message {
   String message;
   DateTime time;
-  String username;
-  String fullName;
   String messageType;
   bool isRead;
-  bool incoming;
+  String userID;
 
   Message({
-    required this.fullName,
+    required this.userID,
     required this.message,
-    required this.username,
     required this.time,
     required this.messageType,
-    required this.incoming,
     this.isRead = false,
   });
 
   factory Message.fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options,
-      ) {
+    snapshot,
+    SnapshotOptions? options,
+  ) {
     final data = snapshot.data();
     return Message(
-      fullName: data?["fullName"],
-      username: data?['username'],
+      userID: data?["userID"],
       message: data?['message'],
       time: DateTime.parse(data?['time'] as String),
       messageType: data?['messageType'],
-      incoming: data?['incoming'],
       isRead: data?["isRead"],
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      "username": username,
       "message": message,
       "time": time.toIso8601String(),
       "messageType": messageType,
-      "incoming": incoming,
       "isRead": isRead,
-      "fullName" : fullName,
+      "userID": userID
     };
   }
 
-  factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      _$MessageFromJson(json);
 
   Map<String, dynamic> toJson() => _$MessageToJson(this);
-
 }

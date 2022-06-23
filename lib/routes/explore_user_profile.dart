@@ -420,8 +420,6 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
 
   void tryFollowing(dynamic aUser) async {
     await UserService.followUser(
-      FirebaseAuth.instance.currentUser!.uid,
-      aUser,
-    );
+        FirebaseAuth.instance.currentUser!.uid, aUser, false);
   }
 }
