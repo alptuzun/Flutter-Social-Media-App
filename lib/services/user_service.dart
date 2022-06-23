@@ -59,9 +59,7 @@ class UserService {
   }
 
   static Future<void> followUser(
-    String uid,
-    String uidToFollow,
-  ) async {
+      String uid, String uidToFollow, bool acceptRequest) async {
     uidToFollow = uidToFollow.replaceAll(' ', '');
     if (uid != uidToFollow) {
       try {
@@ -70,10 +68,14 @@ class UserService {
             .doc("$uid-$uidToFollow")
             .get();
         if (!ref.exists) {
-          await FirebaseFirestore.instance
-              .collection('UserFollowsUser')
-              .doc("$uid-$uidToFollow")
-              .set({"follower": uid, "followedUser": uidToFollow});
+          if (!await getPrivacy(uidToFollow) || acceptRequest) {
+            await FirebaseFirestore.instance
+                .collection('UserFollowsUser')
+                .doc("$uid-$uidToFollow")
+                .set({"follower": uid, "followedUser": uidToFollow});
+          } else {
+            UserService.sendNotifications(uid, uidToFollow, "privateFollow");
+          }
         }
       } catch (e) {
         print(e);

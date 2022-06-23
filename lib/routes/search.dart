@@ -298,9 +298,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void tryFollowing(dynamic aUser) async {
     await UserService.followUser(
-      FirebaseAuth.instance.currentUser!.uid,
-      aUser.userID,
-    );
+        FirebaseAuth.instance.currentUser!.uid, aUser.userID, false);
     await updateFollowing();
   }
 }
