@@ -278,7 +278,7 @@ class UserService {
     for (var post in posts.docs) {
       if (post.data()["mediaURL"] != null) {
         await FirebaseStorage.instance
-            .ref("userPosts/$uid/${post.reference}")
+            .ref("userPosts/$uid/${post.reference.id}")
             .delete();
       }
       await post.reference.delete();
@@ -298,6 +298,7 @@ class UserService {
     for (var comment in comments.docs) {
       await comment.reference.delete();
     }
+    await FirebaseAuth.instance.currentUser!.delete();
   }
 
   static setInterests(String uid, List<String> interests) async {

@@ -333,15 +333,19 @@ class _UserSettingsState extends State<UserSettings> {
                     //-------------------------------------------------------
                     GestureDetector(
                       onTap: () async {
-
                         if (!mounted) {
                           return;
                         }
-                        Alerts.showOptions(context, 'Deleting The Account',
+                        Alerts.showOptions(
+                            context,
+                            'Deleting The Account',
                             'Are you sure to delete this account?',
                             'Delete',
-                            'Cancel', (){ delete(); }, (){ cancel(); });
-
+                            'Cancel', () {
+                          delete();
+                        }, () {
+                          cancel();
+                        });
                       },
                       child: Container(
                         color: Colors.white,
@@ -373,7 +377,8 @@ class _UserSettingsState extends State<UserSettings> {
                         if (!mounted) {
                           return;
                         }
-                        MySharedPreferences.instance.setBooleanValue("loggedIn", false);
+                        MySharedPreferences.instance
+                            .setBooleanValue("loggedIn", false);
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => Welcome()),
@@ -618,20 +623,17 @@ class _UserSettingsState extends State<UserSettings> {
             ),
     );
   }
-  void cancel()
-  {
+
+  void cancel() {
     Navigator.of(context).pop();
   }
-  void delete() async
-  {
-    await _auth.deleteUserAccount();
-    if(!mounted) {
+
+  void delete() async {
+    await UserService.deleteUser(FirebaseAuth.instance.currentUser!.uid);
+    if (!mounted) {
       return;
     }
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Welcome()),
-            (r) => false);
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => Welcome()), (r) => false);
   }
-
 }
