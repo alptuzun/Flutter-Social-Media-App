@@ -1,15 +1,9 @@
-import 'dart:convert';
-
-import 'package:cs310_group_28/routes/home_view.dart';
 import 'package:cs310_group_28/routes/page_navigator.dart';
 import 'package:cs310_group_28/routes/register.dart';
 import 'package:cs310_group_28/routes/reset_pass.dart';
 import 'package:cs310_group_28/visuals/loading_screen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:email_validator/email_validator.dart';
@@ -19,14 +13,9 @@ import 'package:cs310_group_28/visuals/alerts.dart';
 import 'package:cs310_group_28/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cs310_group_28/services/shared_preferences.dart';
-
-import '../visuals/styled_button.dart';
-import '../visuals/styled_password_field.dart';
-import '../visuals/styled_text_field.dart';
-
-//facebook login try
-
-
+import 'package:cs310_group_28/visuals/styled_button.dart';
+import 'package:cs310_group_28/visuals/styled_password_field.dart';
+import 'package:cs310_group_28/visuals/styled_text_field.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

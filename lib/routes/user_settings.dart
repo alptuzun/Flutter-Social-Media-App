@@ -625,6 +625,9 @@ class _UserSettingsState extends State<UserSettings> {
   void delete() async
   {
     await _auth.deleteUserAccount();
+    if(!mounted) {
+      return;
+    }
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => Welcome()),

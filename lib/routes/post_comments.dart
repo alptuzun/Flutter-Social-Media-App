@@ -6,8 +6,8 @@ import '../models/comment.dart';
 import '../services/post_service.dart';
 
 class SingleCommentView extends StatefulWidget {
-  Comment comment;
-  SingleCommentView({Key? key, required this.comment}) : super(key: key);
+  final Comment comment;
+  const SingleCommentView({Key? key, required this.comment}) : super(key: key);
 
   @override
   State<SingleCommentView> createState() => _SingleCommentViewState();
@@ -59,10 +59,10 @@ class _SingleCommentViewState extends State<SingleCommentView> {
 }
 
 class PostCommentsView extends StatefulWidget {
-  List<Comment> comments;
+  final List<Comment> comments;
   final String userID;
   final String postID;
-  PostCommentsView(
+  const PostCommentsView(
       {Key? key,
       required this.comments,
       required this.userID,

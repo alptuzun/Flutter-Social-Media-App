@@ -107,12 +107,12 @@ class _UserProfileState extends State<UserProfile> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_followers()));
+                        builder: (context) => const UserFollowers()));
               } else if (text == "Following") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_following()));
+                        builder: (context) => const UserFollowing()));
               }
             },
             child: Text(text,
@@ -490,7 +490,7 @@ class _UserProfileState extends State<UserProfile> {
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) =>
-                                                                  const MarketPlace()));
+                                                                  const MarketPlace(leading: true)));
                                                     },
                                                     icon: const Icon(
                                                         Icons.storefront),

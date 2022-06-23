@@ -7,14 +7,14 @@ import '../visuals/colors.dart';
 import '../visuals/text_style.dart';
 import 'explore_user_profile.dart';
 
-class user_followers extends StatefulWidget {
-  const user_followers({Key? key}) : super(key: key);
+class UserFollowers extends StatefulWidget {
+  const UserFollowers({Key? key}) : super(key: key);
 
   @override
-  State<user_followers> createState() => _user_followersState();
+  State<UserFollowers> createState() => _UserFollowersState();
 }
 
-class _user_followersState extends State<user_followers> {
+class _UserFollowersState extends State<UserFollowers> {
   List<MyUser> followers = [];
   Map<String, bool> userFollowsFollower = {};
   final TextEditingController searchControl = TextEditingController();

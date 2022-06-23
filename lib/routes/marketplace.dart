@@ -1,4 +1,5 @@
 import 'package:cs310_group_28/ui/marketcard.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -9,7 +10,8 @@ import 'notifications.dart';
 List<Post> sampleMarkets = [];
 
 class MarketPlace extends StatefulWidget {
-  const MarketPlace({Key? key}) : super(key: key);
+  const MarketPlace({Key? key, this.leading}) : super(key: key);
+  final bool? leading;
 
   static const routeName = '/marketplace';
 
@@ -34,17 +36,31 @@ class _MarketPlaceState extends State<MarketPlace> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
-          splashRadius: 27,
-          icon: const Icon(Icons.notifications_none_rounded),
-          color: Colors.grey,
-          iconSize: 40,
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Notifications()));
-          },
-        ),
+        leading: (widget.leading != null && widget.leading == true)
+            ? IconButton(
+                padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: AppColors.titleColor,
+                ),
+                color: Colors.black,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            : IconButton(
+                padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                splashRadius: 27,
+                icon: const Icon(Icons.notifications_none_rounded),
+                color: Colors.grey,
+                iconSize: 40,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Notifications()));
+                },
+              ),
         title: Text(
           "Market Place",
           style: Styles.appBarTitleTextStyle,

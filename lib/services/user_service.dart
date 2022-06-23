@@ -228,7 +228,6 @@ class UserService {
             .collection('UserFollowsUser')
             .doc("$uid-$uidToUnfollow")
             .get();
-        print(ref);
         if (ref.exists) {
           await FirebaseFirestore.instance
               .collection('UserFollowsUser')
@@ -236,7 +235,7 @@ class UserService {
               .delete();
         }
       } catch (e) {
-        print(e);
+        return e.toString();
       }
     }
   }
@@ -252,7 +251,7 @@ class UserService {
           .doc(uid)
           .update({"interests": interests});
     } catch (e) {
-      print(e.toString());
+      return e.toString();
     }
   }
 

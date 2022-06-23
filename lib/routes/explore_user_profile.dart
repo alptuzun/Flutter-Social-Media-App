@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
-import 'package:cs310_group_28/routes/marketplace.dart';
-import 'package:cs310_group_28/routes/messages_screen.dart';
 import 'package:cs310_group_28/routes/user_followers.dart';
 import 'package:cs310_group_28/routes/user_following.dart';
 import 'package:cs310_group_28/services/post_service.dart';
@@ -16,8 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:cs310_group_28/visuals/colors.dart';
 
-import '../visuals/colors.dart';
+import 'marketplace.dart';
+import 'messages_screen.dart';
 
 class ExploreUserProfile extends StatefulWidget {
   const ExploreUserProfile({Key? key, required this.userID}) : super(key: key);
@@ -78,12 +78,12 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_followers()));
+                        builder: (context) => const UserFollowers()));
               } else if (text == "Following") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const user_following()));
+                        builder: (context) => const UserFollowing()));
               }
             },
             child: Text(text,
@@ -418,7 +418,7 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
         });
   }
 
-  void user_try_following(dynamic aUser) async {
+  void tryFollowing(dynamic aUser) async {
     await UserService.followUser(
       FirebaseAuth.instance.currentUser!.uid,
       aUser,

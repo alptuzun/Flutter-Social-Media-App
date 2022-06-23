@@ -259,7 +259,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      user_try_following(aUser);
+                      tryFollowing(aUser);
                     });
                   },
                   child: AnimatedContainer(
@@ -296,7 +296,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void user_try_following(dynamic aUser) async {
+  void tryFollowing(dynamic aUser) async {
     await UserService.followUser(
       FirebaseAuth.instance.currentUser!.uid,
       aUser.userID,

@@ -12,7 +12,7 @@ import 'package:cs310_group_28/visuals/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostCard extends StatefulWidget {
-  Post realPost;
+  late Post realPost;
   final VoidCallback likes;
   final VoidCallback dislikes;
   final dynamic jsonPost;
