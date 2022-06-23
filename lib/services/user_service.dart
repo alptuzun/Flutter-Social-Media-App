@@ -249,6 +249,7 @@ class UserService {
   }
 
   static deleteUser(String uid) async {
+    await FirebaseAuth.instance.currentUser!.delete();
     await FirebaseFirestore.instance.collection('Users').doc(uid).delete();
     var likedPosts = await FirebaseFirestore.instance
         .collection("UserLikedPost")
@@ -298,7 +299,6 @@ class UserService {
     for (var comment in comments.docs) {
       await comment.reference.delete();
     }
-    await FirebaseAuth.instance.currentUser!.delete();
   }
 
   static setInterests(String uid, List<String> interests) async {

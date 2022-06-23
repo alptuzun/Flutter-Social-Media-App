@@ -629,13 +629,19 @@ class _UserSettingsState extends State<UserSettings> {
   }
 
   void delete() async {
-    await MySharedPreferences.instance.setBooleanValue("loggedIn", false);
-    await FirebaseAuth.instance.signOut();
-    await UserService.deleteUser(FirebaseAuth.instance.currentUser!.uid);
-    if (!mounted) {
-      return;
+    if (FirebaseAuth.instance.currentUser != null) {
+      String userID = FirebaseAuth.instance.currentUser!.uid;
+      await MySharedPreferences.instance.setBooleanValue("loggedIn", false);
+      await UserService.deleteUser(userID);
+      await FirebaseAuth.instance.signOut();
+      if (!mounted) {
+        return;
+      }
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => Welcome()), (r) => false);
+    } else {
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => Welcome()), (r) => false);
     }
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => Welcome()), (r) => false);
   }
 }
