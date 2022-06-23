@@ -157,7 +157,7 @@ class _NotificationCardState extends State<NotificationCard> {
               TextButton(
                   onPressed: () async {
                     UserService.followUser(
-                        user!.uid, widget.notification.userID, true);
+                        widget.notification.userID, user!.uid, true);
                   },
                   child: const Text("Accept Request"))
             ],
