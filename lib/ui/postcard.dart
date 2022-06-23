@@ -6,6 +6,7 @@ import 'package:cs310_group_28/services/edit_post.dart';
 import 'package:cs310_group_28/services/post_service.dart';
 import 'package:cs310_group_28/services/user_service.dart';
 import 'package:cs310_group_28/visuals/screen_size.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/visuals/text_style.dart';
@@ -227,7 +228,8 @@ class _PostCardState extends State<PostCard> {
                             MaterialPageRoute(
                                 builder: (context) => PostCommentsView(
                                       comments: comments,
-                                      userID: widget.userID,
+                                      userID: FirebaseAuth
+                                          .instance.currentUser!.uid,
                                       postID: widget.realPost.postID!,
                                     ))),
                         iconSize: screenWidth(context, dividedBy: 20),

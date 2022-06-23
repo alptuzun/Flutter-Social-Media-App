@@ -49,10 +49,11 @@ class _SearchScreenState extends State<SearchScreen> {
       isFollowing = result;
     });
   }
-  bool check(String id)
-  {
+
+  bool check(String id) {
     return isfollows(id);
   }
+
   Future getUsersFollowers() async {
     var user =
         await UserService.getFollowings(FirebaseAuth.instance.currentUser!.uid);
@@ -160,50 +161,49 @@ class _SearchScreenState extends State<SearchScreen> {
                     users.add(user);
                   }
                   return Container(
-                      color: const Color.fromARGB(255, 245, 245, 245),
-                      child: ListView.builder(
-                        itemCount: users.length,
-                        itemBuilder: (ctx, index) {
-                          return FadeAnimation(
-                              delay: 0.05 * index,
-                              child: Slidable(
-                                child: userPart(aUser: users[index]),
-                                actionPane: const SlidableStrechActionPane(),
-                                actionExtentRatio: 0.25,
-                                actions: const [
-                                  IconSlideAction(
-                                    caption: "Archive",
-                                    color: Color.fromARGB(255, 236, 236, 236),
-                                    iconWidget: Icon(
-                                      Icons.archive,
-                                      color: Colors.black,
-                                    ),
+                    color: const Color.fromARGB(255, 245, 245, 245),
+                    child: ListView.builder(
+                      itemCount: users.length,
+                      itemBuilder: (ctx, index) {
+                        return FadeAnimation(
+                            delay: 0.05 * index,
+                            child: Slidable(
+                              child: userPart(aUser: users[index]),
+                              actionPane: const SlidableStrechActionPane(),
+                              actionExtentRatio: 0.25,
+                              actions: const [
+                                IconSlideAction(
+                                  caption: "Archive",
+                                  color: Color.fromARGB(255, 236, 236, 236),
+                                  iconWidget: Icon(
+                                    Icons.archive,
+                                    color: Colors.black,
                                   ),
-                                  IconSlideAction(
-                                    caption: 'Share',
-                                    color: Color.fromARGB(255, 236, 236, 236),
-                                    iconWidget: Icon(
-                                      Icons.share,
-                                      color: Colors.black,
-                                    ),
-                                    onTap: null,
+                                ),
+                                IconSlideAction(
+                                  caption: 'Share',
+                                  color: Color.fromARGB(255, 236, 236, 236),
+                                  iconWidget: Icon(
+                                    Icons.share,
+                                    color: Colors.black,
                                   ),
-                                ],
-                                secondaryActions: [
-                                  IconSlideAction(
-                                    caption: 'Remove',
-                                    color: Colors.red,
-                                    iconWidget: const Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                    ),
-                                    onTap: () => userRemoveWithIndex(index),
+                                  onTap: null,
+                                ),
+                              ],
+                              secondaryActions: [
+                                IconSlideAction(
+                                  caption: 'Remove',
+                                  color: Colors.red,
+                                  iconWidget: const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
                                   ),
-                                ],
-                              ));
-                        },
-                      ),
-
+                                  onTap: () => userRemoveWithIndex(index),
+                                ),
+                              ],
+                            ));
+                      },
+                    ),
                   );
                 }
               },
@@ -212,124 +212,115 @@ class _SearchScreenState extends State<SearchScreen> {
 
   userPart({required dynamic aUser}) {
     return FutureBuilder(
-      future: FirebaseFirestore.instance.collection('UserFollowsUser').get(),
-      builder:  (context,snapshot){
-      if(!snapshot.hasData){
-        return const Center(child: CircularProgressIndicator());
-        List a;
+        future: FirebaseFirestore.instance.collection('UserFollowsUser').get(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+            List a;
+          } else {
+            isFollowing = Myfunction((snapshot.data! as dynamic).docs,
+                (snapshot.data! as dynamic).docs.length, aUser.userID);
+            //print((snapshot.data! as dynamic).docs[0]);
+          }
 
-      }
-      else
-      {
-
-         isFollowing =Myfunction((snapshot.data! as dynamic).docs,(snapshot.data! as dynamic).docs.length,aUser.userID);
-
-        //print((snapshot.data! as dynamic).docs[0]);
-      }
-
-
-      return InkWell(
-        splashColor: const Color(0xEEC60744),
-        onTap: () {
-          (aUser.userID != FirebaseAuth.instance.currentUser!.uid)
-              ? Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ExploreUserProfile(userID: aUser.userID)))
-              : Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const PageNavigator()));
-          //Navigator.push(context,MaterialPageRoute(builder: (context) => const UserProfile()));
-        },
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(children: [
-                  SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundImage:
-                              CachedNetworkImageProvider(aUser.profilePicture),
-                        ),
-                      )),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(aUser.fullName,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 15, 15, 15),
-                              fontWeight: FontWeight.w700)),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(aUser.username,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 90, 90, 90))),
-                    ],
-                  )
-                ]),
-                if (aUser.userID != FirebaseAuth.instance.currentUser!.uid)
-                  GestureDetector(
-
-                    onTap: () {
-                      isFollowing ?
-                      setState(() {
-                        unFollow(aUser);
-                      }):setState(() {
-                        tryFollowing(aUser);
-                      });
-                    },
-                    child: AnimatedContainer(
-                      height: 35,
-                      width: 110,
-                      duration: const Duration(milliseconds: 250),
-                      decoration: BoxDecoration(
-                          color: isFollowing
-                              ? Colors.blue[700]
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
+          return InkWell(
+            splashColor: const Color(0xEEC60744),
+            onTap: () {
+              (aUser.userID != FirebaseAuth.instance.currentUser!.uid)
+                  ? Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ExploreUserProfile(userID: aUser.userID)))
+                  : Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PageNavigator()));
+              //Navigator.push(context,MaterialPageRoute(builder: (context) => const UserProfile()));
+            },
+            child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(children: [
+                      SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundImage: CachedNetworkImageProvider(
+                                  aUser.profilePicture),
+                            ),
+                          )),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(aUser.fullName,
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 15, 15, 15),
+                                  fontWeight: FontWeight.w700)),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(aUser.username,
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 90, 90, 90))),
+                        ],
+                      )
+                    ]),
+                    if (aUser.userID != FirebaseAuth.instance.currentUser!.uid)
+                      GestureDetector(
+                        onTap: () {
+                          isFollowing
+                              ? setState(() {
+                                  unFollow(aUser);
+                                })
+                              : setState(() {
+                                  tryFollowing(aUser);
+                                });
+                        },
+                        child: AnimatedContainer(
+                          height: 35,
+                          width: 110,
+                          duration: const Duration(milliseconds: 250),
+                          decoration: BoxDecoration(
                               color: isFollowing
-                                  ? Colors.transparent
-                                  : Colors.grey.shade700, // if statement
-                              width: 1)),
-                      child: Center(
-                        child: Text(
-                            isFollowing
-                              ? "Unfollow"
-                              : "Follow",
-                          style: TextStyle(
-                              color: isFollowing
-                                  ? Colors.white
-                                  : Colors.blue),
+                                  ? Colors.blue[700]
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(7),
+                              border: Border.all(
+                                  color: isFollowing
+                                      ? Colors.transparent
+                                      : Colors.grey.shade700, // if statement
+                                  width: 1)),
+                          child: Center(
+                            child: Text(
+                              isFollowing ? "Unfollow" : "Follow",
+                              style: TextStyle(
+                                  color:
+                                      isFollowing ? Colors.white : Colors.blue),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
-              ],
-            )),
-      );
-      }
-    );
+                      )
+                  ],
+                )),
+          );
+        });
   }
 
   void tryFollowing(dynamic aUser) async {
     await UserService.followUser(
-      FirebaseAuth.instance.currentUser!.uid,
-      aUser.userID,true
-    );
+        FirebaseAuth.instance.currentUser!.uid, aUser.userID, true);
     isFollowing = true;
     await isfollows(aUser.userID);
-
   }
+
   void unFollow(dynamic aUser) async {
     await UserService.unFollow(
       FirebaseAuth.instance.currentUser!.uid,
@@ -338,22 +329,15 @@ class _SearchScreenState extends State<SearchScreen> {
 
     isFollowing = false;
     await isfollows(aUser.userID);
-
-
-
   }
 
-  bool Myfunction (var list, var length,var userID){
-    for(int i = 0;i <length;i++ ){
-      if(list[i]['follower'] ==FirebaseAuth.instance.currentUser!.uid &&list[i]['followedUser'] == userID ) {
+  bool Myfunction(var list, var length, var userID) {
+    for (int i = 0; i < length; i++) {
+      if (list[i]['follower'] == FirebaseAuth.instance.currentUser!.uid &&
+          list[i]['followedUser'] == userID) {
         return true;
       }
-
     }
     return false;
-
   }
 }
-
-
-
