@@ -132,8 +132,9 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
     );
   }
 
-  Widget posts(MyUser currentUser, BuildContext context, List<Post> posts) {
-    if (currentUser.private == true) {
+  Widget posts(MyUser currentUser, BuildContext context, List<Post> posts,
+      bool privateBypass) {
+    if (currentUser.private && privateBypass) {
       return priv(context);
     } else {
       if (posts.isNotEmpty) {
@@ -157,9 +158,16 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
     }
   }
 
-  Widget content(MyUser currentUser, List<Post> userPosts) {
+  Widget content(
+      MyUser currentUser, List<Post> userPosts, List<MyUser> followers) {
     List<Widget> choices = [
-      posts(currentUser, context, userPosts),
+      posts(
+          currentUser,
+          context,
+          userPosts,
+          followers
+              .map((e) => e.userID)
+              .contains(FirebaseAuth.instance.currentUser!.uid)),
     ];
     return choices[sections.indexOf(currentSection)];
   }
@@ -406,9 +414,9 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                             ),
                           ),
                           content(
-                            snapshot.data["currentUser"],
-                            snapshot.data["posts"],
-                          )
+                              snapshot.data["currentUser"],
+                              snapshot.data["posts"],
+                              snapshot.data["followers"])
                         ],
                       ),
                     );
