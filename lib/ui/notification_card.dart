@@ -25,9 +25,18 @@ class _NotificationCardState extends State<NotificationCard> {
     });
   }
 
+  Future getFollows() async {
+    bool f = await UserService.userFollowsUser(
+        widget.notification.userID, FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      follows = f;
+    });
+  }
+
   @override
   void initState() {
     getUsername();
+    getFollows();
     super.initState();
   }
 
