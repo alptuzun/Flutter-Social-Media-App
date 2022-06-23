@@ -107,6 +107,7 @@ class _HomeViewState extends State<HomeView> {
                     return const Center(child: CircularProgressIndicator());
                   } else {
                     for (var currentPost in s.data!) {
+                      print(snapshot.data!["following"]);
                       if (!posts
                               .map((p) => p.postID)
                               .contains(currentPost.postID) &&

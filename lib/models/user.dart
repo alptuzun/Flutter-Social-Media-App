@@ -73,7 +73,7 @@ class MyUser {
     for (int i = 0; i < data.docs.length; i++) {
       var currentUser = await FirebaseFirestore.instance
           .collection('Users')
-          .doc(data.docs[i].data()["userID"])
+          .doc(data.docs[i].data()["follower"])
           .get();
       if (currentUser.exists) {
         users.add(MyUser.fromFirestore(currentUser, null));
@@ -91,7 +91,7 @@ class MyUser {
     for (int i = 0; i < data.docs.length; i++) {
       var currentUser = await FirebaseFirestore.instance
           .collection('Users')
-          .doc(data.docs[i].data()["userID"])
+          .doc(data.docs[i].data()["followedUser"])
           .get();
       if (currentUser.exists) {
         users.add(MyUser.fromFirestore(currentUser, null));
