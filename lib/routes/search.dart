@@ -324,10 +324,10 @@ class _SearchScreenState extends State<SearchScreen> {
   void tryFollowing(dynamic aUser) async {
     await UserService.followUser(
       FirebaseAuth.instance.currentUser!.uid,
-      aUser.userID,
+      aUser.userID,true
     );
     isFollowing = true;
-    await updateFollowing();
+    await isfollows(aUser.userID);
 
   }
   void unFollow(dynamic aUser) async {
@@ -337,7 +337,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
 
     isFollowing = false;
-    await updateFollowing();
+    await isfollows(aUser.userID);
 
 
 
