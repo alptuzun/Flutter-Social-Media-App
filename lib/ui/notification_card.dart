@@ -15,6 +15,7 @@ class NotificationCard extends StatefulWidget {
 
 class _NotificationCardState extends State<NotificationCard> {
   String _username = '';
+  bool follows = false;
 
   Future getUsername() async {
     final user = await UserService.getUser(widget.notification.userID);
@@ -154,12 +155,18 @@ class _NotificationCardState extends State<NotificationCard> {
                     fontSize: 10,
                     fontWeight: FontWeight.normal,
                   )),
-              TextButton(
-                  onPressed: () async {
-                    UserService.followUser(
-                        widget.notification.userID, user!.uid, true);
-                  },
-                  child: const Text("Accept Request"))
+              if (!follows)
+                TextButton(
+                    onPressed: () async {
+                      await UserService.followUser(
+                          widget.notification.userID, user!.uid, true);
+                      setState(() {
+                        follows = true;
+                      });
+                    },
+                    child: const Text("Accept Request"))
+              else
+                const Text("Follow successful.")
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs310_group_28/models/post.dart';
 import 'package:cs310_group_28/models/user.dart';
+import 'package:cs310_group_28/routes/chat_screen.dart';
 import 'package:cs310_group_28/routes/user_followers.dart';
 import 'package:cs310_group_28/routes/user_following.dart';
 import 'package:cs310_group_28/services/post_service.dart';
@@ -355,7 +356,10 @@ class _ExploreUserProfileState extends State<ExploreUserProfile> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const MessageBox()));
+                                                              ChatScreen(
+                                                                  user: snapshot
+                                                                          .data[
+                                                                      "currentUser"])));
                                                 },
                                                 icon: const Icon(Icons.forum),
                                                 splashRadius: 31,

@@ -94,7 +94,6 @@ class _HomeViewState extends State<HomeView> {
           }
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData &&
-              snapshot.data != null &&
               snapshot.data != null) {
             return StreamBuilder<List<Post>>(
                 stream: FirebaseFirestore.instance
@@ -112,6 +111,7 @@ class _HomeViewState extends State<HomeView> {
                               .map((p) => p.postID)
                               .contains(currentPost.postID) &&
                           snapshot.data!["following"]
+                              .map((u) => u.userID)
                               .contains(currentPost.userID)) {
                         posts.add(currentPost);
                         posts.sort((p1, p2) {
